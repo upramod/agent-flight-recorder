@@ -14,14 +14,14 @@
         <h1>Agent Flight Recorder</h1>
         <p class="subtitle">Observable action trajectory before sensitive tool execution</p>
       </div>
-      <div class="status"><span></span> Monitoring session</div>
+      <div class="header-actions"><button id="run-demo">Run attack demo</button><div class="status"><span></span> Monitoring session</div></div>
     </header>
 
     <section class="summary">
-      <div class="summary-card"><span>SESSION</span><strong>demo-attack-001</strong></div>
-      <div class="summary-card"><span>ACTIONS</span><strong>5</strong></div>
-      <div class="summary-card"><span>EXECUTED</span><strong>4</strong></div>
-      <div class="summary-card danger"><span>BLOCKED</span><strong>1</strong></div>
+      <div class="summary-card"><span>SESSION</span><strong id="session">-</strong></div>
+      <div class="summary-card"><span>ACTIONS</span><strong id="actions">-</strong></div>
+      <div class="summary-card"><span>EXECUTED</span><strong id="executed">-</strong></div>
+      <div class="summary-card danger"><span>BLOCKED</span><strong id="blocked">-</strong></div>
     </section>
 
     <section class="panel">
@@ -29,6 +29,7 @@
         <div><p class="eyebrow">SESSION TRAJECTORY</p><h2>Risk increased as actions combined</h2></div>
         <div class="legend"><span class="allow">Allow</span><span class="review">Review</span><span class="block">Block</span></div>
       </div>
+      <div id="risk-chart" class="risk-chart"></div>
       <div id="timeline" class="timeline"></div>
     </section>
 
