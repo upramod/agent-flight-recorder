@@ -1,3 +1,5 @@
+import { buildSessionTrace, downloadSessionTrace } from "./sessionTrace.js";
+let lastSnapshot;
 const $ = selector => document.querySelector(selector);
 const labels = {
   running: "Azure is proposing the next action…",
@@ -78,6 +80,8 @@ function renderTrace(run) {
   });
 }
 function render(run) {
+  lastSnapshot = { ...structuredClone(run), observedAt: new Date().toISOString() };
+  $("#download-trace").disabled = false;
   $("#live-status").textContent = labels[run.status] || run.status;
   $("#live-session").textContent = run.sessionId || "Starting";
   $("#live-actions").textContent = run.events.length + (run.pending ? 1 : 0);
@@ -107,6 +111,7 @@ async function poll() {
     if (render(run)) timer = setTimeout(poll, 700);
     else sessionStorage.removeItem("flight-live-run");
   } catch (error) {
+    $("#download-trace").disabled = true;
     $("#live-status").textContent = error.message + ". If the server restarted, the in-memory run is gone.";
     $("#approval").hidden = true;
     $("#reconnect").hidden = false;
@@ -115,6 +120,8 @@ async function poll() {
   }
 }
 $("#live-run").addEventListener("click", async () => {
+  lastSnapshot = undefined;
+  $("#download-trace").disabled = true;
   $("#live-run").disabled = true;
   $("#live-scenario").disabled = true;
   try {
@@ -144,4 +151,12 @@ async function decide(approved) {
 $("#approve").addEventListener("click", () => decide(true));
 $("#reject").addEventListener("click", () => decide(false));
 $("#reconnect").addEventListener("click", poll);
+$("#download-trace").addEventListener("click", () => {
+  if (!lastSnapshot) return;
+  downloadSessionTrace(buildSessionTrace({
+    mode: "live-azure", scenario: lastSnapshot.scenario ?? "unknown",
+    runId: lastSnapshot.id, sessionId: lastSnapshot.sessionId, status: lastSnapshot.status,
+    events: lastSnapshot.events, pending: lastSnapshot.pending, observedAt: lastSnapshot.observedAt
+  }));
+});
 if (runId) poll();
