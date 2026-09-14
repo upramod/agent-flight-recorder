@@ -20,6 +20,6 @@ export const scenarios: Record<string, ActionEvent[]> = {
     action("a2", "demo-attack-001", {tool:"records-api",operation:"query",resourceType:"customer_records",sensitivity:"Restricted",destinationTrust:"Trusted",privilegeLevel:4,inputProvenance:"TrustedTool"}),
     action("a3", "demo-attack-001", {tool:"exporter",operation:"create_export",resourceType:"data_export",sensitivity:"Restricted",destinationTrust:"Trusted",privilegeLevel:4,inputProvenance:"TrustedTool"}),
     action("a4", "demo-attack-001", {tool:"network",operation:"connect",resourceType:"external_destination",sensitivity:"Public",destinationTrust:"Untrusted",privilegeLevel:1,inputProvenance:"TrustedTool",metadata:{host:"outside.example"}}),
-    action("a5", "demo-attack-001", {tool:"network",operation:"upload",resourceType:"data_export",sensitivity:"Restricted",destinationTrust:"Untrusted",privilegeLevel:4,inputProvenance:"TrustedTool",metadata:{host:"outside.example"}})
+    action("a5", "demo-attack-001", {tool:"network",operation:"upload",resourceType:"data_export",sensitivity:"Internal",destinationTrust:"Untrusted",privilegeLevel:1,inputProvenance:"TrustedTool",metadata:{host:"outside.example"}})
   ]
 };
