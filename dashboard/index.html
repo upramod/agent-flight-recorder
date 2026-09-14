@@ -14,7 +14,7 @@
         <h1>Agent Flight Recorder</h1>
         <p class="subtitle">Observable action trajectory before sensitive tool execution</p>
       </div>
-      <div class="header-actions"><a class="mode-link" href="/live.html">Live Azure →</a><select id="scenario"><option value="lineage">Artifact provenance</option><option value="exfiltration">Data exfiltration</option><option value="suspicious">Suspicious access</option><option value="safe">Safe workflow</option></select><button id="run-demo">Run scenario</button><div id="replay-state" class="status" role="status" aria-live="polite"><span aria-hidden="true"></span><b id="replay-state-label">Ready to replay</b></div></div>
+      <div class="header-actions"><a class="mode-link" href="/live.html">Live Azure →</a><select id="scenario"><option value="lineage">Artifact provenance</option><option value="exfiltration">Data exfiltration</option><option value="suspicious">Suspicious access</option><option value="safe">Safe workflow</option></select><button id="run-demo">Run scenario</button><button id="download-trace" disabled>Download session trace</button><div id="replay-state" class="status" role="status" aria-live="polite"><span aria-hidden="true"></span><b id="replay-state-label">Ready to replay</b></div></div>
     </header>
 
     <section class="summary">
@@ -52,6 +52,6 @@
       <p>The recorder evaluates structured runtime signals at the tool boundary. It does not read, store, or expose private chain-of-thought. This view replays scripted proposals with simulated tool execution and scripted approvals. Open Live Azure to run the model and approve actions yourself.</p>
     </section>
   </main>
-  <script src="./app.js"></script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>
