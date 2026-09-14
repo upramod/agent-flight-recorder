@@ -31,6 +31,12 @@ async function loadDemo() {
     document.querySelector("#executed").textContent = events.filter(e => e.executed).length;
     document.querySelector("#blocked").textContent = events.filter(e => e.assessment.decision === "Block").length;
 
+    const finalEvent = events[events.length - 1];
+    document.querySelector("#point-decision").textContent = finalEvent.pointAssessment.decision;
+    document.querySelector("#point-score").textContent = "risk score " + finalEvent.pointAssessment.score + "/100";
+    document.querySelector("#trajectory-decision").textContent = finalEvent.assessment.decision;
+    document.querySelector("#trajectory-score").textContent = "risk score " + finalEvent.assessment.score + "/100";
+
     for (let i = 0; i < events.length; i++) {
       if (currentReplay !== replayId) return;
       const e = events[i];
