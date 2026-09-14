@@ -1,8 +1,8 @@
 # Azure proposal adapter
 
-Status: one-proposal smoke test plus a bounded multi-step CLI agent with synthetic tools and explicit terminal approvals. Dashboard integration remains pending.
+Status: one-proposal smoke test plus a bounded multi-step CLI agent with synthetic tools and explicit terminal approvals. Live browser sessions are available at /live.html.
 
-Existing synthetic dashboard remains available through npm start. It never calls Azure.
+The scripted replay at / remains available through npm start and never calls Azure. The separate Live Azure page makes model calls only when you start a run.
 Azure mode fails explicitly if configuration is missing; it does not disguise synthetic output as live AI.
 
 ## Run offline tests
@@ -36,7 +36,7 @@ Catalog metadata describes synthetic resources, not production classification or
 The existing gate is synchronous. Do not pass asynchronous real tool executors until it awaits tool completion and records failures correctly.
 
 ## Next stage
-Connect live sessions to the dashboard and extend artifact-level provenance. Preserve the deterministic dashboard as a clearly labeled replay mode.
+Extend artifact-level provenance and improve run diagnostics. Preserve the deterministic dashboard as a clearly labeled replay mode.
 
 ## Multi-step live agent
 
@@ -55,3 +55,15 @@ Both scenarios request an internal report. The injection scenario changes only t
 Every run uses a new session and in-memory tool state. Successful tool outputs feed the next proposal. Denied and blocked requests appear in the returned trace without tool output. Missing prerequisites, repeated operations, model failure, or the step cap terminate the run. No actual file, database, or upload tool runs.
 
 The current adapter exchanges JSON action selections through chat messages; it does not yet use native function-call messages. Upload metadata stays Restricted, so this live scenario proves gating, not superiority over a point-action baseline. This CLI does not persist traces.
+
+## Live browser dashboard
+
+Start npm start in the same terminal that holds Azure configuration. Open http://localhost:3000/live.html.
+Select safe or injection, then Run live Azure. Approve and execute runs the pending synthetic action; Reject and stop prevents it.
+The UI shows actual completed events and a separate awaiting-approval state. Tool outputs are rendered as text.
+
+Each pending approval expires after two minutes and defaults to denial. Approvals are bound to the run and action and are consumed once.
+Only one active browser run is allowed. Refreshing the same tab reconnects using sessionStorage. Closing the tab does not cancel an in-flight model call; unanswered approvals expire. Completed traces are kept in memory, up to 20 runs, and disappear on server restart.
+
+The server binds to 127.0.0.1:3000 and checks Host, Origin and a custom header for live mutations. This is a local prototype, not a deployed multi-user authentication scheme.
+Never place the Azure key in browser code. Restart the server in a configured terminal if it reports missing configuration.
