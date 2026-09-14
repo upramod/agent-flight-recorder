@@ -33,6 +33,17 @@
       <div id="timeline" class="timeline"></div>
     </section>
 
+    <section id="artifact-comparison" class="panel" hidden>
+      <p class="eyebrow">ARTIFACT PROVENANCE</p>
+      <h2>Same session, separate data sources</h2>
+      <p class="subtitle">Each upload is assessed using its own source records. Unrelated restricted data does not change a public export’s sensitivity.</p>
+      <div class="artifact-table-wrap"><table class="artifact-table">
+        <caption>Upload decisions from this replay</caption>
+        <thead><tr><th scope="col">Source records</th><th scope="col">Export</th><th scope="col">Effective sensitivity</th><th scope="col">Destination</th><th scope="col">Decision</th><th scope="col">Execution</th></tr></thead>
+        <tbody id="artifact-rows"></tbody>
+      </table></div>
+    </section>
+
     <section id="comparison" class="panel comparison"><div><p class="eyebrow">WHY TRAJECTORY MATTERS</p><h2>Point action versus session context</h2><p>Compare the final action with and without history. Artifact references without their source history fail closed; two Block results do not prove an advantage over point-action monitoring.</p></div><div class="compare-grid"><div><span>Point-action monitoring</span><strong id="point-decision">-</strong><small id="point-score">-</small></div><div class="compare-arrow">→</div><div class="highlight"><span>Trajectory monitoring</span><strong id="trajectory-decision">-</strong><small id="trajectory-score">-</small></div></div></section>
 
     <section class="panel explanation">
