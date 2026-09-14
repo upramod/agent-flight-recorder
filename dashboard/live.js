@@ -55,6 +55,11 @@ function renderTrace(run) {
     const main = element("div", undefined, "event-main");
     main.append(element("div", action.tool + "." + action.operation, "event-title"));
     main.append(element("div", action.sensitivity + " · " + action.destinationTrust + " destination · " + action.id, "event-meta"));
+    if (action.dataFlow) {
+      main.append(element("div", "Inputs: " + (action.dataFlow.inputs.join(", ") || "source acquisition") +
+        " · Outputs: " + (action.dataFlow.outputs.join(", ") || "none") +
+        " · Effective sensitivity: " + (assessment.effectiveSensitivity || "unresolved"), "event-meta"));
+    }
     const reasons = element("ul", undefined, "reasons");
     assessment.reasons.forEach(reason => reasons.append(element("li", reason)));
     main.append(reasons);
