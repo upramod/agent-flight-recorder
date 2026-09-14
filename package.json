@@ -1,0 +1,16 @@
+{
+  "name": "agent-flight-recorder",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Runtime trajectory monitoring for tool-using AI agents.",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "demo": "npm run build && node dist/demo.js",
+    "test": "npm run build && node --test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}
