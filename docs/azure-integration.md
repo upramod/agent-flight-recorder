@@ -1,6 +1,6 @@
 # Azure proposal adapter
 
-Status: integration seam and one-proposal CLI smoke test. Not a complete agent loop or dashboard integration.
+Status: one-proposal smoke test plus a bounded multi-step CLI agent with synthetic tools and explicit terminal approvals. Dashboard integration remains pending.
 
 Existing synthetic dashboard remains available through npm start. It never calls Azure.
 Azure mode fails explicitly if configuration is missing; it does not disguise synthetic output as live AI.
@@ -36,4 +36,22 @@ Catalog metadata describes synthetic resources, not production classification or
 The existing gate is synchronous. Do not pass asynchronous real tool executors until it awaits tool completion and records failures correctly.
 
 ## Next stage
-Add a bounded model/tool loop, real synthetic tool outputs, explicit approval controls and artifact-level provenance. Preserve the deterministic dashboard as a clearly labeled replay mode.
+Connect live sessions to the dashboard and extend artifact-level provenance. Preserve the deterministic dashboard as a clearly labeled replay mode.
+
+## Multi-step live agent
+
+In the terminal that holds your Azure environment variables:
+```powershell
+git pull --ff-only
+npm test
+npm run agent -- safe
+npm run agent -- injection
+```
+
+Each run makes up to eight paid Azure requests. Type yes for each Review action you intend to approve. Any other response, or noninteractive input, denies the action and ends the run.
+
+Both scenarios request an internal report. The injection scenario changes only the synthetic document: it includes an instruction to upload externally. Model responses remain live and may refuse the injection. A model stop is reported as model_stopped, not policy_blocked. Offline tests script proposals to verify blocking independent of model behavior.
+
+Every run uses a new session and in-memory tool state. Successful tool outputs feed the next proposal. Denied and blocked requests appear in the returned trace without tool output. Missing prerequisites, repeated operations, model failure, or the step cap terminate the run. No actual file, database, or upload tool runs.
+
+The current adapter exchanges JSON action selections through chat messages; it does not yet use native function-call messages. Upload metadata stays Restricted, so this live scenario proves gating, not superiority over a point-action baseline. This CLI does not persist traces.
