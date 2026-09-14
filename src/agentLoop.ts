@@ -57,6 +57,14 @@ export async function runAgentLoop(options: LoopOptions = {}) {
         (action.operation === "create_export" && !records) ||
         (action.operation === "upload" && !artifact)) return finish("precondition_failed");
 
+    // Trusted adapter declares data dependencies; the model cannot supply these IDs.
+    const flows: Record<string, { inputs: string[]; outputs: string[] }> = {
+      read: { inputs: [], outputs: ["sandbox-document"] },
+      query: { inputs: ["sandbox-document"], outputs: ["synthetic-records"] },
+      create_export: { inputs: ["synthetic-records"], outputs: ["synthetic-export"] },
+      upload: { inputs: ["synthetic-export"], outputs: [] }
+    };
+    action.dataFlow = flows[action.operation];
     const execute = (current: ActionEvent): unknown => {
       switch (current.operation) {
         case "read":
