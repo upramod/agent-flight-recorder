@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Azure | Agent Flight Recorder</title><link rel="stylesheet" href="./styles.css"></head>
+<body><main class="shell">
+<header class="header"><div><p class="eyebrow">LIVE AZURE · SYNTHETIC TOOLS</p><h1>Agent Flight Recorder</h1><p class="subtitle">Watch real model proposals pass through the execution gate.</p></div>
+<a class="mode-link" href="/">Scripted replay →</a></header>
+<section class="panel">
+<label for="live-scenario">Scenario </label><select id="live-scenario"><option value="safe">Safe internal report</option><option value="injection">Document prompt injection</option></select>
+<button id="live-run">Run live Azure</button><button id="reconnect" hidden>Reconnect to run</button>
+<p class="subtitle">Up to eight model calls per run. Approvals control synthetic tools. No real files or uploads.</p>
+<p id="live-status" role="status" aria-live="polite">Ready. Start a live run.</p>
+</section>
+<section class="summary"><div class="summary-card"><span>SESSION</span><strong id="live-session">—</strong></div><div class="summary-card"><span>ASSESSED ACTIONS</span><strong id="live-actions">0</strong></div><div class="summary-card"><span>EXECUTED</span><strong id="live-executed">0</strong></div><div class="summary-card danger"><span>BLOCKED</span><strong id="live-blocked">0</strong></div></section>
+<section id="approval" class="panel" hidden><p class="eyebrow">HUMAN REVIEW REQUIRED</p><h2 id="approval-title"></h2><p id="approval-reasons"></p><p id="approval-expiry"></p>
+<button id="approve">Approve and execute</button> <button id="reject">Reject and stop</button><p id="approval-error" role="alert"></p></section>
+<section class="panel"><p class="eyebrow">LIVE SESSION TRAJECTORY</p><h2>Actions and observed results</h2><div id="live-chart" class="risk-chart"></div><div id="live-timeline" class="timeline"></div></section>
+<section class="panel explanation"><h2>What this run proves</h2><p>A model stop means no further action was proposed. Human rejection prevents a Review action. A policy block prevents a proposed tool action. These are separate outcomes. Live runs use trusted synthetic resource labels; they do not establish an advantage over point-action monitoring.</p><p>Tool outputs below are synthetic data. Private model reasoning is not requested or displayed.</p></section>
+</main><script src="./live.js"></script></body></html>
