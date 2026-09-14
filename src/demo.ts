@@ -1,4 +1,5 @@
 import { FlightRecorder } from "./engine.js";
+import { ExecutionGate } from "./gate.js";
 import { ActionEvent } from "./types.js";
 
 const sessionId = "demo-attack-001";
@@ -69,13 +70,21 @@ const actions: ActionEvent[] = [
   }
 ];
 
-const recorder = new FlightRecorder();
+const gate = new ExecutionGate(new FlightRecorder());
 
 console.log("Agent Flight Recorder: trajectory demo");
 for (const action of actions) {
-  const assessment = recorder.assess(action);
+  const result = gate.evaluate(action, currentAction => {
+    return `EXECUTED ${currentAction.tool}.${currentAction.operation}`;
+  });
+
   console.log(
-    `[${assessment.decision.padEnd(6)}] ${action.id} ${action.tool}.${action.operation} score=${assessment.score}`
+    `[${result.assessment.decision.padEnd(6)}] ${action.id} ${action.tool}.${action.operation} score=${result.assessment.score} executed=${result.executed}`
   );
-  for (const reason of assessment.reasons) console.log(`         - ${reason}`);
+  for (const reason of result.assessment.reasons) {
+    console.log(`         - ${reason}`);
+  }
+  if (result.approvalRequired) {
+    console.log("         - approval required before execution");
+  }
 }
