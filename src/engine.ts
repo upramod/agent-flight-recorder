@@ -47,7 +47,10 @@ export class FlightRecorder {
       event => event.operation === "create_export" || event.resourceType === "data_export"
     );
 
-    if (hasUntrustedInput && accessedSensitiveData) {
+    const currentActionTouchesSensitiveData =
+      action.sensitivity === "Confidential" || action.sensitivity === "Restricted";
+
+    if (hasUntrustedInput && (accessedSensitiveData || currentActionTouchesSensitiveData)) {
       score += 20;
       reasons.push("untrusted input is followed by sensitive-data access");
     }
@@ -57,7 +60,7 @@ export class FlightRecorder {
       reasons.push("export upload follows sensitive-data access");
     }
 
-    if (createdExport && action.destinationTrust !== "Trusted") {
+    if (createdExport && action.operation === "upload" && action.destinationTrust !== "Trusted") {
       score += 20;
       reasons.push("export is leaving the trusted boundary");
     }
