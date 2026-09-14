@@ -18,6 +18,7 @@ export class ExecutionGate {
     execute: ToolExecutor<T>,
     approved = false
   ): GateResult<T> {
+    action = structuredClone(action);
     const assessment = this.recorder.assess(action, false);
 
     if (assessment.decision === "Block") {
@@ -28,7 +29,7 @@ export class ExecutionGate {
       return { assessment, executed: false, approvalRequired: true };
     }
 
-    const output = execute(action);
+    const output = execute(structuredClone(action));
     this.recorder.record(action);
 
     return {
