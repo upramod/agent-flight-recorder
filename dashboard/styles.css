@@ -3,3 +3,12 @@
 [hidden]{display:none!important}.mode-link{color:#77bdfb;white-space:nowrap}.header-actions{flex-wrap:wrap}button:disabled{opacity:.5;cursor:default}#live-session{font-size:13px;overflow-wrap:anywhere}#approval{border-color:#f5c15d}#reject{background:#90354b}#live-status{line-height:1.5;color:#b8d9ef}details{margin-top:12px}summary{cursor:pointer;color:#77bdfb}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0b1220;padding:14px;border-radius:8px;font-size:12px}.event-meta{overflow-wrap:anywhere}.bar.review{background:linear-gradient(#f5c15d,#9c7129)}button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid #f5c15d;outline-offset:3px}
 
 .artifact-table-wrap{overflow-x:auto;margin-top:20px}.artifact-table{width:100%;border-collapse:collapse;font-size:13px;text-align:left}.artifact-table caption{text-align:left;color:#9eacc0;padding-bottom:12px}.artifact-table th{color:#9eacc0;font-weight:600}.artifact-table th,.artifact-table td{padding:14px 12px;border-bottom:1px solid #223650;vertical-align:top}.artifact-table td{overflow-wrap:anywhere;min-width:120px}#artifact-comparison .subtitle{margin-top:12px;line-height:1.6}
+
+#replay-state b{font-weight:400}#replay-state[data-state="running"]>span{background:#f5c15d}#replay-state[data-state="failed"]>span{background:#ff7183}
+#risk-chart{height:176px;padding-top:24px;align-items:stretch}
+.replay-bar-wrap{flex:1;min-width:0;display:grid;grid-template-rows:1fr 18px;gap:6px;text-align:center;color:#9eacc0;font-size:11px}
+.replay-bar-track{position:relative;min-height:0}
+.replay-bar-fill{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:90px;border-radius:6px 6px 0 0;background:linear-gradient(#4bdfaa,#2188a3)}
+.replay-bar-fill.review{background:linear-gradient(#f5c15d,#9c7129)}.replay-bar-fill.block{background:linear-gradient(#ff7183,#9d294f)}
+.replay-bar-fill.zero-score{height:0!important;border-radius:0;background:none;border-top:2px solid #8496ad}
+.replay-bar-value{position:absolute;left:0;right:0;margin-bottom:6px}.replay-bar-wrap .bar-label{overflow-wrap:anywhere}
