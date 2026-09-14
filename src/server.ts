@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join, extname } from "node:path";
 import { ExecutionGate } from "./gate.js";
 import { FlightRecorder } from "./engine.js";
-import { demoActions } from "./scenario.js";
+import { scenarios } from "./scenario.js";
 
 const contentTypes: Record<string, string> = {
   ".html": "text/html",
@@ -15,9 +15,11 @@ const server = createServer(async (request, response) => {
   const requestUrl = new URL(request.url ?? "/", "http://localhost:3000");
 
   if (requestUrl.pathname === "/api/demo") {
+    const scenarioName = requestUrl.searchParams.get("scenario") ?? "exfiltration";
+    const selectedScenario = scenarios[scenarioName] ?? scenarios.exfiltration;
     const gate = new ExecutionGate(new FlightRecorder());
-    const events = demoActions.map(action => {
-      const approved = action.id !== "a5";
+    const events = selectedScenario.map(action => {
+      const approved = action.operation !== "upload";
       const result = gate.evaluate(action, () => true, approved);
       return { ...action, assessment: result.assessment, executed: result.executed, approvalRequired: result.approvalRequired };
     });
