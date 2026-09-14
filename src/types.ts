@@ -14,6 +14,8 @@ export interface ActionEvent {
   destinationTrust: Trust;
   privilegeLevel: number;
   inputProvenance: Provenance;
+  // Set by trusted tool adapters, never by model output. IDs are session-local and immutable.
+  dataFlow?: { inputs: string[]; outputs: string[] };
   metadata?: Record<string, string>;
 }
 
@@ -23,4 +25,6 @@ export interface Assessment {
   reasons: string[];
   decision: Decision;
   historyLength: number;
+  effectiveSensitivity?: Sensitivity;
+  sourceArtifactIds?: string[];
 }
