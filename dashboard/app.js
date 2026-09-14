@@ -1,0 +1,8 @@
+const events=[
+{id:"a1",tool:"file-reader",operation:"read",resource:"document",decision:"Allow",score:20,executed:true,reasons:["Input came from an untrusted document."]},
+{id:"a2",tool:"records-api",operation:"query",resource:"customer_records",decision:"Review",score:60,executed:true,reasons:["Action touches restricted data.","High privilege action.","Untrusted input is followed by sensitive-data access."]},
+{id:"a3",tool:"exporter",operation:"create_export",resource:"data_export",decision:"Review",score:60,executed:true,reasons:["Action touches restricted data.","High privilege action.","Untrusted input is followed by sensitive-data access."]},
+{id:"a4",tool:"network",operation:"connect",resource:"external_destination",decision:"Review",score:50,executed:true,reasons:["Destination is untrusted.","Untrusted input is followed by sensitive-data access."]},
+{id:"a5",tool:"network",operation:"upload",resource:"data_export",decision:"Block",score:100,executed:false,reasons:["Action touches restricted data.","Destination is untrusted.","Export upload follows sensitive-data access.","Export is leaving the trusted boundary."]}
+];
+document.querySelector("#timeline").innerHTML=events.map((e,i)=>`<article class="event"><div class="marker ${e.decision.toLowerCase()}">${i+1}</div><div class="event-main"><div class="event-title">${e.tool}.<span>${e.operation}</span></div><div class="event-meta">${e.resource} · session event ${e.id}</div><ul class="reasons">${e.reasons.map(r=>`<li>${r}</li>`).join("")}</ul></div><div class="decision"><b class="${e.decision.toLowerCase()}">${e.decision}</b><div class="score">risk score ${e.score}/100</div><div class="execution ${e.executed?"":"no"}">${e.executed?"EXECUTED":"NOT EXECUTED"}</div></div></article>`).join("");
