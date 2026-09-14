@@ -74,9 +74,10 @@ const gate = new ExecutionGate(new FlightRecorder());
 
 console.log("Agent Flight Recorder: trajectory demo");
 for (const action of actions) {
+  const approved = action.id !== "a5";
   const result = gate.evaluate(action, currentAction => {
     return `EXECUTED ${currentAction.tool}.${currentAction.operation}`;
-  });
+  }, approved);
 
   console.log(
     `[${result.assessment.decision.padEnd(6)}] ${action.id} ${action.tool}.${action.operation} score=${result.assessment.score} executed=${result.executed}`
