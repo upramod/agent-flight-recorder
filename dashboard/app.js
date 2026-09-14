@@ -1,3 +1,5 @@
+import { buildSessionTrace, downloadSessionTrace } from "./sessionTrace.js";
+let completedReplay;
 const runButton = document.querySelector("#run-demo");
 const scenarioSelect = document.querySelector("#scenario");
 let replayId = 0;
@@ -70,6 +72,8 @@ function renderArtifactComparison(events) {
 }
 
 async function loadDemo() {
+  completedReplay = undefined;
+  document.querySelector("#download-trace").disabled = true;
   const currentReplay = ++replayId;
   setReplayState("Replaying…", "running");
   runButton.disabled = true;
@@ -124,6 +128,9 @@ async function loadDemo() {
     } else {
       document.querySelector("#comparison").hidden = false;
     }
+    completedReplay = { mode: "scripted-replay", scenario: scenarioSelect.value, sessionId: events[0]?.sessionId,
+      status: "replay_complete", events: structuredClone(events), observedAt: new Date().toISOString() };
+    document.querySelector("#download-trace").disabled = false;
     setReplayState("Replay complete", "complete");
     document.querySelector("#run-status").textContent = "Demo completed at " + new Date().toLocaleTimeString();
   } catch (error) {
@@ -140,5 +147,8 @@ async function loadDemo() {
   }
 }
 
+document.querySelector("#download-trace").addEventListener("click", () => {
+  if (completedReplay) downloadSessionTrace(buildSessionTrace(completedReplay));
+});
 runButton.addEventListener("click", loadDemo);
 loadDemo();
