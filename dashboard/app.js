@@ -9,9 +9,45 @@ function renderEvent(e, i) {
   return `<article class="event"><div class="marker ${a.decision.toLowerCase()}">${i + 1}</div><div class="event-main"><div class="event-title">${e.tool}.<span>${e.operation}</span></div><div class="event-meta">${e.resourceType} · session event ${e.id}</div><ul class="reasons">${a.reasons.map(r => `<li>${r}</li>`).join("")}</ul></div><div class="decision"><b class="${a.decision.toLowerCase()}">${a.decision}</b><div class="score">risk score ${a.score}/100</div><div class="execution ${e.executed ? "" : "no"}">${e.executed ? "EXECUTED" : "NOT EXECUTED"}</div></div></article>`;
 }
 
+function renderArtifactComparison(events) {
+  const body = document.querySelector("#artifact-rows");
+  body.replaceChildren();
+  const producers = new Map();
+  for (const event of events) {
+    if (event.executed) {
+      for (const id of event.dataFlow?.outputs ?? []) producers.set(id, event);
+    }
+    if (event.operation !== "upload" || !event.dataFlow) continue;
+    for (const artifactId of event.dataFlow.inputs) {
+      const producer = producers.get(artifactId);
+      const sources = producer?.dataFlow?.inputs ?? [];
+      const row = document.createElement("tr");
+      const values = [
+        sources.length ? sources.join(", ") : "Source unresolved",
+        artifactId,
+        event.assessment.effectiveSensitivity ?? "Unresolved",
+        event.destinationTrust,
+        event.assessment.decision + " · " + event.assessment.score + "/100",
+        event.executed ? "Executed" : "Not executed"
+      ];
+      values.forEach((value, index) => {
+        const cell = document.createElement("td");
+        cell.textContent = value;
+        if (index === 4) cell.className = event.assessment.decision.toLowerCase();
+        row.append(cell);
+      });
+      body.append(row);
+    }
+  }
+}
+
 async function loadDemo() {
   const currentReplay = ++replayId;
   runButton.disabled = true;
+  scenarioSelect.disabled = true;
+  document.querySelector("#comparison").hidden = true;
+  document.querySelector("#artifact-comparison").hidden = true;
+  document.querySelector("#artifact-rows").replaceChildren();
   runButton.textContent = "Running " + scenarioSelect.options[scenarioSelect.selectedIndex].text + "...";
   document.querySelector("#run-status").textContent = "Replaying trajectory...";
   const timeline = document.querySelector("#timeline");
@@ -53,6 +89,12 @@ async function loadDemo() {
       });
       await wait(450);
     }
+    if (events.some(event => event.dataFlow)) {
+      renderArtifactComparison(events);
+      document.querySelector("#artifact-comparison").hidden = false;
+    } else {
+      document.querySelector("#comparison").hidden = false;
+    }
     document.querySelector("#run-status").textContent = "Demo completed at " + new Date().toLocaleTimeString();
   } catch (error) {
     document.querySelector("#run-status").textContent = "Unable to reach policy API";
@@ -61,6 +103,7 @@ async function loadDemo() {
   } finally {
     if (currentReplay === replayId) {
       runButton.disabled = false;
+      scenarioSelect.disabled = false;
       runButton.textContent = "Run scenario";
     }
   }
