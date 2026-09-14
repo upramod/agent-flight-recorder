@@ -12,7 +12,9 @@ const contentTypes: Record<string, string> = {
 };
 
 const server = createServer(async (request, response) => {
-  if (request.url === "/api/demo") {
+  const requestUrl = new URL(request.url ?? "/", "http://localhost:3000");
+
+  if (requestUrl.pathname === "/api/demo") {
     const gate = new ExecutionGate(new FlightRecorder());
     const events = demoActions.map(action => {
       const approved = action.id !== "a5";
@@ -24,7 +26,7 @@ const server = createServer(async (request, response) => {
     return;
   }
 
-  const requestedPath = request.url === "/" ? "index.html" : request.url?.replace(/^\//, "");
+  const requestedPath = requestUrl.pathname === "/" ? "index.html" : requestUrl.pathname.replace(/^\//, "");
   if (requestedPath && !requestedPath.includes("..")) {
     try {
       const body = await readFile(join(process.cwd(), "dashboard", requestedPath));
