@@ -10,11 +10,11 @@
   <main class="shell">
     <header class="header">
       <div>
-        <p class="eyebrow">RUNTIME SECURITY</p>
+        <p class="eyebrow">SCRIPTED REPLAY · RUNTIME SECURITY</p>
         <h1>Agent Flight Recorder</h1>
         <p class="subtitle">Observable action trajectory before sensitive tool execution</p>
       </div>
-      <div class="header-actions"><select id="scenario"><option value="exfiltration">Data exfiltration</option><option value="suspicious">Suspicious access</option><option value="safe">Safe workflow</option></select><button id="run-demo">Run scenario</button><div class="status"><span></span> Monitoring session</div></div>
+      <div class="header-actions"><a class="mode-link" href="/live.html">Live Azure →</a><select id="scenario"><option value="exfiltration">Data exfiltration</option><option value="suspicious">Suspicious access</option><option value="safe">Safe workflow</option></select><button id="run-demo">Run scenario</button><div class="status"><span></span> Monitoring session</div></div>
     </header>
 
     <section class="summary">
@@ -26,19 +26,19 @@
 
     <section class="panel">
       <div class="panel-heading">
-        <div><p class="eyebrow">SESSION TRAJECTORY</p><h2>Risk increased as actions combined</h2><p id="run-status" class="run-status">Ready to run</p></div>
+        <div><p class="eyebrow">SESSION TRAJECTORY</p><h2>Risk per action and session context</h2><p id="run-status" class="run-status">Ready to run</p></div>
         <div class="legend"><span class="allow">Allow</span><span class="review">Review</span><span class="block">Block</span></div>
       </div>
       <div id="risk-chart" class="risk-chart"></div>
       <div id="timeline" class="timeline"></div>
     </section>
 
-    <section id="comparison" class="panel comparison"><div><p class="eyebrow">WHY TRAJECTORY MATTERS</p><h2>Point action versus session context</h2><p>Checking the final upload alone misses the chain that led to it.</p></div><div class="compare-grid"><div><span>Point-action monitoring</span><strong id="point-decision">-</strong><small id="point-score">-</small></div><div class="compare-arrow">→</div><div class="highlight"><span>Trajectory monitoring</span><strong id="trajectory-decision">-</strong><small id="trajectory-score">-</small></div></div></section>
+    <section id="comparison" class="panel comparison"><div><p class="eyebrow">WHY TRAJECTORY MATTERS</p><h2>Point action versus session context</h2><p>Compare the selected replay’s final action with and without session history.</p></div><div class="compare-grid"><div><span>Point-action monitoring</span><strong id="point-decision">-</strong><small id="point-score">-</small></div><div class="compare-arrow">→</div><div class="highlight"><span>Trajectory monitoring</span><strong id="trajectory-decision">-</strong><small id="trajectory-score">-</small></div></div></section>
 
     <section class="panel explanation">
       <p class="eyebrow">SECURITY BOUNDARY</p>
       <h2>No private reasoning required</h2>
-      <p>The recorder evaluates structured runtime signals at the tool boundary. It does not read, store, or expose private chain-of-thought. The final upload was blocked because restricted data was exported after untrusted input and targeted an untrusted destination.</p>
+      <p>The recorder evaluates structured runtime signals at the tool boundary. It does not read, store, or expose private chain-of-thought. This view replays scripted proposals with simulated tool execution and scripted approvals. Open Live Azure to run the model and approve actions yourself.</p>
     </section>
   </main>
   <script src="./app.js"></script>
