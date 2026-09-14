@@ -8,7 +8,8 @@
     "build": "tsc",
     "demo": "npm run build && node dist/demo.js",
     "start": "npm run build && node dist/server.js",
-    "test": "npm run build && node --test"
+    "test": "npm run build && node --test",
+    "agent": "npm run build && node dist/agentCli.js"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
