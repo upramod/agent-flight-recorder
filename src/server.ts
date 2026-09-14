@@ -21,7 +21,8 @@ const server = createServer(async (request, response) => {
     const events = selectedScenario.map(action => {
       const approved = action.operation !== "upload";
       const result = gate.evaluate(action, () => true, approved);
-      return { ...action, assessment: result.assessment, executed: result.executed, approvalRequired: result.approvalRequired };
+      const pointAssessment = new FlightRecorder().assess(action);
+      return { ...action, assessment: result.assessment, pointAssessment, executed: result.executed, approvalRequired: result.approvalRequired };
     });
     response.writeHead(200, { "Content-Type":"application/json" });
     response.end(JSON.stringify(events));
