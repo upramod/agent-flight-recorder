@@ -49,9 +49,9 @@ const actions: ActionEvent[] = [
     tool: "network",
     operation: "connect",
     resourceType: "external_destination",
-    sensitivity: "Restricted",
+    sensitivity: "Public",
     destinationTrust: "Untrusted",
-    privilegeLevel: 4,
+    privilegeLevel: 1,
     inputProvenance: "TrustedTool",
     metadata: { host: "outside.example" }
   },
