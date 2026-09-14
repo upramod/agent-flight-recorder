@@ -14,7 +14,7 @@
         <h1>Agent Flight Recorder</h1>
         <p class="subtitle">Observable action trajectory before sensitive tool execution</p>
       </div>
-      <div class="header-actions"><a class="mode-link" href="/live.html">Live Azure →</a><select id="scenario"><option value="lineage">Artifact provenance</option><option value="exfiltration">Data exfiltration</option><option value="suspicious">Suspicious access</option><option value="safe">Safe workflow</option></select><button id="run-demo">Run scenario</button><div class="status"><span></span> Monitoring session</div></div>
+      <div class="header-actions"><a class="mode-link" href="/live.html">Live Azure →</a><select id="scenario"><option value="lineage">Artifact provenance</option><option value="exfiltration">Data exfiltration</option><option value="suspicious">Suspicious access</option><option value="safe">Safe workflow</option></select><button id="run-demo">Run scenario</button><div id="replay-state" class="status" role="status" aria-live="polite"><span aria-hidden="true"></span><b id="replay-state-label">Ready to replay</b></div></div>
     </header>
 
     <section class="summary">
@@ -22,15 +22,6 @@
       <div class="summary-card"><span>ACTIONS</span><strong id="actions">-</strong></div>
       <div class="summary-card"><span>EXECUTED</span><strong id="executed">-</strong></div>
       <div class="summary-card danger"><span>BLOCKED</span><strong id="blocked">-</strong></div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-heading">
-        <div><p class="eyebrow">SESSION TRAJECTORY</p><h2>Risk per action and session context</h2><p id="run-status" class="run-status">Ready to run</p></div>
-        <div class="legend"><span class="allow">Allow</span><span class="review">Review</span><span class="block">Block</span></div>
-      </div>
-      <div id="risk-chart" class="risk-chart"></div>
-      <div id="timeline" class="timeline"></div>
     </section>
 
     <section id="artifact-comparison" class="panel" hidden>
@@ -42,6 +33,15 @@
         <thead><tr><th scope="col">Source records</th><th scope="col">Export</th><th scope="col">Effective sensitivity</th><th scope="col">Destination</th><th scope="col">Decision</th><th scope="col">Execution</th></tr></thead>
         <tbody id="artifact-rows"></tbody>
       </table></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div><p class="eyebrow">SESSION TRAJECTORY</p><h2>Risk per action and session context</h2><p id="run-status" class="run-status">Ready to run</p></div>
+        <div class="legend"><span class="allow">Allow</span><span class="review">Review</span><span class="block">Block</span></div>
+      </div>
+      <div id="risk-chart" class="risk-chart"></div>
+      <div id="timeline" class="timeline"></div>
     </section>
 
     <section id="comparison" class="panel comparison"><div><p class="eyebrow">WHY TRAJECTORY MATTERS</p><h2>Point action versus session context</h2><p>Compare the final action with and without history. Artifact references without their source history fail closed; two Block results do not prove an advantage over point-action monitoring.</p></div><div class="compare-grid"><div><span>Point-action monitoring</span><strong id="point-decision">-</strong><small id="point-score">-</small></div><div class="compare-arrow">→</div><div class="highlight"><span>Trajectory monitoring</span><strong id="trajectory-decision">-</strong><small id="trajectory-score">-</small></div></div></section>
