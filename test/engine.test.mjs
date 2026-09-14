@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { FlightRecorder } from "../dist/engine.js";
+import { ExecutionGate } from "../dist/gate.js";
 
 const action = (id, overrides = {}) => ({
   id,
@@ -58,4 +59,45 @@ test("blocks an export upload after the attack trajectory", () => {
   }));
   assert.equal(result.decision, "Block");
   assert.ok(result.score >= 70);
+});
+
+test("does not execute a blocked action", () => {
+  const gate = new ExecutionGate(new FlightRecorder());
+  let toolCalled = false;
+  const result = gate.evaluate(action("blocked", {
+    operation: "upload",
+    sensitivity: "Restricted",
+    destinationTrust: "Untrusted",
+    privilegeLevel: 4
+  }), () => {
+    toolCalled = true;
+    return "should never be returned";
+  });
+
+  assert.equal(result.assessment.decision, "Block");
+  assert.equal(result.executed, false);
+  assert.equal(toolCalled, false);
+});
+
+test("requires approval before executing a review action", () => {
+  const gate = new ExecutionGate(new FlightRecorder());
+  const actionToReview = action("review", {
+    operation: "query",
+    resourceType: "customer_records",
+    sensitivity: "Restricted",
+    privilegeLevel: 4
+  });
+
+  const pending = gate.evaluate(actionToReview, () => "executed");
+  assert.equal(pending.approvalRequired, true);
+  assert.equal(pending.executed, false);
+
+  const approved = gate.evaluate(action("approved", {
+    operation: "query",
+    resourceType: "customer_records",
+    sensitivity: "Restricted",
+    privilegeLevel: 4
+  }), () => "executed", true);
+  assert.equal(approved.executed, true);
+  assert.equal(approved.output, "executed");
 });
