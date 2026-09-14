@@ -4,13 +4,13 @@ Runtime security for tool-using AI agents.
 
 Agent Flight Recorder evaluates observable runtime behavior before a tool action executes. It does not read, store, or expose private chain-of-thought. It receives structured action metadata, keeps a session history, calculates trajectory risk, and returns one of three policy decisions:
 
-- **Allow**: low-risk action.
-- **Review**: a human or higher-trust control should inspect the action.
-- **Block**: the action must not execute.
+- **Allow**. Low-risk action may execute.
+- **Review**. Approval is required before execution.
+- **Block**. The action must not execute.
 
-## First demo
+## Demo
 
-The demo models this sequence:
+The main scenario models a multi-step data-exfiltration attempt:
 
 ```
 untrusted document
@@ -20,36 +20,97 @@ untrusted document
   -> external upload
 ```
 
-Each action can look reasonable in isolation. The final upload is dangerous because the recorder sees the sequence, not just the last API call. The deterministic policy blocks it before execution.
+The first four actions are approved in the demo. The final upload is blocked by the execution gate.
 
-## Run it
+The dashboard also includes safe and suspicious scenarios. Select a scenario to compare point-action monitoring with trajectory-aware monitoring.
+
+## Run locally
 
 Requires Node.js 20 or later.
 
 ```bash
 npm install
-npm run demo
 npm test
+npm run demo
+npm start
 ```
 
-## Design
+Open [http://localhost:3000](http://localhost:3000) after `npm start`.
 
-The prototype uses five layers:
+## Architecture
 
-1. **Action schema**. Captures tool, operation, resource, sensitivity, destination trust, privilege, provenance, session, and time.
-2. **Flight recorder**. Stores observable events by session.
-3. **Risk model**. Adds transparent points for risky metadata and action combinations.
-4. **Policy engine**. Maps scores to Allow, Review, or Block.
-5. **Execution gate**. The caller must assess the action before invoking the real tool.
+```
+Agent proposes an action
+        |
+        v
+Structured action metadata
+        |
+        v
+FlightRecorder assesses current action + executed session history
+        |
+        v
+ExecutionGate returns Allow, Review, or Block
+        |
+        +--> Allow or approved Review: execute and record
+        +--> Block or unapproved Review: do not execute
+        |
+        v
+Dashboard displays the trajectory and decision reasons
+```
 
-The risk score is a demo model, not a security guarantee. Production use requires threat modeling, policy review, access control, logging safeguards, and evaluation against representative workloads.
+### Core files
 
-## Boundaries
+- `src/types.ts`. Observable action and assessment types.
+- `src/engine.ts`. Transparent trajectory risk model and policy thresholds.
+- `src/gate.ts`. Execution enforcement and executed-history handling.
+- `src/scenario.ts`. Synthetic safe, suspicious, and exfiltration scenarios.
+- `src/server.ts`. Local API and dashboard server.
+- `dashboard/`. Browser dashboard.
+- `test/engine.test.mjs`. Policy and gate tests.
 
-This project does not infer private reasoning. It does not claim that a risky intent exists inside an agent. It evaluates the action trajectory visible at the tool boundary.
+## Risk model
 
-All demo data and destinations are synthetic. The project contains no confidential workplace information.
+The prototype uses transparent points:
 
-## Future evaluation
+- Untrusted document input: +20
+- Confidential data: +15
+- Restricted data: +25
+- Unknown destination: +15
+- Untrusted destination: +30
+- High privilege: +15
+- Untrusted input followed by sensitive access: +20
+- Sensitive export uploaded after sensitive access: +30
+- Export crossing the trusted boundary: +20
 
-Once the prototype works, we can compare point-action monitoring with trajectory-aware monitoring using detection rate, false-positive rate, time-to-detection, and enforcement overhead. We will review existing research before making novelty claims.
+Thresholds:
+
+```
+0-39    Allow
+40-69   Review
+70-100  Block
+```
+
+This is a demonstration model, not a production security guarantee. Production deployment requires threat modeling, policy review, access control, privacy controls, and evaluation against representative workloads.
+
+## Azure OpenAI integration boundary
+
+The planned Azure version will use Azure OpenAI to help an agent interpret synthetic documents and propose structured tool actions. Every proposal will pass through the same deterministic FlightRecorder and ExecutionGate.
+
+```
+Azure OpenAI agent
+        -> proposes action
+Flight Recorder
+        -> evaluates trajectory
+Deterministic policy engine
+        -> enforces decision
+Tool adapter
+        -> executes only when permitted
+```
+
+Azure OpenAI will not make the final allow or block decision. No confidential workplace data is required. The planned cloud demo will use synthetic documents, fake records, and a fake external destination.
+
+## Scope boundary
+
+This project evaluates observable runtime behavior at the tool boundary. It does not infer private reasoning or claim that a hidden intent exists inside an agent.
+
+Future experiments may compare point-action monitoring with trajectory-aware monitoring using detection rate, false-positive rate, time-to-detection, and enforcement overhead. We will review existing research before making novelty claims.
