@@ -2,6 +2,34 @@ const runButton = document.querySelector("#run-demo");
 const scenarioSelect = document.querySelector("#scenario");
 let replayId = 0;
 
+function setReplayState(label, state) {
+  document.querySelector("#replay-state-label").textContent = label;
+  document.querySelector("#replay-state").dataset.state = state;
+}
+
+function appendRiskBar(event) {
+  const wrap = document.createElement("div");
+  wrap.className = "replay-bar-wrap";
+  const track = document.createElement("div");
+  track.className = "replay-bar-track";
+  const score = Math.max(0, Math.min(100, event.assessment.score));
+  const fill = document.createElement("div");
+  fill.className = "replay-bar-fill " + event.assessment.decision.toLowerCase();
+  fill.style.height = score + "%";
+  if (score === 0) fill.classList.add("zero-score");
+  const value = document.createElement("span");
+  value.className = "replay-bar-value";
+  value.textContent = String(score);
+  value.style.bottom = score + "%";
+  track.append(fill, value);
+  const label = document.createElement("span");
+  label.className = "bar-label";
+  label.textContent = event.id;
+  wrap.setAttribute("aria-label", event.id + ": risk " + score + " out of 100");
+  wrap.append(track, label);
+  document.querySelector("#risk-chart").append(wrap);
+}
+
 const wait = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 
 function renderEvent(e, i) {
@@ -43,6 +71,7 @@ function renderArtifactComparison(events) {
 
 async function loadDemo() {
   const currentReplay = ++replayId;
+  setReplayState("Replaying…", "running");
   runButton.disabled = true;
   scenarioSelect.disabled = true;
   document.querySelector("#comparison").hidden = true;
@@ -77,7 +106,7 @@ async function loadDemo() {
       if (currentReplay !== replayId) return;
       const e = events[i];
       const a = assessments[i];
-      document.querySelector("#risk-chart").insertAdjacentHTML("beforeend", `<div class="bar-wrap"><span>${a.score}</span><div class="bar ${a.decision.toLowerCase()}" style="height:${Math.max(a.score, 5)}%"></div><span class="bar-label">a${i + 1}</span></div>`);
+      appendRiskBar(e);
       timeline.insertAdjacentHTML("beforeend", renderEvent(e, i));
       const newest = timeline.lastElementChild;
       newest.style.opacity = "0";
@@ -95,8 +124,10 @@ async function loadDemo() {
     } else {
       document.querySelector("#comparison").hidden = false;
     }
+    setReplayState("Replay complete", "complete");
     document.querySelector("#run-status").textContent = "Demo completed at " + new Date().toLocaleTimeString();
   } catch (error) {
+    setReplayState("Replay failed", "failed");
     document.querySelector("#run-status").textContent = "Unable to reach policy API";
     timeline.innerHTML = `<p>API unavailable. Start the server with <code>npm start</code>.</p>`;
     console.error(error);
