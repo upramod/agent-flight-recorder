@@ -1,12 +1,13 @@
 const runButton = document.querySelector("#run-demo");
+const scenarioSelect = document.querySelector("#scenario");
 
 async function loadDemo() {
   runButton.disabled = true;
-  runButton.textContent = "Running...";
+  runButton.textContent = "Running " + scenarioSelect.options[scenarioSelect.selectedIndex].text + "...";
   document.querySelector("#run-status").textContent = "Replaying trajectory...";
   const timeline = document.querySelector("#timeline");
   try {
-    const events = await fetch("/api/demo?run=" + Date.now()).then(response => response.json());
+    const events = await fetch("/api/demo?scenario=" + scenarioSelect.value + "&run=" + Date.now()).then(response => response.json());
     const assessments = events.map(e => e.assessment);
     document.querySelector("#session").textContent = events[0].sessionId;
     document.querySelector("#actions").textContent = events.length;
