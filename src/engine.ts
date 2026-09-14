@@ -6,7 +6,7 @@ const clamp = (value: number, min: number, max: number) =>
 export class FlightRecorder {
   private readonly sessions = new Map<string, ActionEvent[]>();
 
-  assess(action: ActionEvent): Assessment {
+  assess(action: ActionEvent, record = true): Assessment {
     const history = this.sessions.get(action.sessionId) ?? [];
     const reasons: string[] = [];
     let score = 0;
@@ -77,11 +77,11 @@ export class FlightRecorder {
       historyLength: history.length
     };
 
-    this.record(action);
+    if (record) this.record(action);
     return assessment;
   }
 
-  private record(action: ActionEvent): void {
+  record(action: ActionEvent): void {
     const history = this.sessions.get(action.sessionId) ?? [];
     history.push(action);
     this.sessions.set(action.sessionId, history);
