@@ -4,7 +4,7 @@ import type { ActionEvent, Assessment } from "./types.js";
 
 export class LiveSessions {
   private runs = new Map<string, {
-    id: string; status: string; events: LoopEvent[]; sessionId?: string;
+    id: string; scenario: "safe" | "injection"; status: string; events: LoopEvent[]; sessionId?: string;
     pending?: { action: ActionEvent; assessment: Assessment; expiresAt: number };
     resolve?: (approved: boolean) => void;
   }>();
@@ -14,9 +14,9 @@ export class LiveSessions {
       throw new Error("A live run is already active");
     }
     if (this.runs.size >= 20) this.runs.delete(this.runs.keys().next().value!);
-    const run: { id: string; status: string; events: LoopEvent[]; sessionId?: string;
+    const run: { id: string; scenario: "safe" | "injection"; status: string; events: LoopEvent[]; sessionId?: string;
       pending?: { action: ActionEvent; assessment: Assessment; expiresAt: number };
-      resolve?: (approved: boolean) => void } = { id: randomUUID(), status: "running", events: [] };
+      resolve?: (approved: boolean) => void } = { id: randomUUID(), scenario, status: "running", events: [] };
     this.runs.set(run.id, run);
     const options: LoopOptions = {
       scenario,
@@ -44,7 +44,7 @@ export class LiveSessions {
   get(id: string) {
     const run = this.runs.get(id);
     if (!run) return undefined;
-    return structuredClone({ id: run.id, status: run.status, sessionId: run.sessionId,
+    return structuredClone({ id: run.id, scenario: run.scenario, status: run.status, sessionId: run.sessionId,
       events: run.events, pending: run.pending });
   }
   decide(id: string, actionId: string, approved: boolean) {
