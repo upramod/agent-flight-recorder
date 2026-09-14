@@ -18,7 +18,7 @@ export class ExecutionGate {
     execute: ToolExecutor<T>,
     approved = false
   ): GateResult<T> {
-    const assessment = this.recorder.assess(action);
+    const assessment = this.recorder.assess(action, false);
 
     if (assessment.decision === "Block") {
       return { assessment, executed: false, approvalRequired: false };
@@ -28,11 +28,14 @@ export class ExecutionGate {
       return { assessment, executed: false, approvalRequired: true };
     }
 
+    const output = execute(action);
+    this.recorder.record(action);
+
     return {
       assessment,
       executed: true,
       approvalRequired: false,
-      output: execute(action)
+      output
     };
   }
 }
