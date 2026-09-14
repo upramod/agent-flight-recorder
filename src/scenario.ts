@@ -5,6 +5,14 @@ const action = (id: string, sessionId: string, values: Omit<ActionEvent, "id" | 
 });
 
 export const scenarios: Record<string, ActionEvent[]> = {
+  lineage: [
+    action("l1", "artifact-session", {"tool":"records-api","operation":"query","resourceType":"records","sensitivity":"Restricted","destinationTrust":"Trusted","privilegeLevel":1,"inputProvenance":"System","dataFlow":{"inputs":[],"outputs":["restricted-records"]}}),
+    action("l2", "artifact-session", {"tool":"exporter","operation":"create_export","resourceType":"data_export","sensitivity":"Public","destinationTrust":"Trusted","privilegeLevel":1,"inputProvenance":"System","dataFlow":{"inputs":["restricted-records"],"outputs":["restricted-export"]}}),
+    action("l3", "artifact-session", {"tool":"records-api","operation":"read","resourceType":"records","sensitivity":"Public","destinationTrust":"Trusted","privilegeLevel":1,"inputProvenance":"System","dataFlow":{"inputs":[],"outputs":["public-records"]}}),
+    action("l4", "artifact-session", {"tool":"exporter","operation":"create_export","resourceType":"data_export","sensitivity":"Public","destinationTrust":"Trusted","privilegeLevel":1,"inputProvenance":"System","dataFlow":{"inputs":["public-records"],"outputs":["public-export"]}}),
+    action("l5", "artifact-session", {"tool":"network","operation":"upload","resourceType":"data_export","sensitivity":"Public","destinationTrust":"Untrusted","privilegeLevel":1,"inputProvenance":"System","dataFlow":{"inputs":["public-export"],"outputs":[]}}),
+    action("l6", "artifact-session", {"tool":"network","operation":"upload","resourceType":"data_export","sensitivity":"Public","destinationTrust":"Untrusted","privilegeLevel":1,"inputProvenance":"System","dataFlow":{"inputs":["restricted-export"],"outputs":[]}})
+  ],
   safe: [
     action("s1", "safe-session", {tool:"file-reader",operation:"read",resourceType:"public_document",sensitivity:"Public",destinationTrust:"Trusted",privilegeLevel:1,inputProvenance:"System"}),
     action("s2", "safe-session", {tool:"calendar",operation:"create_event",resourceType:"calendar_entry",sensitivity:"Internal",destinationTrust:"Trusted",privilegeLevel:1,inputProvenance:"TrustedTool"}),
