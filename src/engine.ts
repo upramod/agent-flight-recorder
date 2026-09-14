@@ -1,4 +1,5 @@
 import { ActionEvent, Assessment, Decision } from "./types.js";
+import { artifactsFromHistory, resolveLineage } from "./lineage.js";
 
 const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value));
@@ -8,6 +9,30 @@ export class FlightRecorder {
 
   assess(action: ActionEvent, record = true): Assessment {
     const history = this.sessions.get(action.sessionId) ?? [];
+    if (action.dataFlow) {
+      try {
+        const lineage = resolveLineage(action, artifactsFromHistory(history));
+        const reasons: string[] = [];
+        let score = 0;
+        const sensitive = lineage.sensitivity === "Restricted" || lineage.sensitivity === "Confidential";
+        if (lineage.untrusted) { score += 20; reasons.push("this artifact depends on untrusted input"); }
+        if (lineage.sensitivity === "Restricted") { score += 25; reasons.push("artifact lineage carries Restricted data"); }
+        else if (lineage.sensitivity === "Confidential") { score += 15; reasons.push("artifact lineage carries Confidential data"); }
+        if (action.privilegeLevel >= 4) { score += 15; reasons.push("high privilege action"); }
+        if (action.destinationTrust === "Untrusted") { score += 30; reasons.push("destination is untrusted"); }
+        else if (action.destinationTrust === "Unknown") { score += 15; reasons.push("destination trust is unknown"); }
+        if (action.operation === "upload" && sensitive && action.destinationTrust !== "Trusted") {
+          score = Math.max(score, 70);
+          reasons.push("sensitive artifact cannot leave the trusted boundary");
+        }
+        score = clamp(score, 0, 100);
+        return { actionId: action.id, score, reasons, decision: score >= 70 ? "Block" : score >= 40 ? "Review" : "Allow",
+          historyLength: history.length, effectiveSensitivity: lineage.sensitivity, sourceArtifactIds: lineage.sources };
+      } catch (error) {
+        return { actionId: action.id, score: 100, decision: "Block", historyLength: history.length,
+          reasons: [error instanceof Error ? error.message : "Artifact lineage could not be resolved"] };
+      }
+    }
     const reasons: string[] = [];
     let score = 0;
 
@@ -83,11 +108,12 @@ export class FlightRecorder {
 
   record(action: ActionEvent): void {
     const history = this.sessions.get(action.sessionId) ?? [];
-    history.push(action);
+    if (action.dataFlow) resolveLineage(action, artifactsFromHistory(history));
+    history.push(structuredClone(action));
     this.sessions.set(action.sessionId, history);
   }
 
   history(sessionId: string): ActionEvent[] {
-    return [...(this.sessions.get(sessionId) ?? [])];
+    return structuredClone(this.sessions.get(sessionId) ?? []);
   }
 }
