@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { platform, release } from "node:os";
+import { pathToFileURL } from "node:url";
 import type { BenchmarkRow, StrategyName } from "./benchmark.js";
 
 interface Aggregate {
@@ -123,4 +124,4 @@ function main() {
   process.stderr.write(`wrote summary to ${output}\n`);
 }
 
-if (process.argv[1] && import.meta.url === new URL("file://" + process.argv[1]).href) main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();
