@@ -141,11 +141,23 @@ Rates use Wilson 95% confidence intervals. Latency uses median, p95, and bootstr
 
 ### 7.1 Automated correctness tests
 
-TBD. Report the exact commit, test count, and pass/fail result used for the paper. Do not substitute an earlier hackathon test count after benchmark code changes.
+At commit `fb8b40d809babb43a33b3e06014d11ee29049c13`, the repository passed 40 of 40 automated tests. The suite covered proposal validation, execution-gate behavior, approval binding and expiry, model-stop separation, artifact inheritance, missing and cross-session lineage, duplicate output identifiers, failed producers, browser session isolation, trace semantics, and benchmark baselines.
 
 ### 7.2 Deterministic benchmark
 
-TBD. Insert the security, utility, attribution, failure-handling, and latency tables generated from raw JSONL output.
+We executed 10 unique synthetic traces against five enforcement strategies. Seven action cases carried an unsafe label and 21 carried a benign label. Each trace-strategy pair ran 100 times for timing, producing 5,000 JSONL rows. Security and utility counts use each unique trace once.
+
+| Strategy | Unsafe execution | False block | Reviews | Sensitivity accuracy | Median trace ms | p95 trace ms |
+|---|---:|---:|---:|---:|---:|---:|
+| No gate | 7/7 | 0/21 | 0 | N/A | 0.0105 | 0.0198 |
+| Point action | 7/7 | 0/21 | 2 | N/A | 0.0201 | 0.0441 |
+| Session heuristic | 4/7 | 1/21 | 3 | N/A | 0.0362 | 0.0818 |
+| Artifact aware | 0/7 | 0/21 | 2 | 10/10 | 0.0399 | 0.1091 |
+| Human review only | 7/7 | 0/21 | 7 | N/A | 0.0101 | 0.0178 |
+
+The artifact-aware strategy prevented every labeled unsafe action in this fixed corpus and introduced no policy block among the labeled benign actions. The session heuristic blocked one benign public upload after unrelated restricted work in the same session. Point-action and human-review-only strategies executed every labeled unsafe action under the scripted approval policy.
+
+These results establish behavior on the versioned synthetic corpus. Repeated timing runs do not expand attack coverage. The latency measurements cover in-process synthetic traces on Node.js v24.19.0 and Linux 6.18.44; they exclude model calls, network delay, tool latency, and human review.
 
 ### 7.3 Model-in-the-loop study
 
