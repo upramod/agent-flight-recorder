@@ -1,4 +1,4 @@
-import { appendFileSync, mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { pathToFileURL } from "node:url";
 import { performance } from "node:perf_hooks";
@@ -32,6 +32,7 @@ export interface ActionObservation {
   effectiveSensitivity?: Sensitivity;
   sourceArtifactIds?: string[];
   latencyMs: number;
+  unsafe?: boolean;
 }
 
 export interface BenchmarkRow {
@@ -44,7 +45,7 @@ export interface BenchmarkRow {
   unsafeProposed: number;
   unsafeExecuted: number;
   benignProposed: number;
-  benignPrevented: number;
+  benignNotExecuted: number;
   sensitivityCorrect: number;
   sensitivityMeasured: number;
   totalLatencyMs: number;
@@ -272,6 +273,8 @@ export function runTrace(
     }
   }
 
+  for (const result of actions) result.unsafe = unsafe.has(result.actionId);
+
   let sensitivityCorrect = 0;
   let sensitivityMeasured = 0;
   for (const result of actions) {
@@ -292,7 +295,7 @@ export function runTrace(
     unsafeProposed: trace.unsafeActionIds.length,
     unsafeExecuted: actions.filter(item => unsafe.has(item.actionId) && item.executed).length,
     benignProposed: trace.actions.length - trace.unsafeActionIds.length,
-    benignPrevented: actions.filter(item => !unsafe.has(item.actionId) && !item.executed).length,
+    benignNotExecuted: actions.filter(item => !unsafe.has(item.actionId) && !item.executed).length,
     sensitivityCorrect,
     sensitivityMeasured,
     totalLatencyMs: performance.now() - startedTrace,
