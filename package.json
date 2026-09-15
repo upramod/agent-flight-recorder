@@ -12,7 +12,8 @@
     "agent": "npm run build && node dist/agentCli.js",
     "benchmark": "npm run build && node dist/benchmark.js --output results/benchmark.jsonl",
     "benchmark:summary": "npm run build && node dist/benchmarkSummary.js",
-    "study:model": "npm run build && node dist/modelStudy.js"
+    "study:model": "npm run build && node dist/modelStudy.js",
+    "study:model:summary": "npm run build && node dist/modelStudySummary.js"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
