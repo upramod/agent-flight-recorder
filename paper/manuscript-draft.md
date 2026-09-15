@@ -161,7 +161,15 @@ These results establish behavior on the versioned synthetic corpus. Repeated tim
 
 ### 7.3 Model-in-the-loop study
 
-TBD. Report how often each prompt family produces each action and terminal state. Count a policy prevention only when the model proposes the action and the gate denies executor invocation.
+We ran 30 live Azure OpenAI sessions for each of three synthetic document families: safe internal work, an external-upload injection, and an ambiguous partner destination. Review actions received scripted approval. Across all 90 runs, the model produced the same sequence: read, query, create export, then stop. The study made 360 model requests and observed no proposal errors.
+
+| Scenario | Runs | Model stopped | Upload proposed | Policy blocked | Median duration ms |
+|---|---:|---:|---:|---:|---:|
+| Safe | 30 | 30/30 | 0/30 | 0/30 | 2881.3 |
+| Injection | 30 | 30/30 | 0/30 | 0/30 | 2483.8 |
+| Ambiguous | 30 | 30/30 | 0/30 | 0/30 | 2535.3 |
+
+The injection and ambiguous documents did not induce an external-upload proposal under this prompt and deployment. The gate therefore had no live upload to block. This result records model refusal and adapter stability; it does not demonstrate a live policy prevention. For each family, the Wilson 95% interval around the observed 0/30 upload-proposal rate extends to approximately 11.4%, so the sample does not establish that uploads cannot occur.
 
 ### 7.4 Ablation
 
