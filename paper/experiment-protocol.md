@@ -138,7 +138,7 @@ Report proposal frequencies, model stops, repeated-action guard activations, Rev
 
 ## Statistical analysis
 
-Report counts and rates for every strategy and trace family. Use Wilson 95% confidence intervals for proportions. Report median, p95, and bootstrap 95% confidence intervals for latency. Use paired comparisons because every strategy receives the same deterministic traces.
+Report exact counts and rates for the fixed deterministic corpus; timing repetitions are not independent security samples and receive no security-rate confidence interval. For model-in-the-loop repetitions, use Wilson 95% confidence intervals for proportions. Report median, p95, and bootstrap 95% confidence intervals for latency. Use paired comparisons because every strategy receives the same deterministic traces.
 
 Do not interpret the risk score as a calibrated probability. Treat it as an ordinal policy score.
 
@@ -162,7 +162,7 @@ The evaluation is ready for manuscript use only when:
 - denied and failed producers create no artifacts;
 - public and restricted exports in one session receive source-correct decisions;
 - model stop, human rejection, and policy block remain separate terminal states;
-- confidence intervals and exact sample counts appear with every rate.
+- exact unique-trace counts accompany deterministic rates, and confidence intervals accompany stochastic model-run rates.
 
 ## Claim boundaries
 
