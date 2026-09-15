@@ -9,7 +9,8 @@
     "demo": "npm run build && node dist/demo.js",
     "start": "npm run build && node dist/server.js",
     "test": "npm run build && node --test",
-    "agent": "npm run build && node dist/agentCli.js"
+    "agent": "npm run build && node dist/agentCli.js",
+    "benchmark": "npm run build && node dist/benchmark.js --output results/benchmark.jsonl"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
