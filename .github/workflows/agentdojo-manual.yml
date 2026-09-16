@@ -24,7 +24,7 @@ on:
           - deny
           - approve
       scope:
-        description: Run one case, the ten-pair pilot, or the frozen 30-pair evaluation
+        description: Run one case, pilot, frozen evaluation, or preregistered holdout
         required: true
         default: single
         type: choice
@@ -32,6 +32,7 @@ on:
           - single
           - pilot-10
           - manifest-30
+          - holdout-9
       trusted_email_domain:
         description: Trusted tenant email domain used for outbound recipient checks
         required: true
@@ -121,6 +122,14 @@ jobs:
           set -o pipefail
           python integrations/agentdojo/run_manifest.py --manifest integrations/agentdojo/benchmark-manifest.json --output results/agentdojo/evaluation-30
           python integrations/agentdojo/summarize_pilot.py results/agentdojo/evaluation-30 results/agentdojo/evaluation-30-summary.csv
+
+      - name: Run preregistered holdout
+        if: inputs.scope == 'holdout-9'
+        shell: bash
+        run: |
+          set -o pipefail
+          python integrations/agentdojo/run_manifest.py --manifest integrations/agentdojo/holdout-manifest.json --output results/agentdojo/holdout-9
+          python integrations/agentdojo/summarize_pilot.py results/agentdojo/holdout-9 results/agentdojo/holdout-9-summary.csv
 
       - name: Upload benchmark evidence
         if: always()
