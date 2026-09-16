@@ -59,6 +59,10 @@ class TrustedToolCatalog:
             raise ValueError("Tool catalog must be a JSON object")
         self._rules: dict[str, dict[str, Any]] = raw
 
+    @property
+    def functions(self) -> set[str]:
+        return set(self._rules)
+
     def action(self, function: str, session_id: str) -> dict[str, Any]:
         rule = self._rules.get(function)
         if rule is None:
