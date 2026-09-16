@@ -66,5 +66,22 @@ class ExecutorTests(unittest.TestCase):
         self.assertEqual(catalog_names, runtime_names)
 
 
+    def test_independent_queries_receive_isolated_sessions(self) -> None:
+        executor = FlightRecorderToolsExecutor(self.bridge, TrustedToolCatalog(CATALOG))
+        first = executor.query("first", self.runtime, messages=self.messages("search_files"))[4]
+        second = executor.query("second", self.runtime, messages=self.messages("search_files"))[4]
+        self.assertNotEqual(
+            first["agent_flight_recorder_session_id"],
+            second["agent_flight_recorder_session_id"],
+        )
+        self.assertEqual(
+            len(self.bridge.request({
+                "command": "history",
+                "sessionId": first["agent_flight_recorder_session_id"],
+            })["history"]),
+            1,
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
