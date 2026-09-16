@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import os
-import uuid
 from pathlib import Path
 
 from agentdojo.agent_pipeline import AgentPipeline, InitQuery, SystemMessage, ToolsExecutionLoop
@@ -52,7 +51,6 @@ def main() -> None:
         executor = FlightRecorderToolsExecutor(
             bridge,
             TrustedToolCatalog(args.catalog),
-            session_id=str(uuid.uuid4()),
             review_policy=args.review_policy,
         )
         pipeline = AgentPipeline([
