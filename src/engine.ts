@@ -82,6 +82,15 @@ export class FlightRecorder {
       reasons.push("untrusted input is followed by sensitive-data access");
     }
 
+    // A state-changing action directed outside the trusted boundary after external
+    // input is a prompt-injection boundary crossing even when the payload itself
+    // is not classified as sensitive. Keep this at Review rather than Block so an
+    // interactive deployment can require explicit authorization.
+    if (hasUntrustedInput && action.destinationTrust === "Untrusted") {
+      score = Math.max(score, 40);
+      reasons.push("untrusted input is followed by a state-changing action to an untrusted destination");
+    }
+
     if (accessedSensitiveData && createdExport && action.operation === "upload") {
       score += 30;
       reasons.push("export upload follows sensitive-data access");
