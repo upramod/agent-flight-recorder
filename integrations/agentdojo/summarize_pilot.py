@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import re
 import sys
 from pathlib import Path
@@ -19,9 +20,21 @@ def parse_console(path: Path) -> dict[str, tuple[int, int]]:
 def summarize(root: Path) -> list[dict[str, str | int]]:
     rows: list[dict[str, str | int]] = []
     for path in sorted(root.glob("case-*/**/*-console.txt")):
-        case = path.parts[-3]
+        case = path.relative_to(root).parts[0]
         mode = path.stem.removesuffix("-console")
         values = parse_console(path)
+        policy = {"allow": "", "review": "", "block": "", "executed": "", "denied": ""}
+        audit_path = path.parent / mode / "flight-recorder-policy.jsonl"
+        if audit_path.exists():
+            events = [json.loads(line) for line in audit_path.read_text().splitlines() if line]
+            decisions = [event.get("assessment", {}).get("decision", event.get("decision")) for event in events]
+            policy = {
+                "allow": decisions.count("Allow"),
+                "review": decisions.count("Review"),
+                "block": decisions.count("Block"),
+                "executed": sum(bool(event.get("executed")) for event in events),
+                "denied": sum(not bool(event.get("executed")) for event in events),
+            }
         rows.append({
             "case": case,
             "mode": mode,
@@ -29,6 +42,7 @@ def summarize(root: Path) -> list[dict[str, str | int]]:
             "utility_total": values["utility"][1],
             "security_passed": values["security"][0],
             "security_total": values["security"][1],
+            **policy,
         })
     if not rows:
         raise ValueError(f"No pilot console files found under {root}")
