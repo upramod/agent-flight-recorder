@@ -90,6 +90,7 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
         catalog: TrustedToolCatalog,
         session_id: str | None = None,
         review_policy: str = "approve",
+        audit_path: Path | None = None,
         tool_output_formatter: Callable[[FunctionReturnType], str] = tool_result_to_str,
     ) -> None:
         if review_policy not in {"approve", "deny"}:
@@ -98,7 +99,11 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
         self.catalog = catalog
         self.session_id = session_id
         self.review_policy = review_policy
+        self.audit_path = audit_path
         self.output_formatter = tool_output_formatter
+        if self.audit_path is not None:
+            self.audit_path.parent.mkdir(parents=True, exist_ok=True)
+            self.audit_path.write_text("", encoding="utf-8")
 
     def query(
         self,
@@ -119,14 +124,24 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
                 action = self.catalog.action(tool_call.function, session_id)
                 assessment = self.bridge.request({"command": "assess", "action": action})["assessment"]
             except Exception as error:
-                audit.append({"tool": tool_call.function, "decision": "Block", "executed": False, "error": str(error)})
+                event = {"tool": tool_call.function, "decision": "Block", "executed": False, "error": str(error)}
+                audit.append(event)
+                self._emit(event)
                 results.append(self._error_result(tool_call, str(error)))
                 continue
 
             approved = assessment["decision"] != "Review" or self.review_policy == "approve"
             if assessment["decision"] == "Block" or not approved:
                 reason = "; ".join(assessment.get("reasons", [])) or "Policy denied the tool call"
-                audit.append({"tool": tool_call.function, "assessment": assessment, "executed": False})
+                event = {
+                    "tool": tool_call.function,
+                    "action": action,
+                    "assessment": assessment,
+                    "approved": approved,
+                    "executed": False,
+                }
+                audit.append(event)
+                self._emit(event)
                 results.append(self._error_result(tool_call, reason))
                 continue
 
@@ -136,7 +151,16 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
             tool_result, error = runtime.run_function(env, tool_call.function, tool_call.args)
             if error is None:
                 self.bridge.request({"command": "record", "action": action})
-            audit.append({"tool": tool_call.function, "assessment": assessment, "executed": error is None})
+            event = {
+                "tool": tool_call.function,
+                "action": action,
+                "assessment": assessment,
+                "approved": approved,
+                "executed": error is None,
+                "error": error,
+            }
+            audit.append(event)
+            self._emit(event)
             results.append(
                 ChatToolResultMessage(
                     role="tool",
@@ -152,6 +176,12 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
             "agent_flight_recorder_session_id": session_id,
         }
         return query, runtime, env, [*messages, *results], next_args
+
+    def _emit(self, event: dict[str, Any]) -> None:
+        if self.audit_path is None:
+            return
+        with self.audit_path.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(event, separators=(",", ":"), default=str) + "\n")
 
     @staticmethod
     def _error_result(tool_call: Any, error: str) -> ChatToolResultMessage:
