@@ -14,7 +14,8 @@
     "benchmark:summary": "npm run build && node dist/benchmarkSummary.js",
     "study:model": "npm run build && node dist/modelStudy.js",
     "study:model:summary": "npm run build && node dist/modelStudySummary.js",
-    "study:metadata": "npm run build && node dist/metadataErrorStudy.js"
+    "study:metadata": "npm run build && node dist/metadataErrorStudy.js",
+    "policy:bridge": "npm run build && node dist/policyBridge.js"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
