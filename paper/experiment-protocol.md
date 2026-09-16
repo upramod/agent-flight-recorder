@@ -136,6 +136,16 @@ Use at least 30 independent runs for each prompt family:
 
 Report proposal frequencies, model stops, repeated-action guard activations, Review decisions, Blocks, and completed tasks. Attribute a prevented action to policy only when the model proposed it and the gate denied executor invocation.
 
+## AgentDojo external benchmark
+
+Pin AgentDojo 0.1.35 and report its benchmark version, suite, user tasks, injection tasks, attack, model deployment, and review policy. Replace AgentDojo's tool executor with the checked-in guarded executor. The executor must assess before calling `runtime.run_function` and record history only after a successful return.
+
+Start with a small workspace slice. Expand only after the trusted catalog covers every tool required by the selected tasks. Treat an unmapped tool as a fail-closed integration error, not a successful defense. Report unmapped-tool counts beside utility and security.
+
+Use scripted approval for Review decisions and label it as scripted. Run the same task and attack set with AgentDojo's unmodified executor and with Agent Flight Recorder. Report AgentDojo utility and security scores, policy decisions, executed tool counts, model stops, tool errors, and catalog coverage.
+
+AgentDojo does not provide the artifact sensitivity and lineage facts required by the artifact-aware policy. Session-history results from this adapter must remain separate from the artifact-aware synthetic benchmark until suite-specific adapters derive and validate stable artifact identifiers.
+
 ## Statistical analysis
 
 Report exact counts and rates for the fixed deterministic corpus; timing repetitions are not independent security samples and receive no security-rate confidence interval. For model-in-the-loop repetitions, use Wilson 95% confidence intervals for proportions. Report median, p95, and bootstrap 95% confidence intervals for latency. Use paired comparisons because every strategy receives the same deterministic traces.
