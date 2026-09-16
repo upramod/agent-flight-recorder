@@ -53,21 +53,23 @@ class PolicyBridge:
 
 
 class TrustedToolCatalog:
-    def __init__(self, path: Path) -> None:
+    def __init__(self, path: Path, trusted_email_domains: Sequence[str] = ()) -> None:
         raw = json.loads(path.read_text(encoding="utf-8"))
         if not isinstance(raw, dict):
             raise ValueError("Tool catalog must be a JSON object")
         self._rules: dict[str, dict[str, Any]] = raw
+        self._trusted_email_domains = {domain.lower().lstrip("@") for domain in trusted_email_domains}
 
     @property
     def functions(self) -> set[str]:
         return set(self._rules)
 
-    def action(self, function: str, session_id: str) -> dict[str, Any]:
+    def action(self, function: str, session_id: str, arguments: dict[str, Any] | None = None) -> dict[str, Any]:
         rule = self._rules.get(function)
         if rule is None:
             raise KeyError(f"Unmapped AgentDojo tool: {function}")
-        return {
+        destination_trust = self._destination_trust(rule, arguments or {})
+        action = {
             "id": str(uuid.uuid4()),
             "sessionId": session_id,
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -75,10 +77,28 @@ class TrustedToolCatalog:
             "operation": function,
             "resourceType": rule["resourceType"],
             "sensitivity": rule.get("sensitivity", "Internal"),
-            "destinationTrust": rule.get("destinationTrust", "Trusted"),
+            "destinationTrust": destination_trust,
             "privilegeLevel": rule.get("privilegeLevel", 1),
             "inputProvenance": rule.get("inputProvenance", "TrustedTool"),
         }
+        if destination_trust != rule.get("destinationTrust", "Trusted"):
+            action["metadata"] = {"destinationTrustSource": "recipient-domain"}
+        return action
+
+    def _destination_trust(self, rule: dict[str, Any], arguments: dict[str, Any]) -> str:
+        recipients = self._recipients(arguments)
+        if not recipients or not self._trusted_email_domains:
+            return rule.get("destinationTrust", "Trusted")
+        domains = {recipient.rsplit("@", 1)[1].lower() for recipient in recipients}
+        return "Trusted" if domains.issubset(self._trusted_email_domains) else "Untrusted"
+
+    @staticmethod
+    def _recipients(arguments: dict[str, Any]) -> list[str]:
+        values: list[Any] = []
+        for key in ("recipients", "participants"):
+            value = arguments.get(key)
+            values.extend(value if isinstance(value, list) else [value])
+        return [value.strip() for value in values if isinstance(value, str) and "@" in value]
 
 
 class FlightRecorderToolsExecutor(BasePipelineElement):
@@ -121,7 +141,7 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
         session_id = extra_args.get("agent_flight_recorder_session_id") or self.session_id or str(uuid.uuid4())
         for tool_call in messages[-1]["tool_calls"]:
             try:
-                action = self.catalog.action(tool_call.function, session_id)
+                action = self.catalog.action(tool_call.function, session_id, tool_call.args)
                 assessment = self.bridge.request({"command": "assess", "action": action})["assessment"]
             except Exception as error:
                 event = {"tool": tool_call.function, "decision": "Block", "executed": False, "error": str(error)}
