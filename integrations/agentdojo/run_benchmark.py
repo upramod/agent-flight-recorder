@@ -4,7 +4,7 @@ import argparse
 import os
 from pathlib import Path
 
-from agentdojo.agent_pipeline import AgentPipeline, InitQuery, SystemMessage, ToolsExecutionLoop
+from agentdojo.agent_pipeline import AgentPipeline, InitQuery, SystemMessage, ToolsExecutionLoop, ToolsExecutor
 from agentdojo.agent_pipeline.agent_pipeline import load_system_message
 from agentdojo.agent_pipeline.llms.openai_llm import OpenAILLM
 from agentdojo.attacks.attack_registry import load_attack
@@ -23,6 +23,7 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--injection-task", action="append")
     parser.add_argument("--attack", default="tool_knowledge")
     parser.add_argument("--review-policy", choices=("approve", "deny"), default="approve")
+    parser.add_argument("--mode", choices=("baseline", "flight-recorder"), default="flight-recorder")
     parser.add_argument("--catalog", type=Path, default=Path(__file__).with_name("workspace-policy.json"))
     parser.add_argument("--logdir", type=Path, default=Path("results/agentdojo"))
     parser.add_argument("--force-rerun", action="store_true")
@@ -48,10 +49,14 @@ def main() -> None:
         )
         deployment = required("AZURE_OPENAI_DEPLOYMENT")
         llm = OpenAILLM(client, deployment)
-        executor = FlightRecorderToolsExecutor(
-            bridge,
-            TrustedToolCatalog(args.catalog),
-            review_policy=args.review_policy,
+        executor = (
+            ToolsExecutor()
+            if args.mode == "baseline"
+            else FlightRecorderToolsExecutor(
+                bridge,
+                TrustedToolCatalog(args.catalog),
+                review_policy=args.review_policy,
+            )
         )
         pipeline = AgentPipeline([
             SystemMessage(load_system_message(None)),
@@ -59,7 +64,7 @@ def main() -> None:
             llm,
             ToolsExecutionLoop([executor, llm]),
         ])
-        pipeline.name = "agent-flight-recorder-azure"
+        pipeline.name = f"agent-flight-recorder-azure-{args.mode}-{args.review_policy}"
         suite = get_suite(args.benchmark_version, args.suite)
         args.logdir.mkdir(parents=True, exist_ok=True)
         common = dict(
@@ -85,6 +90,7 @@ def main() -> None:
         if security:
             print(f"security={sum(security)}/{len(security)}")
         print(f"logs={args.logdir}")
+        print(f"mode={args.mode}")
     finally:
         bridge.close()
 
