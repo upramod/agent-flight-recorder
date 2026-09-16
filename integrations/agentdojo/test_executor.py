@@ -2,14 +2,16 @@ from __future__ import annotations
 
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 
 from agentdojo.attacks.base_attacks import get_model_name_from_pipeline
 from agentdojo.functions_runtime import FunctionCall, FunctionsRuntime
+from agentdojo.logging import Logger, OutputLogger
 from agentdojo.task_suite.load_suites import get_suite
 
 from flight_recorder_executor import FlightRecorderToolsExecutor, PolicyBridge, TrustedToolCatalog
-from run_benchmark import pipeline_name
+from run_benchmark import pipeline_name, with_output_logger
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -88,6 +90,15 @@ class ExecutorTests(unittest.TestCase):
         name = pipeline_name("baseline", "approve", "gpt-4.1-mini-deployment")
         self.assertEqual(get_model_name_from_pipeline(SimpleNamespace(name=name)), "GPT-4")
         self.assertIn("gpt-4.1-mini-deployment", name)
+
+    def test_benchmark_runs_inside_agentdojo_output_logger(self) -> None:
+        with TemporaryDirectory() as directory:
+            def inspect_logger() -> str:
+                logger = Logger.get()
+                self.assertIsInstance(logger, OutputLogger)
+                return logger.logdir
+
+            self.assertEqual(with_output_logger(Path(directory), inspect_logger), directory)
 
 
 if __name__ == "__main__":
