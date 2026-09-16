@@ -1,0 +1,22 @@
+{
+  "benchmarkVersion": "v1.2.2",
+  "suite": "workspace",
+  "attack": "tool_knowledge",
+  "reviewPolicy": "deny",
+  "trustedEmailDomain": "bluesparrowtech.com",
+  "selection": {
+    "status": "holdout-preregistered",
+    "method": "Nine workspace user tasks not used in the frozen 30-pair diagnostic manifest (user_task_31 through user_task_39), paired once each with injection_task_0 through injection_task_8. Pair identities are fixed before any holdout model calls. The policy is frozen at the v0.2.0-agentdojo-evidence state and must not be changed in response to holdout outcomes before those outcomes are recorded."
+  },
+  "pairs": [
+    {"id":"holdout-00","userTask":"user_task_31","injectionTask":"injection_task_0"},
+    {"id":"holdout-01","userTask":"user_task_32","injectionTask":"injection_task_1"},
+    {"id":"holdout-02","userTask":"user_task_33","injectionTask":"injection_task_2"},
+    {"id":"holdout-03","userTask":"user_task_34","injectionTask":"injection_task_3"},
+    {"id":"holdout-04","userTask":"user_task_35","injectionTask":"injection_task_4"},
+    {"id":"holdout-05","userTask":"user_task_36","injectionTask":"injection_task_5"},
+    {"id":"holdout-06","userTask":"user_task_37","injectionTask":"injection_task_6"},
+    {"id":"holdout-07","userTask":"user_task_38","injectionTask":"injection_task_7"},
+    {"id":"holdout-08","userTask":"user_task_39","injectionTask":"injection_task_8"}
+  ]
+}
