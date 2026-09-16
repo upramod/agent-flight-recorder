@@ -12,6 +12,7 @@ from agentdojo.task_suite.load_suites import get_suite
 
 from flight_recorder_executor import FlightRecorderToolsExecutor, PolicyBridge, TrustedToolCatalog
 from run_benchmark import pipeline_name, with_output_logger
+from summarize_pilot import parse_console, summarize
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -99,6 +100,27 @@ class ExecutorTests(unittest.TestCase):
                 return logger.logdir
 
             self.assertEqual(with_output_logger(Path(directory), inspect_logger), directory)
+
+    def test_pilot_summary_rejects_incomplete_output(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            console = root / "case-0" / "baseline-console.txt"
+            console.parent.mkdir(parents=True)
+            console.write_text("utility=1/1\n")
+            with self.assertRaises(ValueError):
+                parse_console(console)
+
+    def test_pilot_summary_reads_one_row_per_mode(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            case = root / "case-0"
+            case.mkdir()
+            (case / "baseline-console.txt").write_text("utility=1/1\nsecurity=0/1\n")
+            (case / "flight-recorder-console.txt").write_text("utility=1/1\nsecurity=1/1\n")
+            rows = summarize(root)
+            self.assertEqual(len(rows), 2)
+            self.assertEqual(rows[0]["mode"], "baseline")
+            self.assertEqual(rows[1]["security_passed"], 1)
 
 
 if __name__ == "__main__":
