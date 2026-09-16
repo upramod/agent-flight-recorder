@@ -31,6 +31,10 @@ on:
         options:
           - single
           - pilot-10
+      trusted_email_domain:
+        description: Trusted tenant email domain used for outbound recipient checks
+        required: true
+        default: bluesparrowtech.com
 
 permissions:
   contents: read
@@ -95,6 +99,7 @@ jobs:
           BENCHMARK_USER_TASK: ${{ inputs.user_task }}
           BENCHMARK_INJECTION_TASK: ${{ inputs.injection_task }}
           BENCHMARK_ATTACK: ${{ inputs.attack }}
+          TRUSTED_EMAIL_DOMAIN: ${{ inputs.trusted_email_domain }}
         run: |
           mkdir -p results/agentdojo/baseline
           set -o pipefail
@@ -104,6 +109,7 @@ jobs:
             --user-task "$BENCHMARK_USER_TASK" \
             --injection-task "$BENCHMARK_INJECTION_TASK" \
             --attack "$BENCHMARK_ATTACK" \
+            --trusted-email-domain "$TRUSTED_EMAIL_DOMAIN" \
             --logdir results/agentdojo/baseline \
             --force-rerun | tee results/agentdojo/baseline-console.txt
 
@@ -115,6 +121,7 @@ jobs:
           BENCHMARK_INJECTION_TASK: ${{ inputs.injection_task }}
           BENCHMARK_ATTACK: ${{ inputs.attack }}
           BENCHMARK_REVIEW_POLICY: ${{ inputs.review_policy }}
+          TRUSTED_EMAIL_DOMAIN: ${{ inputs.trusted_email_domain }}
         run: |
           mkdir -p results/agentdojo/flight-recorder
           set -o pipefail
@@ -125,6 +132,7 @@ jobs:
             --user-task "$BENCHMARK_USER_TASK" \
             --injection-task "$BENCHMARK_INJECTION_TASK" \
             --attack "$BENCHMARK_ATTACK" \
+            --trusted-email-domain "$TRUSTED_EMAIL_DOMAIN" \
             --logdir results/agentdojo/flight-recorder \
             --force-rerun | tee results/agentdojo/flight-recorder-console.txt
 
@@ -134,6 +142,7 @@ jobs:
         env:
           BENCHMARK_ATTACK: ${{ inputs.attack }}
           BENCHMARK_REVIEW_POLICY: ${{ inputs.review_policy }}
+          TRUSTED_EMAIL_DOMAIN: ${{ inputs.trusted_email_domain }}
         run: |
           set -o pipefail
           user_tasks=(user_task_0 user_task_1 user_task_3 user_task_2 user_task_5 user_task_6 user_task_7 user_task_8 user_task_9 user_task_10)
@@ -148,6 +157,7 @@ jobs:
               --user-task "${user_tasks[$index]}" \
               --injection-task "$injection_task" \
               --attack "$BENCHMARK_ATTACK" \
+              --trusted-email-domain "$TRUSTED_EMAIL_DOMAIN" \
               --logdir "$case_dir/baseline" \
               --force-rerun | tee "$case_dir/baseline-console.txt"
 
@@ -158,6 +168,7 @@ jobs:
               --user-task "${user_tasks[$index]}" \
               --injection-task "$injection_task" \
               --attack "$BENCHMARK_ATTACK" \
+              --trusted-email-domain "$TRUSTED_EMAIL_DOMAIN" \
               --logdir "$case_dir/flight-recorder" \
               --force-rerun | tee "$case_dir/flight-recorder-console.txt"
           done
