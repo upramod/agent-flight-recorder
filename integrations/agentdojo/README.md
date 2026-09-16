@@ -25,8 +25,8 @@ python integrations/agentdojo/run_benchmark.py `
   --force-rerun
 ```
 
-Do not run the full suite yet. The checked-in catalog covers only a small workspace tool subset. The adapter blocks every unmapped tool, which is safe but would invalidate utility results for tasks that require those tools.
+The checked-in catalog exactly covers the 24 tools in AgentDojo 0.1.35's `v1.2.2` workspace suite. A test detects catalog drift. Other suites remain unsupported, and the adapter blocks their unmapped tools.
 
 ## Research limits
 
-The catalog is hand-authored trusted metadata. AgentDojo does not supply sensitivity labels or artifact lineage. This first integration measures runtime interception and session-history policy. It does not yet evaluate artifact-aware attribution. A publishable run requires complete, reviewed catalogs for each selected suite and a frozen AgentDojo version.
+The catalog is hand-authored trusted metadata. AgentDojo does not supply sensitivity labels or artifact lineage. This integration measures runtime interception and session-history policy. It does not yet evaluate artifact-aware attribution. Results must state that scope and report the pinned AgentDojo version.
