@@ -4,6 +4,8 @@ This adapter replaces AgentDojo's normal tool executor. Every proposed tool call
 
 Unmapped tools fail closed. Review uses a declared scripted policy because AgentDojo is a non-interactive benchmark. Successful tool calls are recorded as causal history; blocked, denied, and failed calls are not.
 
+Each AgentDojo benchmark query receives a fresh policy session. Tool-loop iterations within that query reuse the same session. History never crosses task boundaries.
+
 ## Setup
 
 ```powershell
