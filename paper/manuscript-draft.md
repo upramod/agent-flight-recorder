@@ -141,7 +141,7 @@ Rates use Wilson 95% confidence intervals. Latency uses median, p95, and bootstr
 
 ### 7.1 Automated correctness tests
 
-At commit `fb8b40d809babb43a33b3e06014d11ee29049c13`, the repository passed 40 of 40 automated tests. The suite covered proposal validation, execution-gate behavior, approval binding and expiry, model-stop separation, artifact inheritance, missing and cross-session lineage, duplicate output identifiers, failed producers, browser session isolation, trace semantics, and benchmark baselines.
+The repository passed 44 of 44 automated tests after the metadata-error study was added. The suite covered proposal validation, execution-gate behavior, approval binding and expiry, model-stop separation, artifact inheritance, missing and cross-session lineage, duplicate output identifiers, failed producers, browser session isolation, trace semantics, benchmark baselines, and metadata-corruption behavior.
 
 ### 7.2 Deterministic benchmark
 
@@ -171,9 +171,20 @@ We ran 30 live Azure OpenAI sessions for each of three synthetic document famili
 
 The injection and ambiguous documents did not induce an external-upload proposal under this prompt and deployment. The gate therefore had no live upload to block. This result records model refusal and adapter stability; it does not demonstrate a live policy prevention. For each family, the Wilson 95% interval around the observed 0/30 upload-proposal rate extends to approximately 11.4%, so the sample does not establish that uploads cannot occur.
 
-### 7.4 Ablation
+### 7.4 Trusted metadata sensitivity
 
-TBD. Compare current-action metadata, executed session history, and artifact lineage. The expected question is whether lineage reduces the session heuristic's false blocks without increasing unsafe execution.
+We injected sensitivity-label errors into three unsafe traces using 1,000 deterministic trials per trace at each of six downgrade probabilities. Restricted or Confidential source labels were changed to Public before policy evaluation.
+
+| Downgrade probability | Restricted export | Mixed-source export | Multi-generation export |
+|---:|---:|---:|---:|
+| 0% | 0.0% | 0.0% | 0.0% |
+| 10% | 10.9% | 9.8% | 9.9% |
+| 25% | 25.5% | 26.2% | 23.8% |
+| 50% | 49.4% | 49.2% | 50.0% |
+| 75% | 75.2% | 78.3% | 74.1% |
+| 100% | 100.0% | 100.0% | 100.0% |
+
+Unsafe execution closely tracked the injected downgrade probability. Omitted producer lineage, wrong input references, and complete lineage omission each failed closed in the tested restricted-export trace. Simultaneously omitting lineage and the source sensitivity label reduced the final decision to Review; scripted approval then permitted the unsafe transfer. These results isolate the trusted adapter as a material part of the security boundary.
 
 ## 8. Discussion
 
@@ -187,7 +198,7 @@ Human approval carries its own risk. Review fatigue can convert a pause into rou
 
 ## 9. Limitations
 
-The tools and data are synthetic. The score weights are hand-authored and uncalibrated. The artifact graph is process-local. The trace corpus cannot represent every agent workflow. Azure model behavior can change across deployments and service updates. The study does not test compromised trusted adapters or covert data transfer through undeclared channels. Comparisons with published defenses require faithful implementations or their released artifacts.
+The tools and data are synthetic. The score weights are hand-authored and uncalibrated. The artifact graph is process-local. The trace corpus cannot represent every agent workflow. Azure model behavior can change across deployments and service updates. The metadata study injects accidental corruption but does not test a malicious trusted adapter or covert data transfer through undeclared channels. Comparisons with published defenses require faithful implementations or their released artifacts.
 
 ## 10. Related work
 
