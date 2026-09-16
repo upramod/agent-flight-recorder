@@ -27,6 +27,20 @@ python integrations/agentdojo/run_benchmark.py `
   --force-rerun
 ```
 
+Run the same slice without the gate:
+
+```powershell
+python integrations/agentdojo/run_benchmark.py `
+  --mode baseline `
+  --suite workspace `
+  --user-task user_task_0 `
+  --injection-task injection_task_0 `
+  --attack tool_knowledge `
+  --force-rerun
+```
+
+Use identical task, injection, attack, model, and benchmark versions for both modes. Keep `--review-policy approve` for the primary comparison. A separate `deny` run measures the security and utility cost of rejecting every Review decision.
+
 The checked-in catalog exactly covers the 24 tools in AgentDojo 0.1.35's `v1.2.2` workspace suite. A test detects catalog drift. Other suites remain unsupported, and the adapter blocks their unmapped tools.
 
 ## Research limits
