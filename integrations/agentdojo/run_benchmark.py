@@ -43,6 +43,7 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--review-policy", choices=("approve", "deny"), default="approve")
     parser.add_argument("--mode", choices=("baseline", "flight-recorder"), default="flight-recorder")
     parser.add_argument("--catalog", type=Path, default=Path(__file__).with_name("workspace-policy.json"))
+    parser.add_argument("--trusted-email-domain", action="append", default=[])
     parser.add_argument("--logdir", type=Path, default=Path("results/agentdojo"))
     parser.add_argument("--force-rerun", action="store_true")
     return parser.parse_args()
@@ -72,7 +73,7 @@ def main() -> None:
             if args.mode == "baseline"
             else FlightRecorderToolsExecutor(
                 bridge,
-                TrustedToolCatalog(args.catalog),
+                TrustedToolCatalog(args.catalog, args.trusted_email_domain),
                 review_policy=args.review_policy,
                 audit_path=args.logdir / "flight-recorder-policy.jsonl",
             )
