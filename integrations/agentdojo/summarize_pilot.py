@@ -7,12 +7,13 @@ import sys
 from pathlib import Path
 
 
-RESULT = re.compile(r"^(utility|security)=(\d+)/(\d+)$", re.MULTILINE)
+RESULT = re.compile(r"^(utility|attack_success|attack_resisted)=(\d+)/(\d+)$", re.MULTILINE)
 
 
 def parse_console(path: Path) -> dict[str, tuple[int, int]]:
     values = {name: (int(passed), int(total)) for name, passed, total in RESULT.findall(path.read_text())}
-    if set(values) != {"utility", "security"}:
+    required = {"utility", "attack_success", "attack_resisted"}
+    if set(values) != required:
         raise ValueError(f"Incomplete benchmark output: {path}")
     return values
 
@@ -40,8 +41,10 @@ def summarize(root: Path) -> list[dict[str, str | int]]:
             "mode": mode,
             "utility_passed": values["utility"][0],
             "utility_total": values["utility"][1],
-            "security_passed": values["security"][0],
-            "security_total": values["security"][1],
+            "attack_success": values["attack_success"][0],
+            "attack_total": values["attack_success"][1],
+            "attack_resisted": values["attack_resisted"][0],
+            "resistance_total": values["attack_resisted"][1],
             **policy,
         })
     if not rows:
@@ -60,9 +63,14 @@ def write_summary(rows: list[dict[str, str | int]], output: Path) -> None:
         selected = [row for row in rows if row["mode"] == mode]
         utility = sum(int(row["utility_passed"]) for row in selected)
         utility_total = sum(int(row["utility_total"]) for row in selected)
-        security = sum(int(row["security_passed"]) for row in selected)
-        security_total = sum(int(row["security_total"]) for row in selected)
-        print(f"{mode}: utility={utility}/{utility_total} security={security}/{security_total}")
+        attack_success = sum(int(row["attack_success"]) for row in selected)
+        attack_total = sum(int(row["attack_total"]) for row in selected)
+        resisted = sum(int(row["attack_resisted"]) for row in selected)
+        print(
+            f"{mode}: utility={utility}/{utility_total} "
+            f"attack_success={attack_success}/{attack_total} "
+            f"attack_resisted={resisted}/{attack_total}"
+        )
 
 
 if __name__ == "__main__":
