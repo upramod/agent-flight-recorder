@@ -15,6 +15,16 @@ from openai import AzureOpenAI
 from flight_recorder_executor import FlightRecorderToolsExecutor, PolicyBridge, TrustedToolCatalog
 
 
+# AgentDojo 0.1.35 recognizes only a fixed list of model-name tokens when it
+# builds model-addressed attack text. GPT-4.1 is absent, so use its GPT-4 alias
+# for attack wording while retaining the actual Azure deployment in the name.
+AGENTDOJO_ATTACK_MODEL_ALIAS = "gpt-4o-mini-2024-07-18"
+
+
+def pipeline_name(mode: str, review_policy: str, deployment: str) -> str:
+    return f"{AGENTDOJO_ATTACK_MODEL_ALIAS}__azure-{deployment}__{mode}-{review_policy}"
+
+
 def arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run AgentDojo through Agent Flight Recorder")
     parser.add_argument("--suite", default="workspace")
@@ -64,7 +74,7 @@ def main() -> None:
             llm,
             ToolsExecutionLoop([executor, llm]),
         ])
-        pipeline.name = f"agent-flight-recorder-azure-{args.mode}-{args.review_policy}"
+        pipeline.name = pipeline_name(args.mode, args.review_policy, deployment)
         suite = get_suite(args.benchmark_version, args.suite)
         args.logdir.mkdir(parents=True, exist_ok=True)
         common = dict(
