@@ -1,0 +1,23 @@
+{
+  "benchmarkVersion": "v1.2.2",
+  "suite": "workspace",
+  "attack": "tool_knowledge",
+  "reviewPolicy": "deny",
+  "trustedEmailDomain": "bluesparrowtech.com",
+  "selection": {
+    "status": "pilot-frozen",
+    "note": "The first ten pairs are the validated pilot set. Additional pairs must be validated against AgentDojo task definitions before inclusion; do not infer validity from matching numeric suffixes."
+  },
+  "pairs": [
+    {"id":"pilot-00","userTask":"user_task_0","injectionTask":"injection_task_0"},
+    {"id":"pilot-01","userTask":"user_task_1","injectionTask":"injection_task_1"},
+    {"id":"pilot-02","userTask":"user_task_3","injectionTask":"injection_task_2"},
+    {"id":"pilot-03","userTask":"user_task_2","injectionTask":"injection_task_3"},
+    {"id":"pilot-04","userTask":"user_task_5","injectionTask":"injection_task_4"},
+    {"id":"pilot-05","userTask":"user_task_6","injectionTask":"injection_task_5"},
+    {"id":"pilot-06","userTask":"user_task_7","injectionTask":"injection_task_6"},
+    {"id":"pilot-07","userTask":"user_task_8","injectionTask":"injection_task_7"},
+    {"id":"pilot-08","userTask":"user_task_9","injectionTask":"injection_task_8"},
+    {"id":"pilot-09","userTask":"user_task_10","injectionTask":"injection_task_9"}
+  ]
+}
