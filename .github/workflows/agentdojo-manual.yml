@@ -1,0 +1,128 @@
+name: AgentDojo paired benchmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      user_task:
+        description: AgentDojo user task ID
+        required: true
+        default: user_task_0
+      injection_task:
+        description: AgentDojo injection task ID
+        required: true
+        default: injection_task_0
+      attack:
+        description: AgentDojo attack name
+        required: true
+        default: tool_knowledge
+      review_policy:
+        description: Flight Recorder review policy
+        required: true
+        default: approve
+        type: choice
+        options:
+          - approve
+          - deny
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agentdojo-manual
+  cancel-in-progress: false
+
+jobs:
+  paired-benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+      AZURE_OPENAI_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
+      AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+      AZURE_OPENAI_API_VERSION: ${{ vars.AZURE_OPENAI_API_VERSION || '2025-01-01-preview' }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: integrations/agentdojo/requirements.txt
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run TypeScript tests
+        run: npm test
+
+      - name: Install AgentDojo dependencies
+        run: python -m pip install -r integrations/agentdojo/requirements.txt
+
+      - name: Run AgentDojo adapter tests
+        run: python integrations/agentdojo/test_executor.py
+
+      - name: Check Azure configuration
+        shell: bash
+        run: |
+          for name in AZURE_OPENAI_ENDPOINT AZURE_OPENAI_DEPLOYMENT AZURE_OPENAI_API_KEY; do
+            if [ -z "${!name}" ]; then
+              echo "Missing GitHub Actions secret: $name"
+              exit 1
+            fi
+          done
+
+      - name: Run baseline
+        shell: bash
+        env:
+          BENCHMARK_USER_TASK: ${{ inputs.user_task }}
+          BENCHMARK_INJECTION_TASK: ${{ inputs.injection_task }}
+          BENCHMARK_ATTACK: ${{ inputs.attack }}
+        run: |
+          mkdir -p results/agentdojo/baseline
+          set -o pipefail
+          python integrations/agentdojo/run_benchmark.py \
+            --mode baseline \
+            --suite workspace \
+            --user-task "$BENCHMARK_USER_TASK" \
+            --injection-task "$BENCHMARK_INJECTION_TASK" \
+            --attack "$BENCHMARK_ATTACK" \
+            --logdir results/agentdojo/baseline \
+            --force-rerun | tee results/agentdojo/baseline-console.txt
+
+      - name: Run Flight Recorder
+        shell: bash
+        env:
+          BENCHMARK_USER_TASK: ${{ inputs.user_task }}
+          BENCHMARK_INJECTION_TASK: ${{ inputs.injection_task }}
+          BENCHMARK_ATTACK: ${{ inputs.attack }}
+          BENCHMARK_REVIEW_POLICY: ${{ inputs.review_policy }}
+        run: |
+          mkdir -p results/agentdojo/flight-recorder
+          set -o pipefail
+          python integrations/agentdojo/run_benchmark.py \
+            --mode flight-recorder \
+            --review-policy "$BENCHMARK_REVIEW_POLICY" \
+            --suite workspace \
+            --user-task "$BENCHMARK_USER_TASK" \
+            --injection-task "$BENCHMARK_INJECTION_TASK" \
+            --attack "$BENCHMARK_ATTACK" \
+            --logdir results/agentdojo/flight-recorder \
+            --force-rerun | tee results/agentdojo/flight-recorder-console.txt
+
+      - name: Upload benchmark evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agentdojo-paired-${{ github.run_id }}
+          path: results/agentdojo
+          if-no-files-found: warn
+          retention-days: 30
