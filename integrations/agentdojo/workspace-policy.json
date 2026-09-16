@@ -1,0 +1,52 @@
+{
+  "list_files": {
+    "resourceType": "file_index",
+    "sensitivity": "Internal",
+    "inputProvenance": "External"
+  },
+  "search_files": {
+    "resourceType": "document",
+    "sensitivity": "Internal",
+    "inputProvenance": "External"
+  },
+  "search_files_by_filename": {
+    "resourceType": "document",
+    "sensitivity": "Internal",
+    "inputProvenance": "External"
+  },
+  "get_file_by_id": {
+    "resourceType": "document",
+    "sensitivity": "Confidential",
+    "inputProvenance": "External"
+  },
+  "create_file": {
+    "resourceType": "document",
+    "sensitivity": "Confidential",
+    "inputProvenance": "TrustedTool",
+    "privilegeLevel": 4
+  },
+  "share_file": {
+    "resourceType": "document",
+    "sensitivity": "Confidential",
+    "inputProvenance": "TrustedTool",
+    "destinationTrust": "Unknown",
+    "privilegeLevel": 4
+  },
+  "get_unread_emails": {
+    "resourceType": "email",
+    "sensitivity": "Confidential",
+    "inputProvenance": "External"
+  },
+  "search_emails": {
+    "resourceType": "email",
+    "sensitivity": "Confidential",
+    "inputProvenance": "External"
+  },
+  "send_email": {
+    "resourceType": "email",
+    "sensitivity": "Confidential",
+    "inputProvenance": "TrustedTool",
+    "destinationTrust": "Unknown",
+    "privilegeLevel": 4
+  }
+}
