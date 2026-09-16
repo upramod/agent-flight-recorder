@@ -1,38 +1,33 @@
 {
-  "list_files": {
-    "resourceType": "file_index",
-    "sensitivity": "Internal",
-    "inputProvenance": "External"
-  },
-  "search_files": {
-    "resourceType": "document",
-    "sensitivity": "Internal",
-    "inputProvenance": "External"
-  },
-  "search_files_by_filename": {
-    "resourceType": "document",
-    "sensitivity": "Internal",
-    "inputProvenance": "External"
-  },
-  "get_file_by_id": {
-    "resourceType": "document",
-    "sensitivity": "Confidential",
-    "inputProvenance": "External"
-  },
-  "create_file": {
-    "resourceType": "document",
-    "sensitivity": "Confidential",
-    "inputProvenance": "TrustedTool",
-    "privilegeLevel": 4
-  },
-  "share_file": {
-    "resourceType": "document",
+  "send_email": {
+    "resourceType": "email",
     "sensitivity": "Confidential",
     "inputProvenance": "TrustedTool",
     "destinationTrust": "Unknown",
     "privilegeLevel": 4
   },
+  "delete_email": {
+    "resourceType": "email",
+    "sensitivity": "Confidential",
+    "inputProvenance": "TrustedTool",
+    "privilegeLevel": 4
+  },
   "get_unread_emails": {
+    "resourceType": "email",
+    "sensitivity": "Confidential",
+    "inputProvenance": "External"
+  },
+  "get_sent_emails": {
+    "resourceType": "email",
+    "sensitivity": "Confidential",
+    "inputProvenance": "External"
+  },
+  "get_received_emails": {
+    "resourceType": "email",
+    "sensitivity": "Confidential",
+    "inputProvenance": "External"
+  },
+  "get_draft_emails": {
     "resourceType": "email",
     "sensitivity": "Confidential",
     "inputProvenance": "External"
@@ -42,11 +37,99 @@
     "sensitivity": "Confidential",
     "inputProvenance": "External"
   },
-  "send_email": {
-    "resourceType": "email",
+  "search_contacts_by_name": {
+    "resourceType": "contact",
+    "sensitivity": "Internal",
+    "inputProvenance": "External"
+  },
+  "search_contacts_by_email": {
+    "resourceType": "contact",
+    "sensitivity": "Internal",
+    "inputProvenance": "External"
+  },
+  "get_current_day": {
+    "resourceType": "clock",
+    "sensitivity": "Public",
+    "inputProvenance": "System"
+  },
+  "search_calendar_events": {
+    "resourceType": "calendar_event",
+    "sensitivity": "Internal",
+    "inputProvenance": "External"
+  },
+  "get_day_calendar_events": {
+    "resourceType": "calendar_event",
+    "sensitivity": "Internal",
+    "inputProvenance": "External"
+  },
+  "create_calendar_event": {
+    "resourceType": "calendar_event",
+    "sensitivity": "Internal",
+    "inputProvenance": "TrustedTool",
+    "privilegeLevel": 3
+  },
+  "cancel_calendar_event": {
+    "resourceType": "calendar_event",
+    "sensitivity": "Internal",
+    "inputProvenance": "TrustedTool",
+    "privilegeLevel": 3
+  },
+  "reschedule_calendar_event": {
+    "resourceType": "calendar_event",
+    "sensitivity": "Internal",
+    "inputProvenance": "TrustedTool",
+    "privilegeLevel": 3
+  },
+  "add_calendar_event_participants": {
+    "resourceType": "calendar_event",
+    "sensitivity": "Internal",
+    "inputProvenance": "TrustedTool",
+    "destinationTrust": "Unknown",
+    "privilegeLevel": 3
+  },
+  "append_to_file": {
+    "resourceType": "document",
+    "sensitivity": "Confidential",
+    "inputProvenance": "TrustedTool",
+    "privilegeLevel": 4
+  },
+  "search_files_by_filename": {
+    "resourceType": "document",
+    "sensitivity": "Internal",
+    "inputProvenance": "External"
+  },
+  "create_file": {
+    "resourceType": "document",
+    "sensitivity": "Confidential",
+    "inputProvenance": "TrustedTool",
+    "privilegeLevel": 4
+  },
+  "delete_file": {
+    "resourceType": "document",
+    "sensitivity": "Confidential",
+    "inputProvenance": "TrustedTool",
+    "privilegeLevel": 4
+  },
+  "get_file_by_id": {
+    "resourceType": "document",
+    "sensitivity": "Confidential",
+    "inputProvenance": "External"
+  },
+  "list_files": {
+    "resourceType": "file_index",
+    "sensitivity": "Internal",
+    "inputProvenance": "External"
+  },
+  "share_file": {
+    "resourceType": "document",
     "sensitivity": "Confidential",
     "inputProvenance": "TrustedTool",
     "destinationTrust": "Unknown",
     "privilegeLevel": 4
+  },
+  "search_files": {
+    "resourceType": "document",
+    "sensitivity": "Internal",
+    "inputProvenance": "External"
   }
 }
