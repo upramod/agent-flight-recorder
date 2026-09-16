@@ -2,11 +2,14 @@ from __future__ import annotations
 
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 
+from agentdojo.attacks.base_attacks import get_model_name_from_pipeline
 from agentdojo.functions_runtime import FunctionCall, FunctionsRuntime
 from agentdojo.task_suite.load_suites import get_suite
 
 from flight_recorder_executor import FlightRecorderToolsExecutor, PolicyBridge, TrustedToolCatalog
+from run_benchmark import pipeline_name
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -65,7 +68,6 @@ class ExecutorTests(unittest.TestCase):
         catalog_names = TrustedToolCatalog(CATALOG).functions
         self.assertEqual(catalog_names, runtime_names)
 
-
     def test_independent_queries_receive_isolated_sessions(self) -> None:
         executor = FlightRecorderToolsExecutor(self.bridge, TrustedToolCatalog(CATALOG))
         first = executor.query("first", self.runtime, messages=self.messages("search_files"))[4]
@@ -81,6 +83,11 @@ class ExecutorTests(unittest.TestCase):
             })["history"]),
             1,
         )
+
+    def test_benchmark_pipeline_name_is_accepted_by_agentdojo_attacks(self) -> None:
+        name = pipeline_name("baseline", "approve", "gpt-4.1-mini-deployment")
+        self.assertEqual(get_model_name_from_pipeline(SimpleNamespace(name=name)), "GPT-4")
+        self.assertIn("gpt-4.1-mini-deployment", name)
 
 
 if __name__ == "__main__":
