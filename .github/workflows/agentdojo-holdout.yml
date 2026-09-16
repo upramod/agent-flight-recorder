@@ -1,0 +1,113 @@
+name: AgentDojo preregistered holdout
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/agentdojo-holdout.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agentdojo-holdout
+  cancel-in-progress: false
+
+jobs:
+  holdout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+      AZURE_OPENAI_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
+      AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+      AZURE_OPENAI_API_VERSION: ${{ vars.AZURE_OPENAI_API_VERSION || '2025-01-01-preview' }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: integrations/agentdojo/requirements.txt
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run TypeScript regression tests
+        run: npm test
+
+      - name: Install AgentDojo dependencies
+        run: python -m pip install -r integrations/agentdojo/requirements.txt
+
+      - name: Run AgentDojo adapter tests
+        run: python integrations/agentdojo/test_executor.py
+
+      - name: Validate preregistered protocol and holdout
+        run: python integrations/agentdojo/test_protocol.py
+
+      - name: Check Azure configuration
+        shell: bash
+        run: |
+          for name in AZURE_OPENAI_ENDPOINT AZURE_OPENAI_DEPLOYMENT AZURE_OPENAI_API_KEY; do
+            if [ -z "${!name}" ]; then
+              echo "Missing GitHub Actions secret: $name"
+              exit 1
+            fi
+          done
+
+      - name: Run frozen 30-pair holdout
+        shell: bash
+        run: |
+          set -o pipefail
+          python integrations/agentdojo/run_manifest.py \
+            --manifest integrations/agentdojo/holdout-manifest.json \
+            --exclude-manifest integrations/agentdojo/benchmark-manifest.json \
+            --output results/agentdojo/holdout | tee results-holdout-console.txt
+
+      - name: Summarize paired holdout
+        if: success()
+        shell: bash
+        run: |
+          set -o pipefail
+          python integrations/agentdojo/summarize_pilot.py \
+            results/agentdojo/holdout \
+            results/agentdojo/holdout-summary.csv | tee results/agentdojo/holdout-summary.txt
+
+      - name: Run preregistered paired analysis
+        if: success()
+        run: |
+          python integrations/agentdojo/analyze_paired.py \
+            results/agentdojo/holdout-summary.csv \
+            --json results/agentdojo/holdout-analysis.json \
+            --markdown results/agentdojo/holdout-analysis.md
+
+      - name: Record evidence checksums
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p results/agentdojo
+          printf '%s\n' "$GITHUB_SHA" > results/agentdojo/git-sha.txt
+          find results/agentdojo -type f -print0 | sort -z | xargs -0 sha256sum > results/agentdojo/file-sha256.txt || true
+
+      - name: Upload holdout evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: agentdojo-holdout-${{ github.run_id }}
+          path: |
+            results/agentdojo
+            results-holdout-console.txt
+          if-no-files-found: warn
+          retention-days: 90
