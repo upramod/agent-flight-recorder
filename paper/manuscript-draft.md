@@ -189,9 +189,17 @@ Human approval carries its own risk. Review fatigue can convert a pause into rou
 
 The tools and data are synthetic. The score weights are hand-authored and uncalibrated. The artifact graph is process-local. The trace corpus cannot represent every agent workflow. Azure model behavior can change across deployments and service updates. The study does not test compromised trusted adapters or covert data transfer through undeclared channels. Comparisons with published defenses require faithful implementations or their released artifacts.
 
-## 10. Related work plan
+## 10. Related work
 
-The final section will compare six control families: indirect prompt-injection benchmarks, input and context isolation, model-side attack recognition, temporal or causal diagnosis, capability and tool authorization, and information-flow or provenance enforcement. The comparison will state each defense's enforcement point, trusted inputs, state model, data attribution, and failure mode. Novelty claims will follow that comparison rather than precede it.
+Greshake et al. established indirect prompt injection as a practical attack against LLM-integrated applications. InjecAgent and AgentDojo then supplied tool-oriented tasks for measuring attack success and utility. These benchmarks are broader than our fixed synthetic corpus, which currently serves as an implementation correctness suite.
+
+CaMeL constructs explicit control and data flows from a trusted query and uses capabilities to prevent unauthorized flows. RTBAS adapts information-flow control to tool agents and requests confirmation when integrity or confidentiality cannot be established. Both systems overlap our goal of stopping sensitive data from reaching unauthorized tools. Agent Flight Recorder observes proposals from an existing agent and relies on trusted adapter labels, which simplifies integration but provides weaker guarantees when adapters omit or mislabel dependencies.
+
+MELON, AgentSentry, and AttriGuard use re-execution or counterfactual analysis to infer whether untrusted observations caused a tool action. Agent Flight Recorder performs no causal inference. Its artifact links are application-supplied facts. The policy is deterministic after those facts arrive, but its correctness depends on the trusted adapter.
+
+AgentArmor is the closest prior design. It converts runtime traces into control-flow, data-flow, and program-dependence representations, attaches security properties, and applies a type system. Our prototype uses a smaller session-local artifact graph and emphasizes executed-only history, action-bound approval, and distinct audit outcomes. We therefore do not claim the first trajectory-aware runtime defense or the first data-flow policy for agents.
+
+Adaptive evaluations have bypassed multiple prompt-injection defenses, which limits conclusions from fixed attacks. A competitive security claim requires evaluation on AgentDojo or InjecAgent with adaptive variants and a direct comparison against stronger data-flow or program-analysis baselines. The present results support implementation semantics on a declared corpus.
 
 ## 11. Conclusion
 
