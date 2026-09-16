@@ -43,10 +43,7 @@ Use identical task, injection, attack, model, and benchmark versions for both mo
 
 The checked-in catalog exactly covers the 24 tools in AgentDojo 0.1.35's `v1.2.2` workspace suite. A test detects catalog drift. Other suites remain unsupported, and the adapter blocks their unmapped tools.
 
-## Research limits
-
-The catalog is hand-authored trusted metadata. AgentDojo does not supply sensitivity labels or artifact lineage. This integration measures runtime interception and session-history policy. It does not yet evaluate artifact-aware attribution. Results must state that scope and report the pinned AgentDojo version.
-# AgentDojo integration
+## Outbound trust boundary
 
 Outbound email trust is configured at runtime, never inferred from model output. Pass one or more trusted tenant domains when running a benchmark:
 
@@ -55,3 +52,7 @@ python integrations/agentdojo/run_benchmark.py --trusted-email-domain bluesparro
 ```
 
 Recipients outside those domains are labeled `Untrusted` before the TypeScript policy engine decides whether the tool call may execute.
+
+## Research limits
+
+The catalog is hand-authored trusted metadata. AgentDojo does not supply sensitivity labels or artifact lineage. This integration measures runtime interception and session-history policy. It does not yet evaluate artifact-aware attribution. Results must state that scope and report the pinned AgentDojo version.
