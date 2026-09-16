@@ -25,48 +25,77 @@ test("allows a low-risk action", () => {
 test("raises risk when untrusted input precedes restricted access", () => {
   const recorder = new FlightRecorder();
   recorder.assess(action("a1", { inputProvenance: "UntrustedDocument" }));
-  const result = recorder.assess(action("a2", {
-    operation: "query",
-    resourceType: "customer_records",
-    sensitivity: "Restricted",
-    privilegeLevel: 4
-  }));
+  const result = recorder.assess(action("a2", { operation: "query", resourceType: "customer_records", sensitivity: "Restricted", privilegeLevel: 4 }));
   assert.equal(result.decision, "Review");
   assert.ok(result.reasons.some(reason => reason.includes("untrusted input")));
 });
 
 test("treats AgentDojo external tool output as untrusted input", () => {
   const recorder = new FlightRecorder();
-  const result = recorder.assess(action("external", {
-    inputProvenance: "External",
-    sensitivity: "Internal"
-  }));
+  const result = recorder.assess(action("external", { inputProvenance: "External", sensitivity: "Internal" }));
   assert.equal(result.score, 20);
   assert.ok(result.reasons.some(reason => reason.includes("external system")));
+});
+
+test("reviews an untrusted calendar mutation after external calendar input", () => {
+  const recorder = new FlightRecorder();
+  recorder.assess(action("calendar-read", {
+    operation: "search_calendar_events",
+    resourceType: "calendar_event",
+    sensitivity: "Internal",
+    inputProvenance: "External"
+  }));
+  const result = recorder.assess(action("calendar-write", {
+    operation: "create_calendar_event",
+    resourceType: "calendar_event",
+    sensitivity: "Internal",
+    destinationTrust: "Untrusted",
+    privilegeLevel: 3,
+    inputProvenance: "TrustedTool"
+  }));
+  assert.equal(result.decision, "Review");
+  assert.ok(result.score >= 40);
+  assert.ok(result.reasons.some(reason => reason.includes("state-changing action to an untrusted destination")));
+});
+
+test("denied intermediate actions do not erase external-input trajectory risk", () => {
+  const recorder = new FlightRecorder();
+  recorder.record(action("calendar-read", {
+    operation: "search_calendar_events",
+    resourceType: "calendar_event",
+    sensitivity: "Internal",
+    inputProvenance: "External"
+  }));
+  const result = recorder.assess(action("calendar-write", {
+    operation: "create_calendar_event",
+    resourceType: "calendar_event",
+    sensitivity: "Internal",
+    destinationTrust: "Untrusted",
+    privilegeLevel: 3,
+    inputProvenance: "TrustedTool"
+  }), false);
+  assert.equal(result.decision, "Review");
+});
+
+test("does not penalize an untrusted destination without prior external input beyond its point risk", () => {
+  const result = new FlightRecorder().assess(action("calendar-write", {
+    operation: "create_calendar_event",
+    resourceType: "calendar_event",
+    sensitivity: "Internal",
+    destinationTrust: "Untrusted",
+    privilegeLevel: 3,
+    inputProvenance: "TrustedTool"
+  }));
+  assert.equal(result.score, 30);
+  assert.equal(result.decision, "Allow");
 });
 
 test("blocks an export upload after the attack trajectory", () => {
   const recorder = new FlightRecorder();
   recorder.assess(action("a1", { inputProvenance: "UntrustedDocument" }));
-  recorder.assess(action("a2", {
-    operation: "query",
-    resourceType: "customer_records",
-    sensitivity: "Restricted",
-    privilegeLevel: 4
-  }));
-  recorder.assess(action("a3", {
-    operation: "create_export",
-    resourceType: "data_export",
-    sensitivity: "Restricted",
-    privilegeLevel: 4
-  }));
-  const result = recorder.assess(action("a4", {
-    operation: "upload",
-    resourceType: "data_export",
-    sensitivity: "Restricted",
-    destinationTrust: "Untrusted",
-    privilegeLevel: 4
-  }));
+  recorder.assess(action("a2", { operation: "query", resourceType: "customer_records", sensitivity: "Restricted", privilegeLevel: 4 }));
+  recorder.assess(action("a3", { operation: "create_export", resourceType: "data_export", sensitivity: "Restricted", privilegeLevel: 4 }));
+  const result = recorder.assess(action("a4", { operation: "upload", resourceType: "data_export", sensitivity: "Restricted", destinationTrust: "Untrusted", privilegeLevel: 4 }));
   assert.equal(result.decision, "Block");
   assert.ok(result.score >= 70);
 });
@@ -74,16 +103,10 @@ test("blocks an export upload after the attack trajectory", () => {
 test("does not execute a blocked action", () => {
   const gate = new ExecutionGate(new FlightRecorder());
   let toolCalled = false;
-  const result = gate.evaluate(action("blocked", {
-    operation: "upload",
-    sensitivity: "Restricted",
-    destinationTrust: "Untrusted",
-    privilegeLevel: 4
-  }), () => {
+  const result = gate.evaluate(action("blocked", { operation: "upload", sensitivity: "Restricted", destinationTrust: "Untrusted", privilegeLevel: 4 }), () => {
     toolCalled = true;
     return "should never be returned";
   });
-
   assert.equal(result.assessment.decision, "Block");
   assert.equal(result.executed, false);
   assert.equal(toolCalled, false);
@@ -91,23 +114,11 @@ test("does not execute a blocked action", () => {
 
 test("requires approval before executing a review action", () => {
   const gate = new ExecutionGate(new FlightRecorder());
-  const actionToReview = action("review", {
-    operation: "query",
-    resourceType: "customer_records",
-    sensitivity: "Restricted",
-    privilegeLevel: 4
-  });
-
+  const actionToReview = action("review", { operation: "query", resourceType: "customer_records", sensitivity: "Restricted", privilegeLevel: 4 });
   const pending = gate.evaluate(actionToReview, () => "executed");
   assert.equal(pending.approvalRequired, true);
   assert.equal(pending.executed, false);
-
-  const approved = gate.evaluate(action("approved", {
-    operation: "query",
-    resourceType: "customer_records",
-    sensitivity: "Restricted",
-    privilegeLevel: 4
-  }), () => "executed", true);
+  const approved = gate.evaluate(action("approved", { operation: "query", resourceType: "customer_records", sensitivity: "Restricted", privilegeLevel: 4 }), () => "executed", true);
   assert.equal(approved.executed, true);
   assert.equal(approved.output, "executed");
 });
