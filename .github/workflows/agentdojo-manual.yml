@@ -18,11 +18,11 @@ on:
       review_policy:
         description: Flight Recorder review policy
         required: true
-        default: approve
+        default: deny
         type: choice
         options:
-          - approve
           - deny
+          - approve
       scope:
         description: Run one smoke case or ten paired pilot cases
         required: true
