@@ -93,6 +93,7 @@ def main() -> None:
             force_rerun=args.force_rerun,
             benchmark_version=args.benchmark_version,
         )
+
         def run():
             if args.attack:
                 attack = load_attack(args.attack, suite, pipeline)
@@ -107,10 +108,13 @@ def main() -> None:
 
         result = with_output_logger(args.logdir, run)
         utility = list(result["utility_results"].values())
-        security = list(result["security_results"].values())
+        attack_success = list(result["security_results"].values())
         print(f"utility={sum(utility)}/{len(utility)}")
-        if security:
-            print(f"security={sum(security)}/{len(security)}")
+        if attack_success:
+            successes = sum(attack_success)
+            total = len(attack_success)
+            print(f"attack_success={successes}/{total}")
+            print(f"attack_resisted={total - successes}/{total}")
         print(f"logs={args.logdir}")
         print(f"mode={args.mode}")
     finally:
