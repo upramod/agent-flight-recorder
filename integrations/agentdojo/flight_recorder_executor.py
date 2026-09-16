@@ -88,7 +88,7 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
         self,
         bridge: PolicyBridge,
         catalog: TrustedToolCatalog,
-        session_id: str,
+        session_id: str | None = None,
         review_policy: str = "approve",
         tool_output_formatter: Callable[[FunctionReturnType], str] = tool_result_to_str,
     ) -> None:
@@ -113,9 +113,10 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
 
         results: list[ChatToolResultMessage] = []
         audit = list(extra_args.get("agent_flight_recorder", []))
+        session_id = extra_args.get("agent_flight_recorder_session_id") or self.session_id or str(uuid.uuid4())
         for tool_call in messages[-1]["tool_calls"]:
             try:
-                action = self.catalog.action(tool_call.function, self.session_id)
+                action = self.catalog.action(tool_call.function, session_id)
                 assessment = self.bridge.request({"command": "assess", "action": action})["assessment"]
             except Exception as error:
                 audit.append({"tool": tool_call.function, "decision": "Block", "executed": False, "error": str(error)})
@@ -145,7 +146,11 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
                     error=error,
                 )
             )
-        next_args = {**extra_args, "agent_flight_recorder": audit}
+        next_args = {
+            **extra_args,
+            "agent_flight_recorder": audit,
+            "agent_flight_recorder_session_id": session_id,
+        }
         return query, runtime, env, [*messages, *results], next_args
 
     @staticmethod
