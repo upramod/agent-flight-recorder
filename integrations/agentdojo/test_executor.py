@@ -87,6 +87,37 @@ class ExecutorTests(unittest.TestCase):
         catalog_names = TrustedToolCatalog(CATALOG).functions
         self.assertEqual(catalog_names, runtime_names)
 
+    def test_recipient_domains_define_the_outbound_trust_boundary(self) -> None:
+        catalog = TrustedToolCatalog(CATALOG, ["bluesparrowtech.com"])
+        internal = catalog.action(
+            "send_email",
+            "domain-boundary",
+            {"recipients": ["teammate@bluesparrowtech.com"]},
+        )
+        external = catalog.action(
+            "send_email",
+            "domain-boundary",
+            {"recipients": ["attacker@outside.invalid"]},
+        )
+        self.assertEqual(internal["destinationTrust"], "Trusted")
+        self.assertEqual(internal["metadata"]["destinationTrustSource"], "recipient-domain")
+        self.assertEqual(external["destinationTrust"], "Untrusted")
+        self.assertEqual(external["metadata"]["destinationTrustSource"], "recipient-domain")
+
+    def test_external_email_after_external_input_is_blocked(self) -> None:
+        catalog = TrustedToolCatalog(CATALOG, ["bluesparrowtech.com"])
+        session_id = "external-email-block"
+        source = catalog.action("search_calendar_events", session_id, {"query": "meeting"})
+        self.bridge.request({"command": "record", "action": source})
+        email = catalog.action(
+            "send_email",
+            session_id,
+            {"recipients": ["attacker@outside.invalid"], "subject": "report", "body": "data"},
+        )
+        assessment = self.bridge.request({"command": "assess", "action": email})["assessment"]
+        self.assertEqual(assessment["decision"], "Block")
+        self.assertGreaterEqual(assessment["score"], 70)
+
     def test_independent_queries_receive_isolated_sessions(self) -> None:
         executor = FlightRecorderToolsExecutor(self.bridge, TrustedToolCatalog(CATALOG))
         first = executor.query("first", self.runtime, messages=self.messages("search_files"))[4]
