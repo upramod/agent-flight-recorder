@@ -24,13 +24,14 @@ on:
           - deny
           - approve
       scope:
-        description: Run one smoke case or ten paired pilot cases
+        description: Run one case, the ten-pair pilot, or the frozen 30-pair evaluation
         required: true
         default: single
         type: choice
         options:
           - single
           - pilot-10
+          - manifest-30
       trusted_email_domain:
         description: Trusted tenant email domain used for outbound recipient checks
         required: true
@@ -56,93 +57,51 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
-
       - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
-
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
           python-version: '3.12'
           cache: pip
           cache-dependency-path: integrations/agentdojo/requirements.txt
-
       - name: Install Node.js dependencies
         run: npm ci
-
       - name: Run TypeScript tests
         run: npm test
-
       - name: Install AgentDojo dependencies
         run: python -m pip install -r integrations/agentdojo/requirements.txt
-
       - name: Run AgentDojo adapter tests
         run: python integrations/agentdojo/test_executor.py
-
       - name: Check Azure configuration
         shell: bash
         run: |
           for name in AZURE_OPENAI_ENDPOINT AZURE_OPENAI_DEPLOYMENT AZURE_OPENAI_API_KEY; do
-            if [ -z "${!name}" ]; then
-              echo "Missing GitHub Actions secret: $name"
-              exit 1
-            fi
+            if [ -z "${!name}" ]; then echo "Missing GitHub Actions secret: $name"; exit 1; fi
           done
 
       - name: Run baseline
         if: inputs.scope == 'single'
         shell: bash
-        env:
-          BENCHMARK_USER_TASK: ${{ inputs.user_task }}
-          BENCHMARK_INJECTION_TASK: ${{ inputs.injection_task }}
-          BENCHMARK_ATTACK: ${{ inputs.attack }}
-          TRUSTED_EMAIL_DOMAIN: ${{ inputs.trusted_email_domain }}
         run: |
           mkdir -p results/agentdojo/baseline
           set -o pipefail
-          python integrations/agentdojo/run_benchmark.py \
-            --mode baseline \
-            --suite workspace \
-            --user-task "$BENCHMARK_USER_TASK" \
-            --injection-task "$BENCHMARK_INJECTION_TASK" \
-            --attack "$BENCHMARK_ATTACK" \
-            --trusted-email-domain "$TRUSTED_EMAIL_DOMAIN" \
-            --logdir results/agentdojo/baseline \
-            --force-rerun | tee results/agentdojo/baseline-console.txt
+          python integrations/agentdojo/run_benchmark.py --mode baseline --suite workspace --user-task "${{ inputs.user_task }}" --injection-task "${{ inputs.injection_task }}" --attack "${{ inputs.attack }}" --trusted-email-domain "${{ inputs.trusted_email_domain }}" --logdir results/agentdojo/baseline --force-rerun | tee results/agentdojo/baseline-console.txt
 
       - name: Run Flight Recorder
         if: inputs.scope == 'single'
         shell: bash
-        env:
-          BENCHMARK_USER_TASK: ${{ inputs.user_task }}
-          BENCHMARK_INJECTION_TASK: ${{ inputs.injection_task }}
-          BENCHMARK_ATTACK: ${{ inputs.attack }}
-          BENCHMARK_REVIEW_POLICY: ${{ inputs.review_policy }}
-          TRUSTED_EMAIL_DOMAIN: ${{ inputs.trusted_email_domain }}
         run: |
           mkdir -p results/agentdojo/flight-recorder
           set -o pipefail
-          python integrations/agentdojo/run_benchmark.py \
-            --mode flight-recorder \
-            --review-policy "$BENCHMARK_REVIEW_POLICY" \
-            --suite workspace \
-            --user-task "$BENCHMARK_USER_TASK" \
-            --injection-task "$BENCHMARK_INJECTION_TASK" \
-            --attack "$BENCHMARK_ATTACK" \
-            --trusted-email-domain "$TRUSTED_EMAIL_DOMAIN" \
-            --logdir results/agentdojo/flight-recorder \
-            --force-rerun | tee results/agentdojo/flight-recorder-console.txt
+          python integrations/agentdojo/run_benchmark.py --mode flight-recorder --review-policy "${{ inputs.review_policy }}" --suite workspace --user-task "${{ inputs.user_task }}" --injection-task "${{ inputs.injection_task }}" --attack "${{ inputs.attack }}" --trusted-email-domain "${{ inputs.trusted_email_domain }}" --logdir results/agentdojo/flight-recorder --force-rerun | tee results/agentdojo/flight-recorder-console.txt
 
       - name: Run ten-pair pilot
         if: inputs.scope == 'pilot-10'
         shell: bash
-        env:
-          BENCHMARK_ATTACK: ${{ inputs.attack }}
-          BENCHMARK_REVIEW_POLICY: ${{ inputs.review_policy }}
-          TRUSTED_EMAIL_DOMAIN: ${{ inputs.trusted_email_domain }}
         run: |
           set -o pipefail
           user_tasks=(user_task_0 user_task_1 user_task_3 user_task_2 user_task_5 user_task_6 user_task_7 user_task_8 user_task_9 user_task_10)
@@ -150,32 +109,18 @@ jobs:
             case_dir="results/agentdojo/pilot/case-$index"
             injection_task="injection_task_$index"
             mkdir -p "$case_dir/baseline" "$case_dir/flight-recorder"
-
-            python integrations/agentdojo/run_benchmark.py \
-              --mode baseline \
-              --suite workspace \
-              --user-task "${user_tasks[$index]}" \
-              --injection-task "$injection_task" \
-              --attack "$BENCHMARK_ATTACK" \
-              --trusted-email-domain "$TRUSTED_EMAIL_DOMAIN" \
-              --logdir "$case_dir/baseline" \
-              --force-rerun | tee "$case_dir/baseline-console.txt"
-
-            python integrations/agentdojo/run_benchmark.py \
-              --mode flight-recorder \
-              --review-policy "$BENCHMARK_REVIEW_POLICY" \
-              --suite workspace \
-              --user-task "${user_tasks[$index]}" \
-              --injection-task "$injection_task" \
-              --attack "$BENCHMARK_ATTACK" \
-              --trusted-email-domain "$TRUSTED_EMAIL_DOMAIN" \
-              --logdir "$case_dir/flight-recorder" \
-              --force-rerun | tee "$case_dir/flight-recorder-console.txt"
+            python integrations/agentdojo/run_benchmark.py --mode baseline --suite workspace --user-task "${user_tasks[$index]}" --injection-task "$injection_task" --attack "${{ inputs.attack }}" --trusted-email-domain "${{ inputs.trusted_email_domain }}" --logdir "$case_dir/baseline" --force-rerun | tee "$case_dir/baseline-console.txt"
+            python integrations/agentdojo/run_benchmark.py --mode flight-recorder --review-policy "${{ inputs.review_policy }}" --suite workspace --user-task "${user_tasks[$index]}" --injection-task "$injection_task" --attack "${{ inputs.attack }}" --trusted-email-domain "${{ inputs.trusted_email_domain }}" --logdir "$case_dir/flight-recorder" --force-rerun | tee "$case_dir/flight-recorder-console.txt"
           done
+          python integrations/agentdojo/summarize_pilot.py results/agentdojo/pilot results/agentdojo/pilot-summary.csv
 
-          python integrations/agentdojo/summarize_pilot.py \
-            results/agentdojo/pilot \
-            results/agentdojo/pilot-summary.csv
+      - name: Run frozen 30-pair evaluation
+        if: inputs.scope == 'manifest-30'
+        shell: bash
+        run: |
+          set -o pipefail
+          python integrations/agentdojo/run_manifest.py --manifest integrations/agentdojo/benchmark-manifest.json --output results/agentdojo/evaluation-30
+          python integrations/agentdojo/summarize_pilot.py results/agentdojo/evaluation-30 results/agentdojo/evaluation-30-summary.csv
 
       - name: Upload benchmark evidence
         if: always()
