@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
@@ -65,6 +66,21 @@ class ExecutorTests(unittest.TestCase):
         self.assertIn("Unmapped AgentDojo tool", messages[-1]["error"])
         self.assertFalse(extra["agent_flight_recorder"][0]["executed"])
 
+    def test_policy_sidecar_records_decision_and_execution(self) -> None:
+        with TemporaryDirectory() as directory:
+            audit_path = Path(directory) / "policy.jsonl"
+            executor = FlightRecorderToolsExecutor(
+                self.bridge,
+                TrustedToolCatalog(CATALOG),
+                session_id="sidecar-test",
+                audit_path=audit_path,
+            )
+            executor.query("query", self.runtime, messages=self.messages("search_files"))
+            events = [json.loads(line) for line in audit_path.read_text().splitlines()]
+            self.assertEqual(len(events), 1)
+            self.assertEqual(events[0]["assessment"]["decision"], "Allow")
+            self.assertTrue(events[0]["executed"])
+
     def test_catalog_exactly_covers_pinned_workspace_suite(self) -> None:
         suite = get_suite("v1.2.2", "workspace")
         runtime_names = {function.name for function in suite.tools}
@@ -117,10 +133,20 @@ class ExecutorTests(unittest.TestCase):
             case.mkdir()
             (case / "baseline-console.txt").write_text("utility=1/1\nsecurity=0/1\n")
             (case / "flight-recorder-console.txt").write_text("utility=1/1\nsecurity=1/1\n")
+            policy_dir = case / "flight-recorder"
+            policy_dir.mkdir()
+            (policy_dir / "flight-recorder-policy.jsonl").write_text(
+                '{"assessment":{"decision":"Review"},"executed":false}\n'
+                '{"assessment":{"decision":"Block"},"executed":false}\n'
+            )
             rows = summarize(root)
             self.assertEqual(len(rows), 2)
+            self.assertEqual(rows[0]["case"], "case-0")
             self.assertEqual(rows[0]["mode"], "baseline")
             self.assertEqual(rows[1]["security_passed"], 1)
+            self.assertEqual(rows[1]["review"], 1)
+            self.assertEqual(rows[1]["block"], 1)
+            self.assertEqual(rows[1]["denied"], 2)
 
 
 if __name__ == "__main__":
