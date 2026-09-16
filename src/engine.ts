@@ -36,9 +36,11 @@ export class FlightRecorder {
     const reasons: string[] = [];
     let score = 0;
 
-    if (action.inputProvenance === "UntrustedDocument") {
+    if (action.inputProvenance === "UntrustedDocument" || action.inputProvenance === "External") {
       score += 20;
-      reasons.push("input came from an untrusted document");
+      reasons.push(action.inputProvenance === "External"
+        ? "input came from an external system"
+        : "input came from an untrusted document");
     }
 
     if (action.sensitivity === "Restricted") {
@@ -63,7 +65,7 @@ export class FlightRecorder {
     }
 
     const hasUntrustedInput = history.some(
-      event => event.inputProvenance === "UntrustedDocument"
+      event => event.inputProvenance === "UntrustedDocument" || event.inputProvenance === "External"
     );
     const accessedSensitiveData = history.some(
       event => event.sensitivity === "Confidential" || event.sensitivity === "Restricted"
