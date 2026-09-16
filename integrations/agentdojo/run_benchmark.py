@@ -74,6 +74,7 @@ def main() -> None:
                 bridge,
                 TrustedToolCatalog(args.catalog),
                 review_policy=args.review_policy,
+                audit_path=args.logdir / "flight-recorder-policy.jsonl",
             )
         )
         pipeline = AgentPipeline([
