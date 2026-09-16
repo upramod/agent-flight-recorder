@@ -3,12 +3,14 @@ from __future__ import annotations
 import argparse
 import os
 from pathlib import Path
+from typing import Callable, TypeVar
 
 from agentdojo.agent_pipeline import AgentPipeline, InitQuery, SystemMessage, ToolsExecutionLoop, ToolsExecutor
 from agentdojo.agent_pipeline.agent_pipeline import load_system_message
 from agentdojo.agent_pipeline.llms.openai_llm import OpenAILLM
 from agentdojo.attacks.attack_registry import load_attack
 from agentdojo.benchmark import benchmark_suite_with_injections, benchmark_suite_without_injections
+from agentdojo.logging import OutputLogger
 from agentdojo.task_suite.load_suites import get_suite
 from openai import AzureOpenAI
 
@@ -19,10 +21,16 @@ from flight_recorder_executor import FlightRecorderToolsExecutor, PolicyBridge, 
 # builds model-addressed attack text. GPT-4.1 is absent, so use its GPT-4 alias
 # for attack wording while retaining the actual Azure deployment in the name.
 AGENTDOJO_ATTACK_MODEL_ALIAS = "gpt-4o-mini-2024-07-18"
+T = TypeVar("T")
 
 
 def pipeline_name(mode: str, review_policy: str, deployment: str) -> str:
     return f"{AGENTDOJO_ATTACK_MODEL_ALIAS}__azure-{deployment}__{mode}-{review_policy}"
+
+
+def with_output_logger(logdir: Path, operation: Callable[[], T]) -> T:
+    with OutputLogger(str(logdir)):
+        return operation()
 
 
 def arguments() -> argparse.Namespace:
@@ -83,17 +91,19 @@ def main() -> None:
             force_rerun=args.force_rerun,
             benchmark_version=args.benchmark_version,
         )
-        if args.attack:
-            attack = load_attack(args.attack, suite, pipeline)
-            result = benchmark_suite_with_injections(
-                pipeline,
-                suite,
-                attack,
-                injection_tasks=args.injection_task,
-                **common,
-            )
-        else:
-            result = benchmark_suite_without_injections(pipeline, suite, **common)
+        def run():
+            if args.attack:
+                attack = load_attack(args.attack, suite, pipeline)
+                return benchmark_suite_with_injections(
+                    pipeline,
+                    suite,
+                    attack,
+                    injection_tasks=args.injection_task,
+                    **common,
+                )
+            return benchmark_suite_without_injections(pipeline, suite, **common)
+
+        result = with_output_logger(args.logdir, run)
         utility = list(result["utility_results"].values())
         security = list(result["security_results"].values())
         print(f"utility={sum(utility)}/{len(utility)}")
