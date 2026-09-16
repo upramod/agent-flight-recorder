@@ -24,6 +24,7 @@ python integrations/agentdojo/run_benchmark.py `
   --user-task user_task_0 `
   --injection-task injection_task_0 `
   --attack tool_knowledge `
+  --review-policy deny `
   --force-rerun
 ```
 
@@ -39,7 +40,7 @@ python integrations/agentdojo/run_benchmark.py `
   --force-rerun
 ```
 
-Use identical task, injection, attack, model, and benchmark versions for both modes. Keep `--review-policy approve` for the primary comparison. A separate `deny` run measures the security and utility cost of rejecting every Review decision.
+Use identical task, injection, attack, model, and benchmark versions for both modes. The primary non-interactive security comparison uses `--review-policy deny`: a Review decision represents an action that requires human approval, and AgentDojo has no human approver. Auto-approving Review decisions is reported only as a separate permissive-policy sensitivity run; it must not be presented as the enforced Flight Recorder result.
 
 The checked-in catalog exactly covers the 24 tools in AgentDojo 0.1.35's `v1.2.2` workspace suite. A test detects catalog drift. Other suites remain unsupported, and the adapter blocks their unmapped tools.
 
