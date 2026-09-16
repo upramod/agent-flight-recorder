@@ -46,3 +46,12 @@ The checked-in catalog exactly covers the 24 tools in AgentDojo 0.1.35's `v1.2.2
 ## Research limits
 
 The catalog is hand-authored trusted metadata. AgentDojo does not supply sensitivity labels or artifact lineage. This integration measures runtime interception and session-history policy. It does not yet evaluate artifact-aware attribution. Results must state that scope and report the pinned AgentDojo version.
+# AgentDojo integration
+
+Outbound email trust is configured at runtime, never inferred from model output. Pass one or more trusted tenant domains when running a benchmark:
+
+```bash
+python integrations/agentdojo/run_benchmark.py --trusted-email-domain bluesparrowtech.com ...
+```
+
+Recipients outside those domains are labeled `Untrusted` before the TypeScript policy engine decides whether the tool call may execute.
