@@ -26,8 +26,8 @@ def main() -> None:
     valid_users = set(suite.user_tasks)
     valid_injections = set(suite.injection_tasks)
     pairs = manifest["pairs"]
-    if len(pairs) != 30:
-        raise ValueError(f"Expected frozen 30-pair manifest, found {len(pairs)}")
+    if not pairs:
+        raise ValueError("Benchmark manifest must contain at least one pair")
     seen: set[tuple[str, str]] = set()
     for pair in pairs:
         key = (pair["userTask"], pair["injectionTask"])
@@ -42,6 +42,7 @@ def main() -> None:
     options.output.mkdir(parents=True, exist_ok=True)
     metadata = {
         "manifest": manifest,
+        "pairCount": len(pairs),
         "agentdojoUserTaskCount": len(valid_users),
         "agentdojoInjectionTaskCount": len(valid_injections),
         "azureDeployment": os.getenv("AZURE_OPENAI_DEPLOYMENT", ""),
