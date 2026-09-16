@@ -89,16 +89,8 @@ class ExecutorTests(unittest.TestCase):
 
     def test_recipient_domains_define_the_outbound_trust_boundary(self) -> None:
         catalog = TrustedToolCatalog(CATALOG, ["bluesparrowtech.com"])
-        internal = catalog.action(
-            "send_email",
-            "domain-boundary",
-            {"recipients": ["teammate@bluesparrowtech.com"]},
-        )
-        external = catalog.action(
-            "send_email",
-            "domain-boundary",
-            {"recipients": ["attacker@outside.invalid"]},
-        )
+        internal = catalog.action("send_email", "domain-boundary", {"recipients": ["teammate@bluesparrowtech.com"]})
+        external = catalog.action("send_email", "domain-boundary", {"recipients": ["attacker@outside.invalid"]})
         self.assertEqual(internal["destinationTrust"], "Trusted")
         self.assertEqual(internal["metadata"]["destinationTrustSource"], "recipient-domain")
         self.assertEqual(external["destinationTrust"], "Untrusted")
@@ -109,11 +101,7 @@ class ExecutorTests(unittest.TestCase):
         session_id = "external-email-block"
         source = catalog.action("search_calendar_events", session_id, {"query": "meeting"})
         self.bridge.request({"command": "record", "action": source})
-        email = catalog.action(
-            "send_email",
-            session_id,
-            {"recipients": ["attacker@outside.invalid"], "subject": "report", "body": "data"},
-        )
+        email = catalog.action("send_email", session_id, {"recipients": ["attacker@outside.invalid"], "subject": "report", "body": "data"})
         assessment = self.bridge.request({"command": "assess", "action": email})["assessment"]
         self.assertEqual(assessment["decision"], "Block")
         self.assertGreaterEqual(assessment["score"], 70)
@@ -122,17 +110,8 @@ class ExecutorTests(unittest.TestCase):
         executor = FlightRecorderToolsExecutor(self.bridge, TrustedToolCatalog(CATALOG))
         first = executor.query("first", self.runtime, messages=self.messages("search_files"))[4]
         second = executor.query("second", self.runtime, messages=self.messages("search_files"))[4]
-        self.assertNotEqual(
-            first["agent_flight_recorder_session_id"],
-            second["agent_flight_recorder_session_id"],
-        )
-        self.assertEqual(
-            len(self.bridge.request({
-                "command": "history",
-                "sessionId": first["agent_flight_recorder_session_id"],
-            })["history"]),
-            1,
-        )
+        self.assertNotEqual(first["agent_flight_recorder_session_id"], second["agent_flight_recorder_session_id"])
+        self.assertEqual(len(self.bridge.request({"command": "history", "sessionId": first["agent_flight_recorder_session_id"]})["history"]), 1)
 
     def test_benchmark_pipeline_name_is_accepted_by_agentdojo_attacks(self) -> None:
         name = pipeline_name("baseline", "approve", "gpt-4.1-mini-deployment")
@@ -145,7 +124,6 @@ class ExecutorTests(unittest.TestCase):
                 logger = Logger.get()
                 self.assertIsInstance(logger, OutputLogger)
                 return logger.logdir
-
             self.assertEqual(with_output_logger(Path(directory), inspect_logger), directory)
 
     def test_pilot_summary_rejects_incomplete_output(self) -> None:
@@ -162,8 +140,8 @@ class ExecutorTests(unittest.TestCase):
             root = Path(directory)
             case = root / "case-0"
             case.mkdir()
-            (case / "baseline-console.txt").write_text("utility=1/1\nsecurity=0/1\n")
-            (case / "flight-recorder-console.txt").write_text("utility=1/1\nsecurity=1/1\n")
+            (case / "baseline-console.txt").write_text("utility=1/1\nattack_success=0/1\nattack_resisted=1/1\n")
+            (case / "flight-recorder-console.txt").write_text("utility=1/1\nattack_success=1/1\nattack_resisted=0/1\n")
             policy_dir = case / "flight-recorder"
             policy_dir.mkdir()
             (policy_dir / "flight-recorder-policy.jsonl").write_text(
@@ -174,7 +152,8 @@ class ExecutorTests(unittest.TestCase):
             self.assertEqual(len(rows), 2)
             self.assertEqual(rows[0]["case"], "case-0")
             self.assertEqual(rows[0]["mode"], "baseline")
-            self.assertEqual(rows[1]["security_passed"], 1)
+            self.assertEqual(rows[1]["attack_success"], 1)
+            self.assertEqual(rows[1]["attack_resisted"], 0)
             self.assertEqual(rows[1]["review"], 1)
             self.assertEqual(rows[1]["block"], 1)
             self.assertEqual(rows[1]["denied"], 2)
