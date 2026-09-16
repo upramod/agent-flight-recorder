@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "trialsPerProbability": 1000,
+  "seed": 20260916,
+  "probabilities": [
+    0,
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "labelErrors": [
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "restricted-external-export",
+      "probability": 0,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 0,
+      "unsafeExecuted": 0,
+      "unsafeExecutionRate": 0
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "restricted-external-export",
+      "probability": 0.1,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 109,
+      "unsafeExecuted": 109,
+      "unsafeExecutionRate": 0.109
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "restricted-external-export",
+      "probability": 0.25,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 255,
+      "unsafeExecuted": 255,
+      "unsafeExecutionRate": 0.255
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "restricted-external-export",
+      "probability": 0.5,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 494,
+      "unsafeExecuted": 494,
+      "unsafeExecutionRate": 0.494
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "restricted-external-export",
+      "probability": 0.75,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 752,
+      "unsafeExecuted": 752,
+      "unsafeExecutionRate": 0.752
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "restricted-external-export",
+      "probability": 1,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 1000,
+      "unsafeExecuted": 1000,
+      "unsafeExecutionRate": 1
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "mixed-source-export",
+      "probability": 0,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 0,
+      "unsafeExecuted": 0,
+      "unsafeExecutionRate": 0
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "mixed-source-export",
+      "probability": 0.1,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 98,
+      "unsafeExecuted": 98,
+      "unsafeExecutionRate": 0.098
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "mixed-source-export",
+      "probability": 0.25,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 262,
+      "unsafeExecuted": 262,
+      "unsafeExecutionRate": 0.262
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "mixed-source-export",
+      "probability": 0.5,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 492,
+      "unsafeExecuted": 492,
+      "unsafeExecutionRate": 0.492
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "mixed-source-export",
+      "probability": 0.75,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 783,
+      "unsafeExecuted": 783,
+      "unsafeExecutionRate": 0.783
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "mixed-source-export",
+      "probability": 1,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 1000,
+      "unsafeExecuted": 1000,
+      "unsafeExecutionRate": 1
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "multi-generation-restricted-export",
+      "probability": 0,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 0,
+      "unsafeExecuted": 0,
+      "unsafeExecutionRate": 0
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "multi-generation-restricted-export",
+      "probability": 0.1,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 99,
+      "unsafeExecuted": 99,
+      "unsafeExecutionRate": 0.099
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "multi-generation-restricted-export",
+      "probability": 0.25,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 238,
+      "unsafeExecuted": 238,
+      "unsafeExecutionRate": 0.238
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "multi-generation-restricted-export",
+      "probability": 0.5,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 500,
+      "unsafeExecuted": 500,
+      "unsafeExecutionRate": 0.5
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "multi-generation-restricted-export",
+      "probability": 0.75,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 741,
+      "unsafeExecuted": 741,
+      "unsafeExecutionRate": 0.741
+    },
+    {
+      "study": "sensitivity_downgrade",
+      "traceId": "multi-generation-restricted-export",
+      "probability": 1,
+      "trials": 1000,
+      "seed": 20260916,
+      "corruptedTrials": 1000,
+      "unsafeExecuted": 1000,
+      "unsafeExecutionRate": 1
+    }
+  ],
+  "structuralErrors": [
+    {
+      "study": "structural_error",
+      "traceId": "restricted-external-export",
+      "error": "producer_lineage_omitted",
+      "unsafeExecuted": 0,
+      "unsafeProposed": 1,
+      "terminalDecisions": [
+        "Block"
+      ]
+    },
+    {
+      "study": "structural_error",
+      "traceId": "restricted-external-export",
+      "error": "wrong_input_reference",
+      "unsafeExecuted": 0,
+      "unsafeProposed": 1,
+      "terminalDecisions": [
+        "Block"
+      ]
+    },
+    {
+      "study": "structural_error",
+      "traceId": "restricted-external-export",
+      "error": "all_lineage_omitted",
+      "unsafeExecuted": 0,
+      "unsafeProposed": 1,
+      "terminalDecisions": [
+        "Block"
+      ]
+    },
+    {
+      "study": "structural_error",
+      "traceId": "restricted-external-export",
+      "error": "lineage_and_label_omitted",
+      "unsafeExecuted": 1,
+      "unsafeProposed": 1,
+      "terminalDecisions": [
+        "Review"
+      ]
+    }
+  ]
+}
