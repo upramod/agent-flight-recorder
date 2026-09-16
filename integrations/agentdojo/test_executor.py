@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from agentdojo.functions_runtime import FunctionCall, FunctionsRuntime
+from agentdojo.task_suite.load_suites import get_suite
 
 from flight_recorder_executor import FlightRecorderToolsExecutor, PolicyBridge, TrustedToolCatalog
 
@@ -57,6 +58,12 @@ class ExecutorTests(unittest.TestCase):
         self.assertEqual(self.effects, [])
         self.assertIn("Unmapped AgentDojo tool", messages[-1]["error"])
         self.assertFalse(extra["agent_flight_recorder"][0]["executed"])
+
+    def test_catalog_exactly_covers_pinned_workspace_suite(self) -> None:
+        suite = get_suite("v1.2.2", "workspace")
+        runtime_names = {function.name for function in suite.tools}
+        catalog_names = TrustedToolCatalog(CATALOG).functions
+        self.assertEqual(catalog_names, runtime_names)
 
 
 if __name__ == "__main__":
