@@ -11,7 +11,7 @@ npm run build
 py -m venv .venv-agentdojo
 .venv-agentdojo\Scripts\Activate.ps1
 python -m pip install -r integrations/agentdojo/requirements.txt
-python -m unittest integrations/agentdojo/test_executor.py
+python integrations/agentdojo/test_executor.py
 ```
 
 Set the existing Azure OpenAI environment variables in the same PowerShell window. Then run a small workspace slice:
