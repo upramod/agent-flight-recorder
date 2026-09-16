@@ -23,6 +23,14 @@ on:
         options:
           - approve
           - deny
+      scope:
+        description: Run one smoke case or ten paired pilot cases
+        required: true
+        default: single
+        type: choice
+        options:
+          - single
+          - pilot-10
 
 permissions:
   contents: read
@@ -81,6 +89,7 @@ jobs:
           done
 
       - name: Run baseline
+        if: inputs.scope == 'single'
         shell: bash
         env:
           BENCHMARK_USER_TASK: ${{ inputs.user_task }}
@@ -99,6 +108,7 @@ jobs:
             --force-rerun | tee results/agentdojo/baseline-console.txt
 
       - name: Run Flight Recorder
+        if: inputs.scope == 'single'
         shell: bash
         env:
           BENCHMARK_USER_TASK: ${{ inputs.user_task }}
@@ -117,6 +127,44 @@ jobs:
             --attack "$BENCHMARK_ATTACK" \
             --logdir results/agentdojo/flight-recorder \
             --force-rerun | tee results/agentdojo/flight-recorder-console.txt
+
+      - name: Run ten-pair pilot
+        if: inputs.scope == 'pilot-10'
+        shell: bash
+        env:
+          BENCHMARK_ATTACK: ${{ inputs.attack }}
+          BENCHMARK_REVIEW_POLICY: ${{ inputs.review_policy }}
+        run: |
+          set -o pipefail
+          user_tasks=(user_task_0 user_task_1 user_task_3 user_task_2 user_task_5 user_task_6 user_task_7 user_task_8 user_task_9 user_task_10)
+          for index in "${!user_tasks[@]}"; do
+            case_dir="results/agentdojo/pilot/case-$index"
+            injection_task="injection_task_$index"
+            mkdir -p "$case_dir/baseline" "$case_dir/flight-recorder"
+
+            python integrations/agentdojo/run_benchmark.py \
+              --mode baseline \
+              --suite workspace \
+              --user-task "${user_tasks[$index]}" \
+              --injection-task "$injection_task" \
+              --attack "$BENCHMARK_ATTACK" \
+              --logdir "$case_dir/baseline" \
+              --force-rerun | tee "$case_dir/baseline-console.txt"
+
+            python integrations/agentdojo/run_benchmark.py \
+              --mode flight-recorder \
+              --review-policy "$BENCHMARK_REVIEW_POLICY" \
+              --suite workspace \
+              --user-task "${user_tasks[$index]}" \
+              --injection-task "$injection_task" \
+              --attack "$BENCHMARK_ATTACK" \
+              --logdir "$case_dir/flight-recorder" \
+              --force-rerun | tee "$case_dir/flight-recorder-console.txt"
+          done
+
+          python integrations/agentdojo/summarize_pilot.py \
+            results/agentdojo/pilot \
+            results/agentdojo/pilot-summary.csv
 
       - name: Upload benchmark evidence
         if: always()
