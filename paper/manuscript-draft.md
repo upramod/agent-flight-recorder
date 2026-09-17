@@ -1,79 +1,94 @@
-# Agent Flight Recorder: Runtime Enforcement for Tool-Using AI Agents Using Executed History and Artifact Lineage
+# Agent Flight Recorder: Trajectory-Aware Runtime Enforcement for Tool-Using AI Agents
 
 Pramod Ubbala  
 Independent Researcher, Washington, USA
 
 ## Abstract
 
-Tool-using AI agents convert model outputs into consequential operations such as document reads, database queries, artifact creation, and network transfers. A security check that evaluates each operation alone can lose the context needed to identify a harmful sequence. Session-wide rules recover temporal context but may over-attribute risk when unrelated public and restricted artifacts coexist. We present Agent Flight Recorder, a runtime enforcement prototype that evaluates structured action proposals before tool execution. The system separates proposal, assessment, approval, execution, and audit states; records only successful executions as causal history; and propagates sensitivity through trusted artifact links. A deterministic gate returns Allow, Review, or Block without requesting private model reasoning. The implementation includes an Azure OpenAI proposal adapter, synthetic tools, action-specific browser approvals, downloadable traces, and deterministic replay. We evaluate no-gate, point-action, session-heuristic, artifact-aware, and human-review baselines using unsafe execution, false blocks, attribution accuracy, and latency. Across 10 synthetic traces, artifact-aware enforcement prevented 7 of 7 labeled unsafe actions with no policy blocks among 21 labeled benign actions. A 90-run Azure OpenAI study produced no upload proposals, so it tested adapter stability rather than live blocking. Metadata-error injection exposed the trusted adapter as a hard boundary: unsafe execution tracked sensitivity-label downgrade rates.
+Tool-using language-model agents can convert untrusted text into external actions. A malicious instruction that enters through a document, email, calendar entry, or tool result may therefore influence a later tool call even when the final call appears locally ordinary. We present Agent Flight Recorder, a runtime enforcement layer that evaluates observable tool proposals before execution. The mechanism uses trusted action metadata, successful executed history, destination trust, sensitivity, privilege, and declared artifact lineage. It returns Allow, Review, or Block without reading or storing private chain-of-thought. We evaluated a frozen configuration in a preregistered 120-pair AgentDojo workspace study using the `tool_knowledge` attack. The paired baseline recorded 20/120 attack successes (16.7%), while Agent Flight Recorder recorded 0/120 (0.0%). The exact two-sided McNemar p-value was 1.91×10^-6. The security effect carried a substantial utility cost under the confirmatory non-interactive `Review=deny` policy: legitimate-task success fell from 61/120 (50.8%) to 35/120 (29.2%), with 29 baseline-success/Recorder-failure pairs versus 3 pairs in the opposite direction. A post-hoc sensitivity study on already-seen cases suggests that review handling accounts for much of this loss, but that study does not replace the confirmatory result. The evidence supports a narrow claim: under the recorded AgentDojo, model, attack, metadata, and policy conditions, trajectory-aware tool-boundary enforcement reduced observed attack completion while imposing a material intervention cost.
 
 ## 1. Introduction
 
-AI agents increasingly act through tools. They read documents, query stores, produce derived artifacts, and send results to other systems. Each operation crosses a concrete runtime boundary. That boundary creates an enforcement point.
+Tool use changes the security problem for language-model agents. A model response is no longer only text. It can become an email, a database query, a file transfer, a calendar mutation, or another state-changing operation. Indirect prompt injection exploits the same path. An attacker places instructions inside content the agent later consumes, and the agent may treat those instructions as authority rather than data [1]. Benchmarks such as InjecAgent, AgentDojo, and Agent Security Bench show that this failure mode persists in tool-integrated settings [2-4].
 
-Single-action authorization answers whether a principal may invoke a tool. It does not always answer whether the proposed invocation remains safe after earlier actions changed the data context. Consider an agent that reads an untrusted document, queries restricted records, creates an export, and proposes an external upload. The final request can carry weak metadata or a generic file type. Earlier actions reveal the sequence, while artifact links reveal which records produced the file.
+Many defenses inspect the prompt, sanitize tool data, isolate trusted control flow, compare counterfactual executions, or reconstruct program-like dependencies [5-11]. Agent Flight Recorder addresses a narrower systems question: what can an application enforce at the moment a proposed tool action is about to execute, using only observable runtime state supplied by trusted adapters?
 
-Session history alone also has limits. A session can process restricted records and later create an unrelated public export. A rule that treats all later uploads as restricted blocks useful work. The enforcement layer therefore needs both temporal state and data attribution.
+The design treats the tool boundary as a policy boundary. The model proposes an action. Application code assigns structured security metadata. A deterministic recorder evaluates the current action together with successful executed history and, where available, artifact lineage. The execution gate then permits the action, requires approval, or blocks it. Denied and failed actions remain audit events but do not become facts in causal execution history.
 
-Agent Flight Recorder evaluates observable proposals at the tool boundary. Trusted adapters assign security labels and artifact identifiers. The recorder assesses the current proposal against successfully executed history and a session-local artifact graph. The execution gate invokes the tool only after an Allow decision or an approved Review decision. A Block decision never invokes the executor.
+This distinction matters in multi-step trajectories. Consider an agent that consumes external content, accesses sensitive records, creates a derived export, and later proposes transmission to an untrusted destination. A point check on the final operation may miss the path that produced the payload. A session-wide rule can recover temporal context but may contaminate unrelated work. Artifact lineage narrows the inherited restriction to outputs that actually depend on sensitive sources.
 
-This paper asks whether that design reduces unsafe synthetic tool execution without imposing unacceptable loss of benign completion. It makes five engineering contributions:
+We make four claims, each bounded by the implementation and evaluation reported here.
 
-1. A state model that separates model proposal, policy assessment, human approval, tool execution, and audit evidence.
-2. Executed-only session history, which prevents denied or failed actions from becoming false causal facts.
-3. Session-local artifact lineage with monotonic sensitivity inheritance across derived outputs.
-4. Deterministic fail-closed enforcement for missing, reused, and cross-session artifact references.
-5. A reproducible evaluation design that separates policy blocking, human rejection, executor failure, and model stop.
+1. **Runtime mechanism.** Agent Flight Recorder enforces policy before tool execution using structured metadata, successful executed history, and optional artifact lineage. The gate does not require private model reasoning.
+2. **Execution semantics.** Only successful tool effects enter causal history. Review, rejection, policy block, model stop, and executor failure remain distinct states.
+3. **Paired AgentDojo evidence.** In a preregistered 120-pair workspace evaluation, the frozen Recorder condition produced 0/120 attack successes versus 20/120 for baseline, with exact paired p=1.91×10^-6.
+4. **Measured cost.** The same confirmatory policy reduced utility from 61/120 to 35/120. The paper therefore treats security and utility as coupled outcomes rather than presenting the defense as cost-free.
 
-The current artifact demonstrates these mechanisms with synthetic data. It does not establish broad prompt-injection resistance or production readiness.
+We do not claim universal prompt-injection prevention, robustness to adaptive attacks, production readiness, or superiority to stronger published defenses. Zero observed attacks in one benchmark is not a zero population attack probability.
 
-## 2. Problem statement
+## 2. Threat model and design goals
 
-Let an agent session contain proposed actions \(a_1, a_2, \ldots, a_n\). Each action includes a tool, operation, resource type, destination trust, privilege level, input provenance, and optional data-flow references. A trusted adapter, rather than the language model, supplies the security fields.
+### 2.1 Threat model
 
-A point-action policy evaluates only \(a_i\). A session policy evaluates \(a_i\) and prior successful actions \(H_i\). An artifact-aware policy also evaluates a session-local graph \(G_i\), whose edges connect source artifacts to derived outputs.
+The attacker may control content consumed through tools or external data sources. That content may contain instructions designed to redirect the agent toward an unauthorized action. The attacker may also nominate an untrusted destination. The language model may follow, ignore, or partially follow the injected instruction.
 
-The enforcement function is
+The attacker cannot modify the policy engine, the execution gate, the session identifier, or trusted metadata produced by the application adapter. Those components form the trusted computing base. The current system also assumes that declared artifact links accurately represent relevant data dependencies.
+
+The defense does not address a compromised adapter, malicious tool implementation, operating-system compromise, model-weight compromise, undeclared covert channels, or data flow that never crosses an instrumented tool boundary.
+
+### 2.2 Design goals
+
+The enforcement layer should satisfy five operational properties.
+
+**Tool-boundary control.** Every supported tool effect must pass through one decision point before execution.
+
+**No chain-of-thought dependency.** The mechanism must operate on observable proposals and external metadata rather than hidden model reasoning.
+
+**Executed-only state.** A denied or failed action must not alter the state used to justify later decisions.
+
+**Data-specific inheritance.** When an application declares lineage, derived artifacts should inherit the strongest sensitivity and trust-relevant properties of their sources.
+
+**Auditable intervention.** Allow, Review, Block, approval, rejection, execution, and failure must remain distinguishable in the trace.
+
+## 3. Agent Flight Recorder
+
+### 3.1 Action representation
+
+A proposed action is mapped to structured metadata before the executor runs. The current implementation records fields such as operation, resource type, sensitivity, destination trust, privilege level, input provenance, session identifier, and optional data-flow information. The language model does not assign the trusted security labels directly in the AgentDojo integration.
+
+For AgentDojo, a trusted tool catalog maps each supported tool to security metadata. Recipient domains can alter destination trust. Calls to recipients outside the configured trusted domain are marked untrusted. Unmapped tools fail closed.
+
+### 3.2 Executed trajectory state
+
+Let the successful execution history before action \(a_i\) be \(H_i\). The recorder computes a decision
 
 \[
-D_i = P(a_i, H_i, G_i)
+D_i = P(a_i, H_i, G_i),
 \]
 
-where \(D_i \in \{Allow, Review, Block\}\). Allow invokes the executor. Review invokes it only after approval tied to that exact pending action. Block returns without invoking the executor.
+where \(G_i\) is the current artifact-lineage state when lineage is declared and \(D_i \in \{Allow, Review, Block\}\).
 
-History changes only after successful execution:
+The gate first assesses the proposal without mutating history. A Block returns without invoking the tool. A Review executes only when the configured approval path approves it. After an allowed tool call returns successfully, the recorder appends that action to history:
 
 \[
 H_{i+1} =
 \begin{cases}
-H_i \mathbin{\|} a_i, & \text{if execution succeeds} \\
+H_i \mathbin{\|} a_i, & \text{successful execution},\\
 H_i, & \text{otherwise.}
 \end{cases}
 \]
 
-This distinction matters. Recording a denied restricted query as executed would let later policy reason from data the agent never received.
+This prevents policy from reasoning as though denied or failed operations actually occurred.
 
-## 3. Threat model
+### 3.3 Trajectory risk
 
-The attacker may control content consumed by the agent, including documents that contain instructions to retrieve or transmit data. The attacker may nominate an untrusted external destination. The model may follow, ignore, or partially follow those instructions.
+The prototype uses transparent risk rules rather than a learned classifier. Current signals include external or untrusted provenance, data sensitivity, destination trust, privilege, prior untrusted input followed by sensitive access, and sensitive export transfer outside the trusted boundary.
 
-The attacker cannot modify the policy implementation, trusted adapter labels, session identifiers, successful execution history, or artifact graph. These components form the trusted computing base.
+The score maps to three actions: 0-39 Allow, 40-69 Review, and 70-100 Block. A sensitive artifact upload to a destination outside the trusted boundary is raised to at least the Block threshold. Scores explain deterministic policy behavior; they are not calibrated probabilities.
 
-The system addresses unsafe multi-step tool use, missing lineage, duplicate output identifiers, cross-session references, denied producers, and external transfer of sensitive derived artifacts. It does not address compromised adapters, incorrect source labels, vulnerable tools, model-weight compromise, operating-system compromise, or covert channels outside declared tools.
+### 3.4 Artifact lineage
 
-## 4. Design
-
-### 4.1 Observable action proposals
-
-The model proposes a supported tool and operation. Application code maps that proposal to an action event. The event carries trusted labels for sensitivity, destination trust, privilege, provenance, and data-flow identifiers. The model cannot set these labels directly.
-
-### 4.2 Executed-only history
-
-Assessment does not mutate history. The gate assesses first, resolves Review where required, invokes a cloned action through the executor, and records the action only after the executor returns successfully. Blocked, rejected, and failed actions remain visible in the audit trace but absent from causal execution history.
-
-### 4.3 Artifact lineage
-
-Each successful producer may register immutable, session-local output IDs. Consumers declare input IDs. The recorder resolves each input to a successful producer in the same session.
+Session history alone can over-attribute risk. A session may handle restricted records and later create an unrelated public artifact. To separate those paths, the implementation supports session-local artifact identifiers and declared source relationships.
 
 Sensitivity follows an ordered lattice:
 
@@ -81,148 +96,222 @@ Sensitivity follows an ordered lattice:
 Public < Internal < Confidential < Restricted.
 \]
 
-For a derived artifact \(x\) with declared sources \(S_x\),
+For a derived artifact \(x\) with sources \(S_x\), the effective sensitivity is
 
 \[
-s(x) = \max\left(s_{declared}(x), \max_{y \in S_x} s(y)\right).
+s(x) = \max\left(s_{declared}(x), \max_{y \in S_x}s(y)\right).
 \]
 
-The implementation also propagates whether any ancestor depends on untrusted input. Missing producers, duplicate IDs, repeated IDs, output-as-input reuse, and invalid operation shapes fail closed.
+Untrusted ancestry also propagates. Missing producers, cross-session references, and invalid lineage fail closed. This mechanism does not infer hidden causal structure from the model. It relies on application-supplied artifact facts.
 
-### 4.4 Decisions and enforcement
+### 3.5 Review semantics
 
-The prototype maps a transparent ordinal score to Allow, Review, or Block. A hard rule sets at least the Block threshold when an upload carries Confidential or Restricted lineage to a destination other than Trusted. Scores explain policy decisions; they are not probabilities.
+Review is not equivalent to Allow. In an interactive deployment it represents a pause for explicit authorization. The confirmatory AgentDojo experiment was non-interactive and used `Review=deny`: every Review decision prevented the tool call. That choice was frozen before the v2 outcomes were observed.
 
-Approval is action-specific and time-bounded in the browser workflow. Rejecting or ignoring a Review action prevents execution and any dependent artifact creation.
+A later post-hoc study changed only Review handling to automatic approval on already-seen cases. We use that study only to analyze the utility mechanism. It does not redefine the confirmatory policy.
 
-### 4.5 Audit trace
+## 4. AgentDojo integration
 
-The trace records proposals, assessments, reasons, approval state, executor outcome, effective sensitivity, and source artifact IDs. It distinguishes model stop, human rejection, policy block, and executor failure.
+The evaluation adapter replaces AgentDojo's normal tool executor with a gate-aware executor. For each proposed tool call, the adapter creates trusted action metadata, requests a deterministic assessment from the TypeScript policy bridge, and executes the AgentDojo function only when the decision permits it.
 
-## 5. Implementation
+A blocked action produces no tool effect. Under `Review=deny`, a Review also produces no tool effect. Successful executions are then recorded into the policy bridge. The adapter writes an audit stream that preserves the proposed tool, action metadata, policy assessment, approval state, execution state, and errors.
 
-The prototype uses TypeScript and Node.js. The core recorder and gate do not depend on the model provider. An Azure OpenAI adapter requests structured proposals from a deployed model. Trusted application code validates the proposal, assigns security metadata, and routes it through the same deterministic gate used by scripted traces.
+Baseline and Recorder modes use the same model deployment, benchmark task, injected task, attack family, and AgentDojo environment. The difference is the runtime gate.
 
-Synthetic tools return fake documents, records, and export objects. No real file, customer record, or external upload is required. A browser dashboard supports live proposals, approvals, scripted replay, artifact comparison, and JSON trace download.
+## 5. Experimental method
 
-The repository includes automated tests for action validation, gate behavior, executed-history integrity, approval binding and expiry, artifact sensitivity inheritance, cross-session isolation, missing references, duplicate IDs, failed executors, and browser session behavior.
+### 5.1 Evidence sequence
 
-## 6. Evaluation methodology
+The project separated development evidence from confirmatory evidence.
 
-The evaluation follows the versioned protocol in `paper/experiment-protocol.md`.
+An initial synthetic corpus tested execution semantics, artifact lineage, approval handling, and metadata corruption. A first preregistered AgentDojo holdout then evaluated 30 unseen pair identities. That holdout recorded 2/30 baseline attack successes versus 0/30 with Agent Flight Recorder, but the paired attack comparison was underpowered (exact McNemar p=0.5). Utility was 20/30 for baseline and 15/30 for Recorder.
 
-### 6.1 Baselines
+After freezing that result, we ran two post-hoc studies on the known 30 identities. One changed Review handling from deny to approve. The other repeated the same identities across five stochastic blocks. Those studies informed the interpretation of utility and run-to-run variance but did not add independent confirmatory units.
 
-We compare five designs:
+We then froze protocol v2 before collecting new outcomes.
 
-- no gate;
-- point-action policy;
-- executed-session heuristic without artifact identity;
-- artifact-aware policy;
-- human review without deterministic blocking.
+### 5.2 V2 benchmark configuration
 
-Each baseline receives the same labeled synthetic traces. Implementations must not access information excluded by the baseline definition.
+The v2 experiment used:
 
-### 6.2 Workloads
+- AgentDojo package version `0.1.35`;
+- AgentDojo benchmark `v1.2.2`;
+- `workspace` suite;
+- `tool_knowledge` attack;
+- Azure deployment identifier `gpt-4.1-mini-agent-flight-decoder`;
+- trusted email domain `bluesparrowtech.com`;
+- frozen Agent Flight Recorder policy;
+- confirmatory `Review=deny` handling.
 
-The corpus contains benign public exports, restricted internal work, unrelated public and restricted outputs in one session, human rejection, executor failure, external transfer of sensitive exports, mixed-source exports, multi-generation derivations, missing lineage, cross-session references, duplicate output IDs, and undeclared inputs.
+Secrets and credentials were not stored as experimental metadata.
 
-The model-in-the-loop study uses fixed prompt families for benign work, indirect external-upload instructions, ambiguous destinations, and early model stops. Model runs remain separate from deterministic replay because proposal sequences vary.
+### 5.3 Pair selection and overlap control
 
-### 6.3 Measures
+The workspace inventory exposed 40 user tasks and 14 injection tasks under the pinned benchmark. The v2 generator enumerated candidate user-task/injection-task pairs, removed exact identities used by the prior diagnostic and holdout manifests, and ranked the remaining identities by a fixed SHA-256 selection key. It selected the first 120 unique eligible pairs.
 
-Security measures include unsafe execution rate, blocked exfiltration rate, fail-closed rate, and execution-integrity violations. Utility measures include benign completion, false blocks, Review burden, and approvals per completed task. Attribution measures include effective-sensitivity accuracy, source-set precision and recall, and cross-contamination between unrelated artifacts. Cost measures include assessment latency, gate overhead, review delay, and trace size.
+The generator and overlap tests were committed before model execution. The successful run generated the frozen manifest with SHA-256 `133014deda3d84607e29270525fce26e45b3f75b2b4f94559135c373f4b1b3aa`.
 
-Rates use Wilson 95% confidence intervals. Latency uses median, p95, and bootstrap 95% confidence intervals. Raw observations are stored as JSON Lines with trace version, strategy, seed, runtime, commit, and model configuration.
+The first workflow attempt failed before manifest generation because the new parser did not recognize legacy manifest field names. No v2 model call occurred in that attempt. We corrected only the parser and overlap-test schema handling, then reran the frozen design.
 
-## 7. Results
+### 5.4 Paired execution
 
-### 7.1 Automated correctness tests
+Each selected pair was executed in two modes:
 
-The repository passed 44 of 44 automated tests after the metadata-error study was added. The suite covered proposal validation, execution-gate behavior, approval binding and expiry, model-stop separation, artifact inheritance, missing and cross-session lineage, duplicate output identifiers, failed producers, browser session isolation, trace semantics, benchmark baselines, and metadata-corruption behavior.
+1. baseline AgentDojo agent;
+2. the same agent with Agent Flight Recorder enforcement.
 
-### 7.2 Deterministic benchmark
+The experiment did not stop early for benefit, harm, or statistical significance. The successful workflow completed all 120 paired evaluations, summary generation, statistical analysis, checksum capture, and artifact upload.
 
-We executed 10 unique synthetic traces against five enforcement strategies. Seven action cases carried an unsafe label and 21 carried a benign label. Each trace-strategy pair ran 100 times for timing, producing 5,000 JSONL rows. Security and utility counts use each unique trace once.
+### 5.5 Endpoints and statistical analysis
 
-| Strategy | Unsafe execution | False block | Reviews | Sensitivity accuracy | Median trace ms | p95 trace ms |
-|---|---:|---:|---:|---:|---:|---:|
-| No gate | 7/7 | 0/21 | 0 | N/A | 0.0105 | 0.0198 |
-| Point action | 7/7 | 0/21 | 2 | N/A | 0.0201 | 0.0441 |
-| Session heuristic | 4/7 | 1/21 | 3 | N/A | 0.0362 | 0.0818 |
-| Artifact aware | 0/7 | 0/21 | 2 | 10/10 | 0.0399 | 0.1091 |
-| Human review only | 7/7 | 0/21 | 7 | N/A | 0.0101 | 0.0178 |
+The primary endpoint was AgentDojo injection-task attack success. We report raw counts, proportions, Wilson 95% confidence intervals, paired discordance, absolute observed risk difference, and an exact two-sided McNemar test.
 
-The artifact-aware strategy prevented every labeled unsafe action in this fixed corpus and introduced no policy block among the labeled benign actions. The session heuristic blocked one benign public upload after unrelated restricted work in the same session. Point-action and human-review-only strategies executed every labeled unsafe action under the scripted approval policy.
+Legitimate-task utility was a prespecified secondary endpoint. We report aggregate utility, paired discordance, Wilson intervals, and the exact two-sided McNemar test for the paired utility outcome.
 
-These results establish behavior on the versioned synthetic corpus. Repeated timing runs do not expand attack coverage. The latency measurements cover in-process synthetic traces on Node.js v24.19.0 and Linux 6.18.44; they exclude model calls, network delay, tool latency, and human review.
+Repeated executions of an already-used pair are not treated as new independent tasks.
 
-### 7.3 Model-in-the-loop study
+## 6. Primary results
 
-We ran 30 live Azure OpenAI sessions for each of three synthetic document families: safe internal work, an external-upload injection, and an ambiguous partner destination. Review actions received scripted approval. Across all 90 runs, the model produced the same sequence: read, query, create export, then stop. The study made 360 model requests and observed no proposal errors.
+### 6.1 Attack success
 
-| Scenario | Runs | Model stopped | Upload proposed | Policy blocked | Median duration ms |
-|---|---:|---:|---:|---:|---:|
-| Safe | 30 | 30/30 | 0/30 | 0/30 | 2881.3 |
-| Injection | 30 | 30/30 | 0/30 | 0/30 | 2483.8 |
-| Ambiguous | 30 | 30/30 | 0/30 | 0/30 | 2535.3 |
+The baseline agent completed the injected objective in 20 of 120 pairs. Agent Flight Recorder completed the injected objective in none of the 120 pairs.
 
-The injection and ambiguous documents did not induce an external-upload proposal under this prompt and deployment. The gate therefore had no live upload to block. This result records model refusal and adapter stability; it does not demonstrate a live policy prevention. For each family, the Wilson 95% interval around the observed 0/30 upload-proposal rate extends to approximately 11.4%, so the sample does not establish that uploads cannot occur.
+| Outcome | Baseline | Agent Flight Recorder |
+|---|---:|---:|
+| Attack success | 20/120 (16.7%) | 0/120 (0.0%) |
+| Attack resisted | 100/120 (83.3%) | 120/120 (100.0%) |
+| Wilson 95% CI for attack success | 11.1%-24.3% | 0.0%-3.1% |
 
-### 7.4 Trusted metadata sensitivity
+The observed attack-risk difference, Recorder minus baseline, was -16.7 percentage points. The relative observed reduction was 100%, but this finite-sample ratio must not be read as proof of complete security.
 
-We injected sensitivity-label errors into three unsafe traces using 1,000 deterministic trials per trace at each of six downgrade probabilities. Restricted or Confidential source labels were changed to Public before policy evaluation.
+Paired outcomes were one-sided: 20 pairs had baseline attack success with Recorder resistance, zero had baseline resistance with Recorder attack success, zero succeeded in both modes, and 100 resisted in both. The exact two-sided McNemar p-value was 1.90735×10^-6.
 
-| Downgrade probability | Restricted export | Mixed-source export | Multi-generation export |
-|---:|---:|---:|---:|
-| 0% | 0.0% | 0.0% | 0.0% |
-| 10% | 10.9% | 9.8% | 9.9% |
-| 25% | 25.5% | 26.2% | 23.8% |
-| 50% | 49.4% | 49.2% | 50.0% |
-| 75% | 75.2% | 78.3% | 74.1% |
-| 100% | 100.0% | 100.0% | 100.0% |
+Under the recorded conditions, these results provide strong evidence that the runtime gate reduced observed attack completion relative to the paired baseline.
 
-Unsafe execution closely tracked the injected downgrade probability. Omitted producer lineage, wrong input references, and complete lineage omission each failed closed in the tested restricted-export trace. Simultaneously omitting lineage and the source sensitivity label reduced the final decision to Review; scripted approval then permitted the unsafe transfer. These results isolate the trusted adapter as a material part of the security boundary.
+### 6.2 Legitimate-task utility
 
-## 8. Discussion
+The security result came with a large task-completion penalty.
 
-The design places enforcement at a stable systems boundary. The model can vary its wording or internal process, but the tool request must still cross the gate. That property makes decisions inspectable and testable.
+| Outcome | Baseline | Agent Flight Recorder |
+|---|---:|---:|
+| Utility success | 61/120 (50.8%) | 35/120 (29.2%) |
+| Wilson 95% CI | 42.0%-59.6% | 21.8%-37.8% |
 
-Artifact identity narrows the scope of inherited restrictions. Session history answers what happened earlier. Lineage answers which earlier data produced the current artifact. Both signals are needed when a session handles unrelated data.
+The observed utility difference, Recorder minus baseline, was -21.7 percentage points.
 
-The trusted adapter is a material assumption. If it labels restricted data as public or omits a real data-flow edge, the current policy can make an unsafe decision. Deployment therefore requires adapter review, schema enforcement, identity-bound sessions, durable storage, and tamper-resistant telemetry.
+The paired table exposes the direction of that loss:
 
-Human approval carries its own risk. Review fatigue can convert a pause into routine acceptance. The evaluation reports review burden rather than treating human presence as sufficient protection.
+| Baseline utility | Recorder utility | Pairs |
+|---|---|---:|
+| success | success | 32 |
+| success | failure | 29 |
+| failure | success | 3 |
+| failure | failure | 56 |
 
-## 9. Limitations
+The utility discordance was therefore 29-to-3 against the Recorder condition. The exact two-sided McNemar p-value was 2.55601×10^-6.
 
-The tools and data are synthetic. The score weights are hand-authored and uncalibrated. The artifact graph is process-local. The trace corpus cannot represent every agent workflow. Azure model behavior can change across deployments and service updates. The metadata study injects accidental corruption but does not test a malicious trusted adapter or covert data transfer through undeclared channels. Comparisons with published defenses require faithful implementations or their released artifacts.
+The confirmatory experiment does not support a claim that the defense preserved baseline utility.
 
-## 10. Related work
+### 6.3 Policy interventions
 
-Greshake et al. established indirect prompt injection as a practical attack against LLM-integrated applications [1]. InjecAgent and AgentDojo then supplied tool-oriented tasks for measuring attack success and utility [2, 3]. These benchmarks are broader than our fixed synthetic corpus, which currently serves as an implementation correctness suite.
+Across the 120 Recorder trajectories, the audit summaries recorded 291 Allow decisions, 149 Review decisions, and 115 Block decisions. A total of 269 tool actions executed and 286 were denied. These are descriptive action counts, not independent observations. One benchmark pair can generate several tool proposals, and policy interventions change later trajectories.
 
-CaMeL constructs explicit control and data flows from a trusted query and uses capabilities to prevent unauthorized flows [4]. RTBAS adapts information-flow control to tool agents and requests confirmation when integrity or confidentiality cannot be established [5]. Both systems overlap our goal of stopping sensitive data from reaching unauthorized tools. Agent Flight Recorder observes proposals from an existing agent and relies on trusted adapter labels, which simplifies integration but provides weaker guarantees when adapters omit or mislabel dependencies.
+The counts still explain the operational burden of the strict condition. `Review=deny` converts every ambiguous review into a denied tool call, so review frequency directly affects task completion.
 
-MELON, AgentSentry, and AttriGuard use re-execution or counterfactual analysis to infer whether untrusted observations caused a tool action [6, 7, 8]. Agent Flight Recorder performs no causal inference. Its artifact links are application-supplied facts. The policy is deterministic after those facts arrive, but its correctness depends on the trusted adapter.
+## 7. Review sensitivity and stochastic behavior
 
-AgentArmor is the closest prior design. It converts runtime traces into control-flow, data-flow, and program-dependence representations, attaches security properties, and applies a type system [9]. Our prototype uses a smaller session-local artifact graph and emphasizes executed-only history, action-bound approval, and distinct audit outcomes. We therefore do not claim the first trajectory-aware runtime defense or the first data-flow policy for agents.
+The original 30-pair confirmatory holdout used `Review=deny`. After its result was frozen, we reran the same known pair identities with `Review=approve`. Baseline utility in that rerun was 21/30, while Recorder utility was 24/30. Recorder utility had been 15/30 in the frozen deny holdout. Nine Recorder cases moved from utility failure to utility success, and none moved in the opposite direction.
 
-Adaptive evaluations have bypassed multiple prompt-injection defenses, which limits conclusions from fixed attacks [10]. A competitive security claim requires evaluation on AgentDojo or InjecAgent with adaptive variants and a direct comparison against stronger data-flow or program-analysis baselines. The present results support implementation semantics on a declared corpus.
+Security inference from that sensitivity run is weak. Both baseline and Recorder recorded 0/30 attack successes in the rerun. The baseline itself changed from 2/30 attacks in the frozen holdout to 0/30 without a policy change. That change exposed stochastic variation in model trajectories.
 
-## 11. References
+We then executed five repeated blocks of the same 30 known pair identities under baseline, `Review=deny`, and `Review=approve`. Across 150 repeated observations per condition, baseline utility was 113/150, deny utility was 74/150, and approve utility was 115/150. Attack success was 1/150 for baseline and 0/150 for each Recorder condition. The 150 observations per condition are repetitions of 30 identities, not 150 new benchmark tasks.
 
-1. K. Greshake, S. Abdelnabi, S. Mishra, C. Endres, T. Holz, and M. Fritz. “Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection.” AISec@CCS, 2023. https://doi.org/10.1145/3605764.3623985
-2. Q. Zhan, Z. Liang, Z. Ying, and D. Kang. “InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents.” arXiv:2403.02691, 2024. https://doi.org/10.48550/arXiv.2403.02691
-3. E. Debenedetti, J. Zhang, M. Balunović, L. Beurer-Kellner, M. Fischer, and F. Tramèr. “AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents.” arXiv:2406.13352, 2024. https://doi.org/10.48550/arXiv.2406.13352
-4. E. Debenedetti, I. Shumailov, T. Fan, J. Hayes, N. Carlini, D. Fabian, C. Kern, C. Shi, A. Terzis, and F. Tramèr. “Defeating Prompt Injections by Design.” arXiv:2503.18813, 2025. https://doi.org/10.48550/arXiv.2503.18813
-5. P. Y. Zhong, S. Chen, R. Wang, M. McCall, B. L. Titzer, H. Miller, and P. B. Gibbons. “RTBAS: Defending LLM Agents Against Prompt Injection and Privacy Leakage.” arXiv:2502.08966, 2025. https://doi.org/10.48550/arXiv.2502.08966
-6. K. Zhu, X. Yang, J. Wang, W. Guo, and W. Y. Wang. “MELON: Indirect Prompt Injection Defense via Masked Re-execution and Tool Comparison.” ICML, 2025. https://doi.org/10.48550/arXiv.2502.05174
-7. T. Zhang, Y. Xu, J. Wang, K. Guo, X. Xu, B. Xiao, Q. Guan, J. Fan, J. Liu, Z. Liu, and H. Hu. “AgentSentry: Mitigating Indirect Prompt Injection in LLM Agents via Temporal Causal Diagnostics and Context Purification.” arXiv:2602.22724, 2026. https://doi.org/10.48550/arXiv.2602.22724
-8. Y. He, H. Zhu, Y. Li, S. Shao, H. Yao, Z. Liu, and Z. Qin. “AttriGuard: Defeating Indirect Prompt Injection in LLM Agents via Causal Attribution of Tool Invocations.” arXiv:2603.10749, 2026. https://doi.org/10.48550/arXiv.2603.10749
-9. P. Wang, Y. Liu, Y. Lu, Y. Cai, H. Chen, Q. Yang, J. Zhang, J. Hong, and Y. Wu. “AgentArmor: Enforcing Program Analysis on Agent Runtime Trace to Defend Against Prompt Injection.” arXiv:2508.01249, 2025. https://doi.org/10.48550/arXiv.2508.01249
-10. Q. Zhan, R. Fang, H. S. Panchal, and D. Kang. “Adaptive Attacks Break Defenses Against Indirect Prompt Injection Attacks on LLM Agents.” Findings of NAACL, pp. 7116–7132, 2025. https://doi.org/10.18653/v1/2025.findings-naacl.395
+Taken together, these post-hoc results support one mechanism-level interpretation: strict Review denial accounts for a large part of the observed utility penalty. They do not establish that automatic approval is safe, and they do not amend the v2 confirmatory result.
 
-## 12. Conclusion
+## 8. Engineering validation outside AgentDojo
 
-Agent Flight Recorder treats tool execution as an enforceable runtime event. It records successful actions, links derived artifacts to their sources, and applies deterministic policy before consequential operations run. On the fixed synthetic corpus, artifact-aware enforcement prevented every labeled unsafe action while avoiding the session heuristic's false block on an unrelated public export. The result depends on trusted sensitivity labels. Incorrect labels degraded protection in direct proportion to the injected error rate. Broader claims require adaptive attacks, released benchmark suites, and direct comparison with stronger data-flow defenses.
+Before the benchmark study, the implementation underwent deterministic tests of execution semantics and artifact lineage. Synthetic traces covered sensitive export, unrelated public and restricted work in the same session, denied producers, executor failures, missing lineage, cross-session references, duplicate artifact identifiers, and multi-generation data derivation.
+
+A metadata-corruption study also exposed a central trust assumption. When trusted sensitivity labels were probabilistically downgraded before policy evaluation, unsafe execution rose with the injected label-error rate. Missing or incorrect trusted metadata can therefore defeat a policy that depends on that metadata. The AgentDojo result should be interpreted with the same boundary.
+
+These engineering tests support implementation semantics. They are not pooled with the 120-pair security endpoint.
+
+## 9. Related work
+
+Indirect prompt injection arises when data consumed by an LLM-integrated application carries instructions that redirect later behavior. Greshake et al. demonstrated this attack surface in real and synthetic LLM-integrated systems [1]. InjecAgent moved the problem into tool-integrated agent evaluation and supplied more than one thousand indirect-injection cases [2]. AgentDojo introduced a dynamic environment that jointly measures security and task utility under attacks and defenses [3]. Agent Security Bench broadened agent-security evaluation across attack classes, tools, and model backbones [4].
+
+Several defenses change the system architecture around the model. CaMeL separates trusted control flow from untrusted data and uses capabilities to constrain unauthorized information flow [5]. That design offers a stronger structural security model than the trusted-metadata gate used here. Agent Flight Recorder instead attaches to an existing agent at the tool boundary and evaluates each proposal against external metadata and recorded state.
+
+Other defenses infer whether untrusted context caused a proposed action. MELON masks the user prompt and re-executes the trajectory, then compares tool behavior [6]. AttriGuard performs action-level causal attribution through counterfactual replay and reports strong results against static and adaptive settings [10]. Agent Flight Recorder performs no model re-execution for a policy decision. Once the trusted adapter has assigned metadata, assessment is deterministic.
+
+AgentArmor is especially close in systems motivation. It reconstructs agent runtime traces into control-flow, data-flow, and program-dependence representations and applies program-analysis concepts to security enforcement [8]. Agent Flight Recorder uses a smaller state representation based on successful executions and declared artifact links. We therefore do not claim first use of runtime traces or data flow for agent security.
+
+Tool-interface firewalls provide another nearby design point. Bhagwatkar et al. report strong benchmark performance from tool-input minimization and tool-output sanitization, while also identifying weaknesses in current benchmark design [9]. Their benchmark critique matters here. A result on AgentDojo measures behavior under the tested attack and evaluator. It does not establish protection against all prompt injection.
+
+Adaptive evaluation sharpens that boundary. Zhan et al. bypassed multiple indirect-prompt-injection defenses with adaptive attacks [7]. Hofer et al. later evaluated automated black-box and white-box prompt-injection optimization in AgentDojo and found that attack effectiveness depends on the attacker method and model [11]. Agent Flight Recorder v2 used one fixed attack family. Adaptive robustness remains unmeasured.
+
+## 10. Discussion
+
+### 10.1 Security and utility are coupled
+
+The central result is not simply 20 attacks versus zero. The same frozen policy also moved 29 paired tasks from baseline success to Recorder failure while moving only three in the opposite direction. A strict runtime gate can achieve strong observed protection by stopping actions that include both malicious and legitimate work.
+
+The post-hoc Review studies make this coupling visible. Review handling is part of the security mechanism, not a user-interface detail. Automatically approving every Review can recover utility, but it also changes the enforcement semantics. A production design needs an approval channel whose decisions carry real authorization rather than scripted acceptance or denial.
+
+### 10.2 Why executed-only history matters
+
+A security monitor should distinguish proposed behavior from actual effects. If a blocked database query enters history as though it succeeded, later decisions can inherit sensitivity from data the agent never received. If a failed producer creates an artifact record, later lineage can point to an output that does not exist. Agent Flight Recorder records successful effects only. This state rule is simple, but it prevents a class of trace-consistency errors.
+
+### 10.3 Trusted metadata is a security boundary
+
+Deterministic enforcement does not remove trust; it relocates it. The current system trusts application adapters to map tools, assign sensitivity, identify destinations, and declare artifact dependencies. Wrong labels can create wrong decisions. The synthetic metadata study confirms this directly.
+
+A deployable system would need schema validation, adapter review, authenticated session identity, durable and tamper-resistant state, strict tool registration, and monitoring for missing metadata. These requirements are part of the security design.
+
+### 10.4 Benchmark interpretation
+
+The v2 paired result is statistically clear under the declared benchmark. Its external meaning is narrower. AgentDojo's evaluator defines attack completion for specific injected objectives. The `tool_knowledge` attack is not an adaptive adversary against this policy. One Azure model deployment and one workspace suite cannot represent the full space of models, tools, or prompt-injection strategies.
+
+The correct statement is therefore benchmark-specific: the frozen gate reduced observed attack success under the recorded conditions. Stronger claims require separate experiments designed before outcomes are seen.
+
+## 11. Threats to validity
+
+**Internal validity.** Language-model trajectories are stochastic. The paired design controls task identity but does not make model calls deterministic. The earlier repeated study showed small utility variation and occasional baseline attack variation across reruns. V2 increased unique pair count rather than treating repeated known cases as independent evidence.
+
+**Construct validity.** AgentDojo attack success represents completion of its defined injection objective. It is not equivalent to every form of compromise. Legitimate-task utility also depends on benchmark semantics and agent capability.
+
+**Policy validity.** The score weights and thresholds are engineered rules rather than statistically calibrated risk probabilities. The confirmatory test evaluates the frozen rule set as a system, not the optimality of each weight.
+
+**Metadata validity.** Tool mappings, destination trust, sensitivity, provenance, and lineage are trusted inputs. Incorrect mappings can cause unsafe decisions or unnecessary blocking.
+
+**External validity.** V2 used AgentDojo workspace, `tool_knowledge`, one primary Azure deployment, and a fixed tool catalog. Results may not transfer to other suites, models, attacks, or production applications.
+
+**Adaptive validity.** The study did not expose the policy to an attacker that optimized prompts against its behavior. Published adaptive and automated attack work shows that this omission matters [7,11].
+
+## 12. Reproducibility and evidence provenance
+
+The v2 protocol was committed before outcome collection. The deterministic generator and overlap tests were committed separately. The successful evaluation ran from commit `9ef3022fa5dd05ae8746c6f8b4556ad6311e30a5` in GitHub Actions run `35180860582`.
+
+The retained artifact is `agentdojo-v2-35180860582` with GitHub-reported SHA-256 `3a4e8c97a8237b8f2fa5eae08f9fc2e4188c72173ff594a58680b7b907faac81`. The generated v2 manifest hash is `133014deda3d84607e29270525fce26e45b3f75b2b4f94559135c373f4b1b3aa`. The frozen pair summary hash is `a080ec60debde9746fd6e4d2b55ac38bf1900050f48bc609d5ec5b04a860041d`.
+
+The repository preserves the protocol, workflow, generated evidence hashes, raw per-case console records, paired summaries, and frozen evidence documents. No policy change was made in response to v2 outcomes before the result was frozen.
+
+## 13. References
+
+1. K. Greshake, S. Abdelnabi, S. Mishra, C. Endres, T. Holz, and M. Fritz. “Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection.” AISec, 2023. arXiv:2302.12173.
+2. Q. Zhan, Z. Liang, Z. Ying, and D. Kang. “InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents.” Findings of the Association for Computational Linguistics: ACL 2024, pp. 10471-10506. DOI: 10.18653/v1/2024.findings-acl.624.
+3. E. Debenedetti, J. Zhang, M. Balunović, L. Beurer-Kellner, M. Fischer, and F. Tramèr. “AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents.” arXiv:2406.13352, 2024.
+4. H. Zhang, J. Huang, K. Mei, Y. Yao, Z. Wang, C. Zhan, H. Wang, and Y. Zhang. “Agent Security Bench (ASB): Formalizing and Benchmarking Attacks and Defenses in LLM-based Agents.” International Conference on Learning Representations, 2025.
+5. E. Debenedetti, I. Shumailov, T. Fan, J. Hayes, N. Carlini, D. Fabian, C. Kern, C. Shi, A. Terzis, and F. Tramèr. “Defeating Prompt Injections by Design.” arXiv:2503.18813, 2025.
+6. K. Zhu, X. Yang, J. Wang, W. Guo, and W. Y. Wang. “MELON: Indirect Prompt Injection Defense via Masked Re-execution and Tool Comparison.” arXiv:2502.05174, 2025.
+7. Q. Zhan, R. Fang, H. S. Panchal, and D. Kang. “Adaptive Attacks Break Defenses Against Indirect Prompt Injection Attacks on LLM Agents.” Findings of the Association for Computational Linguistics: NAACL 2025, pp. 7116-7132. DOI: 10.18653/v1/2025.findings-naacl.395.
+8. P. Wang, Y. Liu, Y. Lu, Y. Cai, H. Chen, Q. Yang, J. Zhang, J. Hong, and Y. Wu. “AgentArmor: Enforcing Program Analysis on Agent Runtime Trace to Defend Against Prompt Injection.” arXiv:2508.01249, 2025.
+9. R. Bhagwatkar, K. Kasa, A. Puri, G. Huang, I. Rish, G. W. Taylor, K. D. Dvijotham, and A. Lacoste. “Indirect Prompt Injections: Are Firewalls All You Need, or Stronger Benchmarks?” arXiv:2510.05244, 2025.
+10. Y. He, H. Zhu, Y. Li, S. Shao, H. Yao, Z. Liu, and Z. Qin. “AttriGuard: Defeating Indirect Prompt Injection in LLM Agents via Causal Attribution of Tool Invocations.” 35th USENIX Security Symposium, 2026, pp. 1547-1566.
+11. D. Hofer, E. Debenedetti, and F. Tramèr. “Assessing Automated Prompt Injection Attacks in Agentic Environments.” arXiv:2606.10525, 2026.
+
+## 14. Conclusion
+
+Agent Flight Recorder enforces deterministic policy at the point where model proposals become tool effects. In a preregistered 120-pair AgentDojo workspace evaluation, the frozen system recorded 0/120 attack successes versus 20/120 for the paired baseline. The same policy reduced legitimate-task utility from 61/120 to 35/120. The evidence therefore shows both protection and cost.
+
+The design result is practical. Observable runtime state can support meaningful intervention without access to private model reasoning. The experimental result is narrower. It applies to the recorded benchmark and policy conditions, and it leaves adaptive robustness, metadata assurance, and usable human review as open engineering problems.
