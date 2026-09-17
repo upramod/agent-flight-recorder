@@ -34,9 +34,9 @@ jobs:
             echo 'Author identity found in compiled PDF'
             exit 1
           fi
-          pages=$(grep -a -o '/Type[[:space:]]*/Page\b' paper/usenix-security-2027.pdf | wc -l | tr -d ' ')
-          echo "Approximate PDF page objects: $pages"
-          test "$pages" -gt 0
+          pages=$(sed -n 's/.*Output written on .* (\([0-9][0-9]*\) pages,.*/\1/p' paper/usenix-security-2027.log | tail -1)
+          echo "Compiled pages: $pages"
+          test -n "$pages"
           test "$pages" -le 15
       - name: Upload compiled draft
         uses: actions/upload-artifact@v7
