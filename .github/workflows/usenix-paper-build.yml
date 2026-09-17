@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - paper/usenix-security-2027.tex
+      - paper/usenix2019_v3.sty
       - paper/references.bib
       - .github/workflows/usenix-paper-build.yml
   workflow_dispatch:
@@ -17,27 +18,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Fetch official USENIX style file
-        shell: bash
-        run: |
-          curl --fail --location --silent --show-error \
-            --retry 3 \
-            --user-agent 'Mozilla/5.0' \
-            --referer 'https://www.usenix.org/conferences/author-resources/paper-templates' \
-            https://www.usenix.org/sites/default/files/usenix2019_v3.sty \
-            --output paper/usenix2019_v3.sty
-          test -s paper/usenix2019_v3.sty
+      - name: Verify vendored USENIX style
+        run: test -s paper/usenix2019_v3.sty
       - name: Compile anonymous manuscript
         uses: xu-cheng/latex-action@v4
         with:
           root_file: usenix-security-2027.tex
           working_directory: paper
           args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
-      - name: Check PDF metadata for author identity
+      - name: Check PDF and anonymity metadata
         shell: bash
         run: |
-          strings paper/usenix-security-2027.pdf | grep -E -i 'Pramod|Ubbala|upramod' && exit 1 || true
           test -s paper/usenix-security-2027.pdf
+          strings paper/usenix-security-2027.pdf | grep -E -i 'Pramod|Ubbala|upramod' && exit 1 || true
+          pages=$(pdfinfo paper/usenix-security-2027.pdf | awk '/^Pages:/ {print $2}')
+          echo "Compiled pages: $pages"
+          test "$pages" -le 15
       - name: Upload compiled draft
         uses: actions/upload-artifact@v7
         with:
