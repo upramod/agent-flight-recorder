@@ -7,29 +7,36 @@ Updated: 2026-09-17
 - Primary v2 result frozen.
 - Experimental cycle closed. No v3 is planned to improve observed outcomes.
 - Paired utility analysis recorded from the frozen summary.
-- Manuscript recentered on the 120-pair AgentDojo result.
+- USENIX Security 2027 selected as the working submission target.
+- Anonymous USENIX LaTeX manuscript created with a vendored style dependency.
 - Security and utility results are both stated in the abstract and main results.
 - Post-hoc Review evidence is separated from confirmatory evidence.
+- V2 is described as 120 previously unused exact pair identities, not 120 wholly novel benchmark primitives.
 - Related-work positioning refreshed against current primary sources.
+- Bibliography checked against primary/current publication records; MELON metadata corrected to the final publication record.
 - Claim-to-evidence audit created.
-- Reproducibility hashes and run identifiers appear in the manuscript.
+- Independent statistical verification completed; all primary counts, Wilson intervals, percentage-point differences, paired tables, and exact McNemar p-values match the frozen evidence.
+- Reviewer-style risk audit completed.
+- Anonymous artifact is built by an allowlist rather than by deleting files from the author repository.
+- Anonymous artifact hygiene workflow passed.
+- USENIX manuscript compilation has succeeded; the compiled draft is six pages.
+- Compiled PDF has been rendered page-by-page and visually inspected with no clipping, overlap, black squares, or broken glyphs observed.
+- Reproducibility hashes and run identifiers are retained in the research record.
 
 ## Still needed before external submission
 
-1. Select a target venue or preprint format and convert the Markdown draft to its template.
-2. Create publication-quality figures from the architecture and experiment flow. Figures must not add unsupported measurements.
-3. Verify bibliography formatting against the selected venue and replace preprint citations with final proceedings versions where available.
-4. Perform one line-by-line technical review against repository code and frozen evidence.
-5. Perform one independent statistical check of all reported counts, intervals, and p-values.
-6. Add an artifact-availability statement with the public repository and release/tag chosen for the paper.
-7. Add an AI-assistance disclosure that matches the selected venue's current policy. The disclosure should state the actual use of AI in drafting/editing and technical assistance. It should not imply that AI produced experimental observations that came from the recorded benchmark workflow.
-8. Freeze the submission manuscript at a dedicated commit and tag after final author review.
+1. Obtain a final successful CI build for the latest manuscript revision and retain its PDF artifact.
+2. Replace the compact boxed architecture/experiment-flow figures with publication-quality vector figures if they materially improve readability. Do not add unsupported measurements.
+3. Create the actual anonymous artifact hosting URL and insert it into the Open Science appendix before submission. Do not link the author-owned public repository in the blinded manuscript.
+4. Add the venue-appropriate AI-assistance disclosure in the submission system or manuscript location required by the final venue policy. State the actual use of AI in drafting/editing and technical assistance; do not imply that AI produced benchmark observations.
+5. Perform final human author review of the PDF and artifact contents.
+6. After final author review, freeze a dedicated submission commit/tag and record the compiled PDF/artifact hashes.
 
-## Recommended paper framing
+## Paper framing
 
-The strongest framing is a systems-security paper about runtime enforcement semantics plus paired benchmark evidence. The paper is weaker if framed as a claim of a new universal prompt-injection defense.
+Frame the work as a systems-security paper about runtime enforcement semantics plus paired benchmark evidence, not as a new universal prompt-injection defense category.
 
-The central result should remain visible in every submission version:
+The central result must remain visible in every submission version:
 
 - attack success: 20/120 baseline versus 0/120 Recorder;
 - exact paired p=1.91e-06;
