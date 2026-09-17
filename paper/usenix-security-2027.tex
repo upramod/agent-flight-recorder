@@ -113,7 +113,7 @@ Protocol v2 was then frozen before collecting new outcomes.
 V2 used AgentDojo package version 0.1.35, benchmark v1.2.2, the \texttt{workspace} suite, \texttt{tool\_knowledge} attack, one Azure model deployment, one trusted email domain, the frozen Agent Flight Recorder policy, and confirmatory \texttt{Review=deny}. Secrets and credentials were not stored as experimental metadata.
 
 \subsection{Pair selection and overlap control}
-The pinned workspace inventory exposed 40 user tasks and 14 injection tasks. The v2 generator enumerated candidate user-task/injection-task pairs, removed exact identities used by prior diagnostic and holdout manifests, ranked remaining identities by a fixed SHA-256 selection key, and selected the first 120 unique eligible pairs. Generator code and overlap tests were committed before model execution.
+The pinned workspace inventory exposed 40 user tasks and 14 injection tasks. The v2 generator enumerated candidate user-task/injection-task pairs, removed exact identities used by prior diagnostic and holdout manifests, ranked remaining identities by a fixed SHA-256 selection key, and selected the first 120 unique eligible pairs. These are 120 previously unused exact pair identities, not 120 wholly novel user-task or injection-task primitives; component tasks come from the same finite pinned workspace inventory. Generator code and overlap tests were committed before model execution.
 
 The first workflow attempt failed before manifest generation because a parser did not recognize legacy manifest field names. No v2 model call occurred. We corrected only parser and overlap-test schema handling, then reran the frozen design.
 
