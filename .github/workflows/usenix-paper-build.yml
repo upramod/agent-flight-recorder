@@ -18,7 +18,15 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Fetch official USENIX style file
-        run: curl --fail --location --silent --show-error https://www.usenix.org/sites/default/files/usenix2019_v3.sty --output paper/usenix2019_v3.sty
+        shell: bash
+        run: |
+          curl --fail --location --silent --show-error \
+            --retry 3 \
+            --user-agent 'Mozilla/5.0' \
+            --referer 'https://www.usenix.org/conferences/author-resources/paper-templates' \
+            https://www.usenix.org/sites/default/files/usenix2019_v3.sty \
+            --output paper/usenix2019_v3.sty
+          test -s paper/usenix2019_v3.sty
       - name: Compile anonymous manuscript
         uses: xu-cheng/latex-action@v4
         with:
