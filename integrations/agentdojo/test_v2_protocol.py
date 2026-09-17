@@ -15,7 +15,10 @@ def cases(d):
         if isinstance(d.get(k), list): return d[k]
     raise AssertionError("case list missing")
 def ident(c):
-    return str(c.get("user_task_id", c.get("userTaskId", c.get("user_task")))), str(c.get("injection_task_id", c.get("injectionTaskId", c.get("injection_task"))))
+    u = c.get("user_task_id", c.get("userTaskId", c.get("user_task", c.get("userTask"))))
+    i = c.get("injection_task_id", c.get("injectionTaskId", c.get("injection_task", c.get("injectionTask"))))
+    assert u is not None and i is not None, f"missing task id: {c}"
+    return str(u), str(i)
 
 with tempfile.TemporaryDirectory() as td:
     a, b = Path(td)/"a.json", Path(td)/"b.json"
