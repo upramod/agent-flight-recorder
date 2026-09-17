@@ -1,0 +1,75 @@
+name: AgentDojo repeated trials
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/agentdojo-repeated-trials.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agentdojo-repeated-trials
+  cancel-in-progress: false
+
+jobs:
+  repeated-trials:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+      AZURE_OPENAI_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
+      AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+      AZURE_OPENAI_API_VERSION: ${{ vars.AZURE_OPENAI_API_VERSION || '2025-01-01-preview' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: integrations/agentdojo/requirements.txt
+      - name: Install dependencies
+        run: |
+          npm ci
+          python -m pip install -r integrations/agentdojo/requirements.txt
+      - name: Regression tests
+        run: |
+          npm test
+          python integrations/agentdojo/test_executor.py
+      - name: Check Azure configuration
+        shell: bash
+        run: |
+          for name in AZURE_OPENAI_ENDPOINT AZURE_OPENAI_DEPLOYMENT AZURE_OPENAI_API_KEY; do
+            test -n "${!name}" || { echo "Missing $name"; exit 1; }
+          done
+      - name: Run five blocked repetitions
+        run: |
+          python integrations/agentdojo/run_repeated_trials.py \
+            integrations/agentdojo/holdout-manifest.json \
+            results/agentdojo/repeated
+      - name: Aggregate repeated trials
+        run: |
+          python integrations/agentdojo/analyze_repeated_trials.py \
+            results/agentdojo/repeated/repeated-trials.csv \
+            results/agentdojo/repeated/repeated-trials-analysis.json \
+            results/agentdojo/repeated/repeated-trials-analysis.md
+          cat results/agentdojo/repeated/repeated-trials-analysis.md
+      - name: Record checksums
+        if: always()
+        shell: bash
+        run: |
+          printf '%s\n' "$GITHUB_SHA" > results/agentdojo/repeated/git-sha.txt || true
+          find results/agentdojo/repeated -type f -print0 | sort -z | xargs -0 sha256sum > results/agentdojo/repeated/file-sha256.txt || true
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: agentdojo-repeated-${{ github.run_id }}
+          path: results/agentdojo/repeated
+          retention-days: 90
