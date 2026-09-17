@@ -1,0 +1,38 @@
+name: USENIX paper build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - paper/usenix-security-2027.tex
+      - paper/references.bib
+      - .github/workflows/usenix-paper-build.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-paper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Fetch official USENIX style file
+        run: curl --fail --location --silent --show-error https://www.usenix.org/sites/default/files/usenix2019_v3.sty --output paper/usenix2019_v3.sty
+      - name: Compile anonymous manuscript
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: usenix-security-2027.tex
+          working_directory: paper
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+      - name: Check PDF metadata for author identity
+        shell: bash
+        run: |
+          strings paper/usenix-security-2027.pdf | grep -E -i 'Pramod|Ubbala|upramod' && exit 1 || true
+          test -s paper/usenix-security-2027.pdf
+      - name: Upload compiled draft
+        uses: actions/upload-artifact@v7
+        with:
+          name: usenix-security-2027-draft-${{ github.run_id }}
+          path: paper/usenix-security-2027.pdf
+          retention-days: 30
