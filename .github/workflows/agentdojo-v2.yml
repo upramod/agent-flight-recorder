@@ -1,0 +1,105 @@
+name: AgentDojo independent evaluation v2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/agentdojo-v2.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agentdojo-independent-v2
+  cancel-in-progress: false
+
+jobs:
+  v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+      AZURE_OPENAI_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
+      AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+      AZURE_OPENAI_API_VERSION: ${{ vars.AZURE_OPENAI_API_VERSION || '2025-01-01-preview' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: integrations/agentdojo/requirements.txt
+      - name: Install dependencies
+        run: |
+          npm ci
+          python -m pip install -r integrations/agentdojo/requirements.txt
+      - name: Regression and v2 protocol tests
+        run: |
+          npm test
+          python integrations/agentdojo/test_executor.py
+          python integrations/agentdojo/test_v2_protocol.py
+      - name: Check Azure configuration
+        shell: bash
+        run: |
+          for name in AZURE_OPENAI_ENDPOINT AZURE_OPENAI_DEPLOYMENT AZURE_OPENAI_API_KEY; do
+            test -n "${!name}" || { echo "Missing $name"; exit 1; }
+          done
+      - name: Generate exact frozen v2 manifest
+        run: |
+          mkdir -p results/agentdojo/v2
+          python integrations/agentdojo/generate_v2_manifest.py results/agentdojo/v2/manifest-v2.generated.json
+          sha256sum results/agentdojo/v2/manifest-v2.generated.json | tee results/agentdojo/v2/manifest-v2.sha256
+      - name: Convert generated manifest to runner schema
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/agentdojo/v2/manifest-v2.generated.json')
+          d=json.loads(p.read_text())
+          out={
+            'benchmarkVersion': d['agentdojo_benchmark'],
+            'suite': d['suite'],
+            'attack': d['attack'],
+            'reviewPolicy': d['review_policy'],
+            'trustedEmailDomain': d['trusted_domain'],
+            'pairs': [
+              {'id': f'v2-{n:03d}', 'userTask': c['user_task_id'], 'injectionTask': c['injection_task_id']}
+              for n,c in enumerate(d['cases'],1)
+            ]
+          }
+          Path('results/agentdojo/v2/manifest-v2.runner.json').write_text(json.dumps(out,indent=2)+'\n')
+          PY
+      - name: Run frozen 120-pair v2 evaluation
+        shell: bash
+        run: |
+          set -o pipefail
+          python integrations/agentdojo/run_manifest.py \
+            --manifest results/agentdojo/v2/manifest-v2.runner.json \
+            --output results/agentdojo/v2/run | tee results/agentdojo/v2/console.txt
+      - name: Summarize paired results
+        if: success()
+        run: |
+          python integrations/agentdojo/summarize_pilot.py results/agentdojo/v2/run results/agentdojo/v2/summary.csv
+          python integrations/agentdojo/analyze_paired.py results/agentdojo/v2/summary.csv --json results/agentdojo/v2/analysis.json --markdown results/agentdojo/v2/analysis.md
+          cat results/agentdojo/v2/analysis.md
+      - name: Record provenance and checksums
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p results/agentdojo/v2
+          printf '%s\n' "$GITHUB_SHA" > results/agentdojo/v2/git-sha.txt
+          find results/agentdojo/v2 -type f -print0 | sort -z | xargs -0 sha256sum > results/agentdojo/v2/file-sha256.txt || true
+      - name: Upload v2 evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: agentdojo-v2-${{ github.run_id }}
+          path: results/agentdojo/v2
+          if-no-files-found: warn
+          retention-days: 90
