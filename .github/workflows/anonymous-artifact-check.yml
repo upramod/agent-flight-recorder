@@ -1,0 +1,43 @@
+name: Anonymous artifact hygiene
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/build_anonymous_artifact.py
+      - .github/workflows/anonymous-artifact-check.yml
+      - src/**
+      - test/**
+      - integrations/agentdojo/**
+      - package.json
+      - package-lock.json
+      - tsconfig.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  artifact-hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Build anonymous source bundle
+        run: python scripts/build_anonymous_artifact.py --output /tmp/agent-flight-recorder-anonymous
+      - name: Verify forbidden repository metadata is absent
+        shell: bash
+        run: |
+          test ! -e /tmp/agent-flight-recorder-anonymous/.git
+          test ! -e /tmp/agent-flight-recorder-anonymous/paper
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('/tmp/agent-flight-recorder-anonymous/anonymity-scan.json')
+          hits = json.loads(p.read_text())
+          if hits:
+              raise SystemExit(f'anonymity scan reported {hits}')
+          print('anonymous artifact hygiene passed')
+          PY
