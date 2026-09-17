@@ -6,132 +6,17 @@ on:
       - main
     paths:
       - .github/workflows/agentdojo-repeated-variance.yml
-  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
   group: agentdojo-repeated-variance
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
-  repeat:
-    strategy:
-      fail-fast: false
-      max-parallel: 1
-      matrix:
-        repeat: [1, 2, 3, 4, 5]
+  superseded:
     runs-on: ubuntu-latest
-    timeout-minutes: 75
-    env:
-      AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
-      AZURE_OPENAI_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
-      AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-      AZURE_OPENAI_API_VERSION: ${{ vars.AZURE_OPENAI_API_VERSION || '2025-01-01-preview' }}
-
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v7
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Set up Python
-        uses: actions/setup-python@v7
-        with:
-          python-version: '3.12'
-          cache: pip
-          cache-dependency-path: integrations/agentdojo/requirements.txt
-
-      - name: Install Node.js dependencies
-        run: npm ci
-
-      - name: Run TypeScript regression tests
-        run: npm test
-
-      - name: Install AgentDojo dependencies
-        run: python -m pip install -r integrations/agentdojo/requirements.txt
-
-      - name: Run AgentDojo adapter tests
-        run: python integrations/agentdojo/test_executor.py
-
-      - name: Check Azure configuration
-        shell: bash
-        run: |
-          for name in AZURE_OPENAI_ENDPOINT AZURE_OPENAI_DEPLOYMENT AZURE_OPENAI_API_KEY; do
-            if [ -z "${!name}" ]; then
-              echo "Missing GitHub Actions secret: $name"
-              exit 1
-            fi
-          done
-
-      - name: Run repeated condition set
-        shell: bash
-        run: |
-          set -o pipefail
-          python integrations/agentdojo/run_repeated_conditions.py \
-            --manifest integrations/agentdojo/holdout-manifest.json \
-            --exclude-manifest integrations/agentdojo/benchmark-manifest.json \
-            --repeat ${{ matrix.repeat }} \
-            --output results/agentdojo/repeated/repeat-${{ matrix.repeat }} \
-            | tee results-repeat-${{ matrix.repeat }}-console.txt
-
-      - name: Record evidence checksums
-        if: always()
-        shell: bash
-        run: |
-          root=results/agentdojo/repeated/repeat-${{ matrix.repeat }}
-          mkdir -p "$root"
-          printf '%s\n' "$GITHUB_SHA" > "$root/git-sha.txt"
-          find "$root" -type f -print0 | sort -z | xargs -0 sha256sum > "$root/file-sha256.txt" || true
-
-      - name: Upload repetition evidence
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: agentdojo-repeat-${{ matrix.repeat }}-${{ github.run_id }}
-          path: |
-            results/agentdojo/repeated/repeat-${{ matrix.repeat }}
-            results-repeat-${{ matrix.repeat }}-console.txt
-          if-no-files-found: warn
-          retention-days: 90
-
-  aggregate:
-    needs: repeat
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v7
-
-      - name: Download repetition evidence
-        uses: actions/download-artifact@v7
-        with:
-          pattern: agentdojo-repeat-*-${{ github.run_id }}
-          path: downloaded
-
-      - name: Aggregate repeated results
-        run: |
-          python integrations/agentdojo/aggregate_repeated_conditions.py \
-            --root downloaded \
-            --json results/agentdojo/repeated-aggregate.json \
-            --markdown results/agentdojo/repeated-aggregate.md
-          cat results/agentdojo/repeated-aggregate.md
-
-      - name: Record aggregate checksums
-        shell: bash
-        run: |
-          printf '%s\n' "$GITHUB_SHA" > results/agentdojo/repeated-git-sha.txt
-          sha256sum results/agentdojo/repeated-aggregate.json results/agentdojo/repeated-aggregate.md > results/agentdojo/repeated-aggregate-sha256.txt
-
-      - name: Upload aggregate evidence
-        uses: actions/upload-artifact@v7
-        with:
-          name: agentdojo-repeated-aggregate-${{ github.run_id }}
-          path: results/agentdojo
-          if-no-files-found: error
-          retention-days: 90
+      - name: Stop duplicate study
+        run: echo "Superseded by completed repeated-trials run 35167246091."
