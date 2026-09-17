@@ -1,5 +1,6 @@
 name: AgentDojo independent evaluation v2
 
+# Infrastructure retry after pre-execution manifest parser fix.
 on:
   push:
     branches: [main]
