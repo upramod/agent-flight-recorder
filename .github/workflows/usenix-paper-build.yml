@@ -30,9 +30,13 @@ jobs:
         shell: bash
         run: |
           test -s paper/usenix-security-2027.pdf
-          strings paper/usenix-security-2027.pdf | grep -E -i 'Pramod|Ubbala|upramod' && exit 1 || true
-          pages=$(pdfinfo paper/usenix-security-2027.pdf | awk '/^Pages:/ {print $2}')
-          echo "Compiled pages: $pages"
+          if strings paper/usenix-security-2027.pdf | grep -E -i 'Pramod|Ubbala|upramod'; then
+            echo 'Author identity found in compiled PDF'
+            exit 1
+          fi
+          pages=$(grep -a -o '/Type[[:space:]]*/Page\b' paper/usenix-security-2027.pdf | wc -l | tr -d ' ')
+          echo "Approximate PDF page objects: $pages"
+          test "$pages" -gt 0
           test "$pages" -le 15
       - name: Upload compiled draft
         uses: actions/upload-artifact@v7
