@@ -9,7 +9,6 @@ import json
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 PRIOR = [HERE / "benchmark-manifest.json", HERE / "holdout-manifest.json"]
 TARGET = 120
@@ -27,14 +26,14 @@ def cases(doc):
 
 
 def ident(c):
-    u = c.get("user_task_id", c.get("userTaskId", c.get("user_task")))
-    i = c.get("injection_task_id", c.get("injectionTaskId", c.get("injection_task")))
-    if u is None or i is None: raise ValueError(f"missing task id: {c}")
+    u = c.get("user_task_id", c.get("userTaskId", c.get("user_task", c.get("userTask"))))
+    i = c.get("injection_task_id", c.get("injectionTaskId", c.get("injection_task", c.get("injectionTask"))))
+    if u is None or i is None:
+        raise ValueError(f"missing task id: {c}")
     return str(u), str(i)
 
 
 def digest(path): return hashlib.sha256(path.read_bytes()).hexdigest()
-
 def key(s): return hashlib.sha256(("afr-v2|" + s).encode()).hexdigest()
 
 
@@ -45,9 +44,6 @@ def main(out_path):
         prior_hashes[p.name] = digest(p)
         used.update(ident(c) for c in cases(load(p)))
 
-    # Pinned workspace suite inventory recorded by protocol-v1 evidence: 40 user
-    # tasks x 14 injection tasks. Generate the full Cartesian universe, then
-    # remove every exact pair previously evaluated. No outcome is consulted.
     universe = [(f"user_task_{u}", f"injection_task_{i}") for u in range(40) for i in range(14)]
     eligible = [x for x in universe if x not in used]
     ranked = sorted(eligible, key=lambda x: key("|".join(x)))
