@@ -48,55 +48,116 @@ class PolicyBridge:
         return response
 
     def close(self) -> None:
-        if self._process.poll() is None:
-            self._process.terminate()
-            self._process.wait(timeout=5)
+        try:
+            if self._process.poll() is None:
+                self._process.terminate()
+                try:
+                    self._process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    self._process.kill()
+                    self._process.wait(timeout=5)
+        finally:
+            for stream in (self._process.stdin, self._process.stdout, self._process.stderr):
+                if stream is not None:
+                    try:
+                        stream.close()
+                    except OSError:
+                        # A broken child pipe must not prevent closing the others.
+                        pass
 
 
 class TrustedToolCatalog:
+    # These are outbound arguments in the pinned workspace tool schemas.
+    # An email-shaped argument to a read/search tool is not a destination.
+    RECIPIENT_FIELDS = {
+        "send_email": ("recipients", "cc", "bcc"),
+        "create_calendar_event": ("participants",),
+        "add_calendar_event_participants": ("participants",),
+        "share_file": ("email",),
+    }
+    SECURITY_ENUMS = {
+        "sensitivity": {"Public", "Internal", "Confidential", "Restricted"},
+        "destinationTrust": {"Trusted", "Unknown", "Untrusted"},
+        "inputProvenance": {"System", "User", "TrustedTool", "UntrustedDocument", "External"},
+    }
+
     def __init__(self, path: Path, trusted_email_domains: Sequence[str] = ()) -> None:
         raw = json.loads(path.read_text(encoding="utf-8"))
         if not isinstance(raw, dict):
             raise ValueError("Tool catalog must be a JSON object")
         self._rules: dict[str, dict[str, Any]] = raw
         self._trusted_email_domains = {domain.lower().lstrip("@") for domain in trusted_email_domains}
+        # Validate every materialized rule before a benchmark can make model calls.
+        for function in self._rules:
+            self.action(function, "catalog-validation")
 
     @property
     def functions(self) -> set[str]:
         return set(self._rules)
 
     def action(self, function: str, session_id: str, arguments: dict[str, Any] | None = None) -> dict[str, Any]:
-        rule = self._rules.get(function)
-        if rule is None:
+        self._require_string(function, "operation")
+        self._require_string(session_id, "sessionId")
+        if function not in self._rules:
             raise KeyError(f"Unmapped AgentDojo tool: {function}")
-        destination_trust = self._destination_trust(rule, arguments or {})
+        rule = self._rules[function]
+        if not isinstance(rule, dict):
+            raise ValueError(f"Tool catalog rule must be an object: {function}")
+        if arguments is not None and not isinstance(arguments, dict):
+            raise ValueError("Tool arguments must be an object")
         action = {
             "id": str(uuid.uuid4()),
             "sessionId": session_id,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "tool": "agentdojo",
             "operation": function,
-            "resourceType": rule["resourceType"],
+            "resourceType": rule.get("resourceType"),
             "sensitivity": rule.get("sensitivity", "Internal"),
-            "destinationTrust": destination_trust,
+            "destinationTrust": rule.get("destinationTrust", "Trusted"),
             "privilegeLevel": rule.get("privilegeLevel", 1),
             "inputProvenance": rule.get("inputProvenance", "TrustedTool"),
         }
+        # Keep the original omission defaults, but never let an invalid explicit
+        # value be hidden by a recipient-derived replacement.
+        self.validate_action(action)
+        destination_trust = self._destination_trust(function, rule, arguments or {})
+        action["destinationTrust"] = destination_trust
         if destination_trust != rule.get("destinationTrust", "Trusted"):
             action["metadata"] = {"destinationTrustSource": "recipient-domain"}
         return action
 
-    def _destination_trust(self, rule: dict[str, Any], arguments: dict[str, Any]) -> str:
-        recipients = self._recipients(arguments)
+    @staticmethod
+    def _require_string(value: Any, field: str) -> None:
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(f"Action {field} must be a nonempty string")
+
+    @classmethod
+    def validate_action(cls, action: dict[str, Any]) -> None:
+        if not isinstance(action, dict):
+            raise ValueError("Action must be an object")
+        for field in ("id", "sessionId", "timestamp", "tool", "operation", "resourceType"):
+            cls._require_string(action.get(field), field)
+        for field, allowed in cls.SECURITY_ENUMS.items():
+            value = action.get(field)
+            if not isinstance(value, str) or value not in allowed:
+                raise ValueError(f"Invalid action {field}")
+        privilege = action.get("privilegeLevel")
+        # The engine defines >=4 as high privilege, with no five-level scale.
+        # Use positive integers that survive the JSON-to-JavaScript boundary.
+        if type(privilege) is not int or not 1 <= privilege <= 2**53 - 1:
+            raise ValueError("Action privilegeLevel must be a positive safe integer")
+
+    def _destination_trust(self, function: str, rule: dict[str, Any], arguments: dict[str, Any]) -> str:
+        recipients = self._recipients(function, arguments)
         if not recipients or not self._trusted_email_domains:
             return rule.get("destinationTrust", "Trusted")
         domains = {recipient.rsplit("@", 1)[1].lower() for recipient in recipients}
         return "Trusted" if domains.issubset(self._trusted_email_domains) else "Untrusted"
 
-    @staticmethod
-    def _recipients(arguments: dict[str, Any]) -> list[str]:
+    @classmethod
+    def _recipients(cls, function: str, arguments: dict[str, Any]) -> list[str]:
         values: list[Any] = []
-        for key in ("recipients", "participants"):
+        for key in cls.RECIPIENT_FIELDS.get(function, ()):
             value = arguments.get(key)
             values.extend(value if isinstance(value, list) else [value])
         return [value.strip() for value in values if isinstance(value, str) and "@" in value]
@@ -113,13 +174,17 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
         review_policy: str = "approve",
         audit_path: Path | None = None,
         tool_output_formatter: Callable[[FunctionReturnType], str] = tool_result_to_str,
+        policy_mode: str = "full-history",
     ) -> None:
         if review_policy not in {"approve", "deny"}:
             raise ValueError("review_policy must be approve or deny")
+        if policy_mode not in {"full-history", "point-only"}:
+            raise ValueError("policy_mode must be full-history or point-only")
         self.bridge = bridge
         self.catalog = catalog
         self.session_id = session_id
         self.review_policy = review_policy
+        self.policy_mode = policy_mode
         self.audit_path = audit_path
         self.output_formatter = tool_output_formatter
         if self.audit_path is not None:
@@ -139,7 +204,12 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
 
         results: list[ChatToolResultMessage] = []
         audit = list(extra_args.get("agent_flight_recorder", []))
-        session_id = extra_args.get("agent_flight_recorder_session_id") or self.session_id or str(uuid.uuid4())
+        if "agent_flight_recorder_session_id" in extra_args:
+            session_id = extra_args["agent_flight_recorder_session_id"]
+        elif self.session_id is not None:
+            session_id = self.session_id
+        else:
+            session_id = str(uuid.uuid4())
         for tool_call in messages[-1]["tool_calls"]:
             try:
                 # Assess the exact argument values that the runtime will receive.
@@ -149,9 +219,13 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
                     if isinstance(value, str) and is_string_list(value):
                         arguments[key] = literal_eval(value)
                 action = self.catalog.action(tool_call.function, session_id, arguments)
-                assessment = self.bridge.request({"command": "assess", "action": action})["assessment"]
+                TrustedToolCatalog.validate_action(action)
+                assessment = self.bridge.request({
+                    "command": "assess", "action": action, "policyMode": self.policy_mode
+                })["assessment"]
             except Exception as error:
-                event = {"tool": tool_call.function, "decision": "Block", "executed": False, "error": str(error)}
+                event = {"tool": tool_call.function, "policyMode": self.policy_mode,
+                         "decision": "Block", "executed": False, "error": str(error)}
                 audit.append(event)
                 self._emit(event)
                 results.append(self._error_result(tool_call, str(error)))
@@ -162,6 +236,7 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
                 reason = "; ".join(assessment.get("reasons", [])) or "Policy denied the tool call"
                 event = {
                     "tool": tool_call.function,
+                    "policyMode": self.policy_mode,
                     "action": action,
                     "assessment": assessment,
                     "approved": approved,
@@ -177,6 +252,7 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
                 self.bridge.request({"command": "record", "action": action})
             event = {
                 "tool": tool_call.function,
+                "policyMode": self.policy_mode,
                 "action": action,
                 "assessment": assessment,
                 "approved": approved,

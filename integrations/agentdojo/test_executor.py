@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import unittest
 import json
+import subprocess
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
+from unittest.mock import Mock
 
 from agentdojo.attacks.base_attacks import get_model_name_from_pipeline
 from agentdojo.functions_runtime import FunctionCall, FunctionsRuntime
@@ -43,6 +45,27 @@ class ExecutorTests(unittest.TestCase):
 
     def tearDown(self) -> None:
         self.bridge.close()
+
+    def test_bridge_close_releases_all_pipes_and_is_idempotent(self) -> None:
+        self.bridge.close()
+        self.bridge.close()
+        self.assertIsNotNone(self.bridge._process.poll())
+        for stream in (self.bridge._process.stdin, self.bridge._process.stdout, self.bridge._process.stderr):
+            self.assertTrue(stream.closed)
+
+    def test_bridge_close_kills_on_timeout_and_closes_remaining_pipes(self) -> None:
+        bridge = PolicyBridge.__new__(PolicyBridge)
+        process = Mock()
+        process.poll.return_value = None
+        process.wait.side_effect = [subprocess.TimeoutExpired("node", 5), 0]
+        process.stdin.close.side_effect = BrokenPipeError("child pipe closed")
+        bridge._process = process
+        bridge.close()
+        process.terminate.assert_called_once_with()
+        process.kill.assert_called_once_with()
+        self.assertEqual([call.kwargs for call in process.wait.call_args_list], [{"timeout": 5}, {"timeout": 5}])
+        for stream in (process.stdin, process.stdout, process.stderr):
+            stream.close.assert_called_once_with()
 
     @staticmethod
     def messages(function: str):
@@ -95,6 +118,178 @@ class ExecutorTests(unittest.TestCase):
         self.assertEqual(internal["metadata"]["destinationTrustSource"], "recipient-domain")
         self.assertEqual(external["destinationTrust"], "Untrusted")
         self.assertEqual(external["metadata"]["destinationTrustSource"], "recipient-domain")
+
+    def test_all_pinned_outbound_recipient_fields_affect_trust(self) -> None:
+        tools = {tool.name: tool for tool in get_suite("v1.2.2", "workspace").tools}
+        catalog = TrustedToolCatalog(CATALOG, ["bluesparrowtech.com"])
+        internal = "teammate@bluesparrowtech.com"
+        external = "outside@outside.invalid"
+        cases = [
+            ("send_email", {"recipients": [external], "subject": "report", "body": "text"}),
+            ("send_email", {"recipients": [internal], "subject": "report", "body": "text", "cc": [external]}),
+            ("send_email", {"recipients": [internal], "subject": "report", "body": "text", "bcc": [external]}),
+            ("create_calendar_event", {"title": "meeting", "start_time": "2024-05-30 10:00",
+                                       "end_time": "2024-05-30 11:00", "participants": [internal, external]}),
+            ("add_calendar_event_participants", {"event_id": "1", "participants": [internal, external]}),
+            ("share_file", {"file_id": "1", "email": external, "permission": "r"}),
+        ]
+        for function, arguments in cases:
+            with self.subTest(function=function, arguments=arguments):
+                # Validate fixtures against AgentDojo's actual pinned input schemas.
+                normalized = tools[function].parameters.model_validate(arguments).model_dump()
+                action = catalog.action(function, "outbound-fields", normalized)
+                self.assertEqual(action["destinationTrust"], "Untrusted")
+
+    def test_cc_bcc_and_file_sharing_are_blocked_after_external_input(self) -> None:
+        catalog = TrustedToolCatalog(CATALOG, ["bluesparrowtech.com"])
+        session_id = "all-destinations"
+        self.bridge.request({"command": "record", "action": catalog.action("search_calendar_events", session_id)})
+        calls = [
+            ("send_email", {"recipients": ["teammate@bluesparrowtech.com"], "cc": ["outside@outside.invalid"]}),
+            ("send_email", {"recipients": ["teammate@bluesparrowtech.com"], "bcc": ["outside@outside.invalid"]}),
+            ("share_file", {"email": "outside@outside.invalid"}),
+        ]
+        for function, arguments in calls:
+            with self.subTest(function=function, arguments=arguments):
+                action = catalog.action(function, session_id, arguments)
+                assessment = self.bridge.request({"command": "assess", "action": action})["assessment"]
+                self.assertEqual(assessment["decision"], "Block")
+                self.assertEqual(assessment["score"], 80)
+
+    def test_destination_defaults_and_read_arguments_keep_existing_meaning(self) -> None:
+        catalog = TrustedToolCatalog(CATALOG, ["bluesparrowtech.com"])
+        without_domains = TrustedToolCatalog(CATALOG)
+        for function, expected in (("send_email", "Unknown"), ("share_file", "Unknown"),
+                                   ("create_calendar_event", "Trusted"),
+                                   ("add_calendar_event_participants", "Unknown")):
+            with self.subTest(function=function):
+                self.assertEqual(catalog.action(function, "defaults", {})["destinationTrust"], expected)
+                self.assertEqual(catalog.action(function, "defaults", {"participants": None})["destinationTrust"], expected)
+                self.assertEqual(without_domains.action(function, "defaults", {
+                    "recipients": ["outside@outside.invalid"], "participants": ["outside@outside.invalid"],
+                    "email": "outside@outside.invalid",
+                })["destinationTrust"], expected)
+        read = catalog.action("search_contacts_by_email", "defaults", {"email": "outside@outside.invalid"})
+        self.assertEqual(read["destinationTrust"], "Trusted")
+        self.assertNotIn("metadata", read)
+
+    def test_recipient_domain_matching_is_exact_and_case_insensitive(self) -> None:
+        catalog = TrustedToolCatalog(CATALOG, ["bluesparrowtech.com"])
+        for email, expected in (("Teammate@BLUESPARROWTECH.COM", "Trusted"),
+                                ("person@sub.bluesparrowtech.com", "Untrusted"),
+                                ("person@bluesparrowtech.com.outside.invalid", "Untrusted")):
+            with self.subTest(email=email):
+                self.assertEqual(catalog.action("share_file", "domains", {"email": email})["destinationTrust"], expected)
+
+    def test_invalid_catalog_security_fields_fail_before_use(self) -> None:
+        valid_rule = json.loads(CATALOG.read_text())["send_email"]
+        invalid_values = {
+            "resourceType": [None, "", "   ", 4],
+            "sensitivity": [None, "Secret", [], 1],
+            "destinationTrust": [None, "trusted", {}, 1],
+            "inputProvenance": [None, "Untrusted", [], 1],
+            "privilegeLevel": [None, True, 0, -1, 1.5, "4", 2**53],
+        }
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "catalog.json"
+            for field, values in invalid_values.items():
+                for value in values:
+                    with self.subTest(field=field, value=value):
+                        path.write_text(json.dumps({"send_email": {**valid_rule, field: value}}))
+                        with self.assertRaises(ValueError):
+                            TrustedToolCatalog(path, ["bluesparrowtech.com"])
+            for rule in (None, [], {}, {**valid_rule, "resourceType": ""}):
+                with self.subTest(rule=rule):
+                    path.write_text(json.dumps({"send_email": rule}))
+                    with self.assertRaises(ValueError):
+                        TrustedToolCatalog(path)
+
+    def test_omitted_catalog_defaults_are_materialized_and_validated(self) -> None:
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "catalog.json"
+            path.write_text(json.dumps({"custom_read": {"resourceType": "document"}}))
+            action = TrustedToolCatalog(path).action("custom_read", "valid-session")
+        self.assertEqual(action["sensitivity"], "Internal")
+        self.assertEqual(action["destinationTrust"], "Trusted")
+        self.assertEqual(action["inputProvenance"], "TrustedTool")
+        self.assertEqual(action["privilegeLevel"], 1)
+
+    def test_incomplete_action_cannot_reach_bridge_or_runtime(self) -> None:
+        valid = TrustedToolCatalog(CATALOG).action("search_files", "valid-session")
+        for field in ("id", "sessionId", "timestamp", "tool", "operation", "resourceType", "sensitivity",
+                      "destinationTrust", "inputProvenance", "privilegeLevel"):
+            with self.subTest(field=field):
+                invalid = dict(valid)
+                del invalid[field]
+                bridge = Mock(spec=PolicyBridge)
+                catalog = Mock(spec=TrustedToolCatalog)
+                catalog.action.return_value = invalid
+                executor = FlightRecorderToolsExecutor(bridge, catalog)
+                *_, extra = executor.query("query", self.runtime, messages=self.messages("search_files"))
+                bridge.request.assert_not_called()
+                self.assertEqual(self.effects, [])
+                event = extra["agent_flight_recorder"][0]
+                self.assertEqual(event["decision"], "Block")
+                self.assertFalse(event["executed"])
+
+    def test_supplied_invalid_sessions_fail_closed_instead_of_resetting_history(self) -> None:
+        catalog = TrustedToolCatalog(CATALOG)
+        for session_id in (None, "", "   ", False, 0, [], {}):
+            with self.subTest(session_id=session_id):
+                bridge = Mock(spec=PolicyBridge)
+                executor = FlightRecorderToolsExecutor(bridge, catalog, session_id="fallback-must-not-be-used")
+                *_, extra = executor.query("query", self.runtime, messages=self.messages("search_files"),
+                                           extra_args={"agent_flight_recorder_session_id": session_id})
+                bridge.request.assert_not_called()
+                self.assertEqual(self.effects, [])
+                self.assertIn("sessionId", extra["agent_flight_recorder"][0]["error"])
+
+    def test_point_only_mode_is_forwarded_and_successful_execution_is_recorded(self) -> None:
+        bridge = Mock(spec=PolicyBridge)
+        bridge.request.side_effect = [
+            {"assessment": {"decision": "Allow", "score": 20, "reasons": [], "historyLength": 0}},
+            {"recorded": True},
+        ]
+        executor = FlightRecorderToolsExecutor(bridge, TrustedToolCatalog(CATALOG), policy_mode="point-only")
+        *_, extra = executor.query("query", self.runtime, messages=self.messages("search_files"))
+        assess, record = [call.args[0] for call in bridge.request.call_args_list]
+        self.assertEqual(assess["command"], "assess")
+        self.assertEqual(assess["policyMode"], "point-only")
+        self.assertEqual(record, {"command": "record", "action": assess["action"]})
+        self.assertEqual(extra["agent_flight_recorder"][0]["policyMode"], "point-only")
+        self.assertEqual(self.effects, ["report"])
+        with self.assertRaises(ValueError):
+            FlightRecorderToolsExecutor(bridge, TrustedToolCatalog(CATALOG), policy_mode="invalid")
+
+    def test_point_only_assessment_ignores_history_without_losing_execution_records(self) -> None:
+        @self.runtime.register_function
+        def get_unread_emails() -> str:
+            """Read unread email messages."""
+            self.effects.append("read-emails")
+            return "synthetic email"
+
+        for mode, decision, history_length, executed_count in (
+            ("full-history", "Review", 1, 1),
+            ("point-only", "Allow", 0, 2),
+        ):
+            with self.subTest(mode=mode):
+                session_id = f"mode-{mode}"
+                executor = FlightRecorderToolsExecutor(
+                    self.bridge, TrustedToolCatalog(CATALOG), session_id=session_id,
+                    review_policy="deny", policy_mode=mode,
+                )
+                extra = {}
+                for index in range(2):
+                    messages = [{"role": "assistant", "content": None, "tool_calls": [
+                        FunctionCall(function="get_unread_emails", args={}, id=f"read-{index}")
+                    ]}]
+                    *_, extra = executor.query("query", self.runtime, messages=messages, extra_args=extra)
+                event = extra["agent_flight_recorder"][-1]
+                self.assertEqual(event["policyMode"], mode)
+                self.assertEqual(event["assessment"]["decision"], decision)
+                self.assertEqual(event["assessment"]["historyLength"], history_length)
+                history = self.bridge.request({"command": "history", "sessionId": session_id})["history"]
+                self.assertEqual(len(history), executed_count)
 
     def test_external_email_after_external_input_is_blocked(self) -> None:
         catalog = TrustedToolCatalog(CATALOG, ["bluesparrowtech.com"])

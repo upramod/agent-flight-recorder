@@ -3,13 +3,27 @@ import { FlightRecorder } from "./engine.js";
 import type { ActionEvent } from "./types.js";
 
 type Request =
-  | { command: "assess"; action: ActionEvent }
+  | { command: "assess"; action: ActionEvent; policyMode?: "full-history" | "point-only" }
   | { command: "record"; action: ActionEvent }
   | { command: "history"; sessionId: string };
 
 export function handleBridgeRequest(recorder: FlightRecorder, request: Request): Record<string, unknown> {
   if (!request || typeof request !== "object") throw new Error("Invalid bridge request");
-  if (request.command === "assess") return { assessment: recorder.assess(request.action, false) };
+  if (request.command === "assess") {
+    const policyMode = request.policyMode === undefined ? "full-history" : request.policyMode;
+    if (policyMode !== "full-history" && policyMode !== "point-only") {
+      throw new Error("Unknown policy mode");
+    }
+    if (policyMode === "point-only") {
+      if (request.action.dataFlow !== undefined) {
+        throw new Error("Point-only policy does not support artifact dataFlow");
+      }
+      // Keep weights and thresholds identical while removing only prior events.
+      // Explicit record requests still preserve executed history for audit.
+      return { assessment: new FlightRecorder().assess(request.action, false) };
+    }
+    return { assessment: recorder.assess(request.action, false) };
+  }
   if (request.command === "record") {
     recorder.record(request.action);
     return { recorded: true };
