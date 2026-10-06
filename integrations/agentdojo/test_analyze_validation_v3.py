@@ -183,6 +183,45 @@ class V3AnalysisTests(unittest.TestCase):
         self.assertEqual(result['cellStatusCounts'], {'missing': 30})
         self.assertEqual(len(result['unplannedCellDirectories']), 1)
 
+    def test_clean_interventions_and_baseline_success_losses_are_distinct(self):
+        self.manifest['cleanTasks'] = [{'id': f'clean-{i:02d}', 'userTask': f'user_task_{i}'} for i in range(3)]
+        self.manifest_path.write_text(json.dumps(self.manifest))
+        self.digest = hashlib.sha256(self.manifest_path.read_bytes()).hexdigest()
+        for index, case in enumerate(self.manifest['cleanTasks']):
+            for arm in ('baseline', 'full-history'):
+                utility = index != 2 if arm == 'baseline' else index == 2
+                record = self.record('clean', case, arm, utility)
+                denials = 2 if arm == 'full-history' and index == 0 else 0
+                record.update(policy_denials=[{'decision': 'Review'}] * denials,
+                              policy_event_count=0 if arm == 'baseline' else 3)
+                self.write('clean', case, arm, record)
+        clean = self.phase(self.analyze(), 'clean')
+        intervention = clean['byArm']['full-history']['cleanTaskInterventions']
+        self.assertEqual(intervention['completedCleanTasks'], 3)
+        self.assertEqual(intervention['casesWithPolicyDenial'], 1)
+        self.assertEqual(intervention['totalPolicyDenials'], 2)
+        self.assertEqual(intervention['caseRateAmongCompleted'], 1 / 3)
+        self.assertEqual(intervention['observedPolicyEventCount'], 9)
+        loss = clean['cleanBaselineSuccessLosses']['full-history']
+        self.assertEqual(loss['baselineSuccessCompletePairs'], 2)
+        self.assertEqual(loss['baselineSuccessGateFailurePairs'], 2)
+        self.assertEqual(loss['lossRateAmongBaselineSuccessCompletePairs'], 1)
+        self.assertEqual(loss['baselineFailureGateSuccessPairs'], 1)
+        self.assertEqual(loss['gainRateAmongBaselineFailureCompletePairs'], 1)
+        self.assertEqual(clean['cleanBaselineSuccessLosses']['point-only']['completePairedTasks'], 0)
+
+    def test_missing_clean_policy_diagnostics_do_not_invent_zero_denials(self):
+        case = self.manifest['cleanTasks'][0]
+        self.write('clean', case, 'full-history', self.record('clean', case, 'full-history', False))
+        clean = self.phase(self.analyze(), 'clean')
+        intervention = clean['byArm']['full-history']['cleanTaskInterventions']
+        self.assertEqual(intervention['completedCleanTasks'], 1)
+        self.assertEqual(intervention['completedTasksMissingPolicyDiagnostics'], 1)
+        self.assertIsNone(intervention['caseRateAmongCompleted'])
+        self.assertIsNone(intervention['totalPolicyDenials'])
+        self.assertEqual(intervention['caseRateBoundsAmongCompleted'], [0, 1])
+        self.assertEqual(clean['byArm']['full-history']['endpoints']['utility']['valid'], 1)
+
 
 if __name__ == '__main__':
     unittest.main()

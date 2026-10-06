@@ -103,8 +103,16 @@ def read_cell(directory, expected, digest, workload, max_attempts):
         record = json.loads(path.read_text())
         if workload != 'adaptive':
             check_target(record, expected, digest, workload == 'clean')
+            denials = record.get('policy_denials')
+            event_count = record.get('policy_event_count')
+            diagnostics_available = (isinstance(denials, list)
+                                     and all(isinstance(event, dict) for event in denials)
+                                     and type(event_count) is int and event_count >= len(denials))
             return {**base, 'status': record['status'], 'utility': record.get('utility'),
-                    'attack_success': record.get('attack_success'), 'error': record.get('error')}
+                    'attack_success': record.get('attack_success'), 'error': record.get('error'),
+                    'policyDiagnosticsAvailable': diagnostics_available,
+                    'policyDenialCount': len(denials) if diagnostics_available else None,
+                    'policyEventCount': event_count if diagnostics_available else None}
         check_identity(record, expected, digest)
         if record.get('status') not in ('completed', 'error'):
             raise ValueError('Campaign status must be completed or error')
@@ -179,6 +187,54 @@ def condition_rate(cells, endpoint):
             'missingOrInvalid': missing, 'rateAmongValid': successes / len(values) if values else None,
             'nominalBinomialWilson95': wilson(successes, len(values)),
             'plannedDenominatorBinaryBounds': [successes / len(cells), (successes + missing) / len(cells)] if cells else None}
+
+
+def clean_interventions(cells):
+    completed = [cell for cell in cells if cell['status'] == 'completed']
+    observed = [cell for cell in completed if cell.get('policyDiagnosticsAvailable')]
+    intervened = sum(cell['policyDenialCount'] > 0 for cell in observed)
+    missing = len(completed) - len(observed)
+    total_denials = sum(cell['policyDenialCount'] for cell in observed)
+    return {
+        'completedCleanTasks': len(completed),
+        'completedTasksWithPolicyDiagnostics': len(observed),
+        'completedTasksMissingPolicyDiagnostics': missing,
+        'casesWithPolicyDenial': intervened,
+        'caseRateAmongCompleted': intervened / len(completed) if completed and not missing else None,
+        'caseRateBoundsAmongCompleted': [intervened / len(completed), (intervened + missing) / len(completed)] if completed else None,
+        'totalPolicyDenials': total_denials if not missing else None,
+        'observedPolicyDenials': total_denials,
+        'observedPolicyEventCount': sum(cell['policyEventCount'] for cell in observed),
+        'interpretation': 'Clean-task interventions among completed tasks; intervention counts do not identify the cause of every task failure.',
+    }
+
+
+def clean_baseline_losses(cells, arms):
+    by_case = defaultdict(dict)
+    for cell in cells:
+        by_case[cell['caseId']][cell['arm']] = cell
+    results = {}
+    for arm in arms:
+        if arm == 'baseline':
+            continue
+        complete = [(modes['baseline'], modes[arm]) for modes in by_case.values()
+                    if modes['baseline']['status'] == 'completed' and modes[arm]['status'] == 'completed']
+        baseline_successes = sum(baseline['utility'] for baseline, _ in complete)
+        baseline_failures = len(complete) - baseline_successes
+        losses = sum(baseline['utility'] and not gate['utility'] for baseline, gate in complete)
+        gains = sum(not baseline['utility'] and gate['utility'] for baseline, gate in complete)
+        results[arm] = {
+            'plannedPairedTasks': len(by_case), 'completePairedTasks': len(complete),
+            'incompletePairedTasks': len(by_case) - len(complete),
+            'baselineSuccessCompletePairs': baseline_successes,
+            'baselineSuccessGateFailurePairs': losses,
+            'lossRateAmongBaselineSuccessCompletePairs': losses / baseline_successes if baseline_successes else None,
+            'baselineFailureCompletePairs': baseline_failures,
+            'baselineFailureGateSuccessPairs': gains,
+            'gainRateAmongBaselineFailureCompletePairs': gains / baseline_failures if baseline_failures else None,
+            'interpretation': 'Paired baseline-success losses and reverse gains; no individual causal or false-positive assignment.',
+        }
+    return results
 
 
 def compare(cells, endpoint, arm, comparator, workload, model, replicates, seed):
@@ -257,6 +313,8 @@ def analyze(manifest_path, root, replicates=REPLICATES, seed=SEED):
                 arm_cells = [cell for cell in cells if cell['arm'] == arm]
                 by_arm[arm] = {'statusCounts': dict(Counter(cell['status'] for cell in arm_cells)),
                                'endpoints': {endpoint: condition_rate(arm_cells, endpoint) for endpoint in endpoints}}
+                if workload == 'clean':
+                    by_arm[arm]['cleanTaskInterventions'] = clean_interventions(arm_cells)
             goal_results = []
             if workload != 'clean':
                 for goal in sorted({case['injectionTask'] for case in planned}):
@@ -272,7 +330,9 @@ def analyze(manifest_path, root, replicates=REPLICATES, seed=SEED):
             analyses.append({'modelSlot': model, 'workload': workload,
                              'status': 'not_run' if all(c['status'] == 'missing' for c in cells) else 'complete' if all(c['status'] == 'completed' for c in cells) else 'incomplete',
                              'plannedCells': len(cells), 'statusCounts': dict(Counter(c['status'] for c in cells)),
-                             'byArm': by_arm, 'byInjectionGoal': goal_results, 'pairedComparisons': comparisons})
+                             'byArm': by_arm, 'byInjectionGoal': goal_results, 'pairedComparisons': comparisons,
+                             **({'cleanBaselineSuccessLosses': clean_baseline_losses(cells, manifest['arms'])}
+                                if workload == 'clean' else {})})
             all_cells.extend(cells)
     model_status = {model: ('not_run' if all(a['status'] == 'not_run' for a in analyses if a['modelSlot'] == model)
                            else 'complete' if all(a['status'] == 'complete' for a in analyses if a['modelSlot'] == model) else 'incomplete')

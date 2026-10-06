@@ -46,7 +46,7 @@ def safe_error(error):
     code = getattr(error, 'code', None)
     status = getattr(error, 'status_code', None)
     return {'type': type(error).__name__, 'statusCode': status if type(status) is int else None,
-            'code': code if isinstance(code, str) and re.fullmatch(r'[A-Za-z0-9_.-]{1,80}', code) else None}
+            'code': code if code in ('DeploymentNotFound', 'ModelNotFound', 'RateLimitExceeded', 'rate_limit_exceeded', 'content_filter', 'invalid_api_key', 'insufficient_quota') else None}
 
 
 def probe_one(config):
@@ -97,7 +97,7 @@ def probe():
     distinct = len({r.get('responseModel') for r in ready}) >= 2
     return {'createdAt': datetime.now(timezone.utc).isoformat(), 'models': rows,
             'twoDistinctResponseModels': distinct, 'azureModelDiscovery': discovery,
-            'missingSecondModel': not any(r['slot'] == 'model-b' and r['status'] == 'ready' for r in rows),
+            'missingSecondModel': not distinct,
             'identityLimit': 'API response model identifier verified; immutable provider snapshot only if the returned identifier includes one.'}
 
 

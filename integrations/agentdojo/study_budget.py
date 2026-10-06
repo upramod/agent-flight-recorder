@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 
 TOKEN_CAP = 3_000_000
-PROMPT_CHARACTER_CAP = 120_000
+PROMPT_CHARACTER_CAP = 500_000
 
 
 def attach_budget(client):
@@ -49,6 +49,8 @@ def attach_budget(client):
             raise
         finally:
             records.append(row)
-            ledger.write_text(''.join(json.dumps(item) + '\n' for item in records))
+            replacement = ledger.with_name(ledger.name + '.pending')
+            replacement.write_text(''.join(json.dumps(item) + '\n' for item in records))
+            os.replace(replacement, ledger)
     client.chat.completions.create = create
     return client
