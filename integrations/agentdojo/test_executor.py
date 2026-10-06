@@ -106,6 +106,76 @@ class ExecutorTests(unittest.TestCase):
         self.assertEqual(assessment["decision"], "Block")
         self.assertGreaterEqual(assessment["score"], 70)
 
+    def test_calendar_recipient_metadata_uses_normalized_arguments(self) -> None:
+        @self.runtime.register_function
+        def create_calendar_event(participants: list[str]) -> str:
+            """Create a calendar event.
+
+            :param participants: Event participant addresses.
+            """
+            self.effects.extend(participants)
+            return "created"
+
+        catalog = TrustedToolCatalog(CATALOG, ["bluesparrowtech.com"])
+        representations = [
+            ["outside@outside.invalid"],
+            "['outside@outside.invalid']",
+            "['outside@outside.invalid'] #@bluesparrowtech.com",
+        ]
+        for index, participants in enumerate(representations):
+            with self.subTest(participants=participants):
+                session_id = f"normalized-calendar-{index}"
+                source = catalog.action("search_calendar_events", session_id, {"query": "meeting"})
+                self.bridge.request({"command": "record", "action": source})
+                executor = FlightRecorderToolsExecutor(
+                    self.bridge, catalog, session_id=session_id, review_policy="deny"
+                )
+                messages = [{
+                    "role": "assistant",
+                    "content": None,
+                    "tool_calls": [FunctionCall(
+                        function="create_calendar_event",
+                        args={"participants": participants},
+                        id=f"calendar-{index}",
+                    )],
+                }]
+                *_, extra = executor.query("query", self.runtime, messages=messages)
+                event = extra["agent_flight_recorder"][0]
+                self.assertEqual(event["action"]["destinationTrust"], "Untrusted")
+                self.assertEqual(event["assessment"]["decision"], "Review")
+                self.assertFalse(event["executed"])
+                self.assertEqual(self.effects, [])
+                self.assertEqual(messages[0]["tool_calls"][0].args["participants"], participants)
+
+    def test_calendar_execution_receives_the_assessed_normalized_arguments(self) -> None:
+        @self.runtime.register_function
+        def create_calendar_event(participants: list[str]) -> str:
+            """Create a calendar event.
+
+            :param participants: Event participant addresses.
+            """
+            self.effects.extend(participants)
+            return "created"
+
+        catalog = TrustedToolCatalog(CATALOG, ["bluesparrowtech.com"])
+        executor = FlightRecorderToolsExecutor(
+            self.bridge, catalog, session_id="normalized-approved", review_policy="deny"
+        )
+        participants = "['teammate@bluesparrowtech.com']"
+        messages = [{
+            "role": "assistant",
+            "content": None,
+            "tool_calls": [FunctionCall(
+                function="create_calendar_event", args={"participants": participants}, id="calendar-safe"
+            )],
+        }]
+        *_, extra = executor.query("query", self.runtime, messages=messages)
+        event = extra["agent_flight_recorder"][0]
+        self.assertEqual(event["action"]["destinationTrust"], "Trusted")
+        self.assertTrue(event["executed"])
+        self.assertEqual(self.effects, ["teammate@bluesparrowtech.com"])
+        self.assertEqual(messages[0]["tool_calls"][0].args["participants"], participants)
+
     def test_independent_queries_receive_isolated_sessions(self) -> None:
         executor = FlightRecorderToolsExecutor(self.bridge, TrustedToolCatalog(CATALOG))
         first = executor.query("first", self.runtime, messages=self.messages("search_files"))[4]

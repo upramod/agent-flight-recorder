@@ -10,7 +10,7 @@ Agent Flight Recorder relies on trusted application code to assign sensitivity l
 
 ## Method
 
-Three unsafe traces were evaluated: a restricted external export, a mixed-source export, and a multi-generation restricted export. In each trial, a Restricted or Confidential source label was independently downgraded to Public with probability 0%, 10%, 25%, 50%, 75%, or 100%.
+Three unsafe traces were evaluated: a restricted external export, a mixed-source export, and a multi-generation restricted export. In each trial, one Bernoulli draw selected whether to downgrade every Restricted or Confidential source label in that trace to Public. The trace-level corruption probabilities were 0%, 10%, 25%, 50%, 75%, and 100%; labels within a trace did not receive independent draws.
 
 The study also tested four structural errors on the restricted-export trace: omitted producer lineage, a wrong input reference, all lineage omitted, and simultaneous omission of lineage and the sensitivity label.
 

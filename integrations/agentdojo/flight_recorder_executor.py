@@ -4,6 +4,7 @@ import json
 import subprocess
 import threading
 import uuid
+from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Sequence
@@ -141,7 +142,13 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
         session_id = extra_args.get("agent_flight_recorder_session_id") or self.session_id or str(uuid.uuid4())
         for tool_call in messages[-1]["tool_calls"]:
             try:
-                action = self.catalog.action(tool_call.function, session_id, tool_call.args)
+                # Assess the exact argument values that the runtime will receive.
+                # AgentDojo accepts list-valued arguments serialized as strings.
+                arguments = deepcopy(tool_call.args)
+                for key, value in arguments.items():
+                    if isinstance(value, str) and is_string_list(value):
+                        arguments[key] = literal_eval(value)
+                action = self.catalog.action(tool_call.function, session_id, arguments)
                 assessment = self.bridge.request({"command": "assess", "action": action})["assessment"]
             except Exception as error:
                 event = {"tool": tool_call.function, "decision": "Block", "executed": False, "error": str(error)}
@@ -165,10 +172,7 @@ class FlightRecorderToolsExecutor(BasePipelineElement):
                 results.append(self._error_result(tool_call, reason))
                 continue
 
-            for key, value in tool_call.args.items():
-                if isinstance(value, str) and is_string_list(value):
-                    tool_call.args[key] = literal_eval(value)
-            tool_result, error = runtime.run_function(env, tool_call.function, tool_call.args)
+            tool_result, error = runtime.run_function(env, tool_call.function, arguments)
             if error is None:
                 self.bridge.request({"command": "record", "action": action})
             event = {

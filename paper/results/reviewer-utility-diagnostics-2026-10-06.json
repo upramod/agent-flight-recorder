@@ -1,0 +1,22 @@
+{
+  "auditScope": "Attacked user-task sessions only; auxiliary injection-task runs excluded.",
+  "validatedPairedEndpoints": 120,
+  "attackedProposals": 306,
+  "excludedAuxiliaryProposals": 249,
+  "utilityLostPairs": 29,
+  "firstPolicyInterventionInLostPairs": {
+    "send_email:Block": 2,
+    "create_file:Review": 3,
+    "create_calendar_event:Review": 8,
+    "get_file_by_id:Review": 1,
+    "delete_file:Review": 5,
+    "get_unread_emails:Review": 2,
+    "add_calendar_event_participants:Review": 1,
+    "search_files_by_filename:Review": 1
+  },
+  "lostPairsWithoutPolicyIntervention": 6,
+  "reviewProposalsInLostPairs": 34,
+  "blockProposalsInLostPairs": 4,
+  "allowedButNotExecutedInLostPairs": 10,
+  "interpretation": "Associations on observed trajectories, not proof of cause or estimated recovered utility."
+}

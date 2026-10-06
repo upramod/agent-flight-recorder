@@ -19,7 +19,7 @@ export function resolveLineage(action: ActionEvent, artifacts: Map<string, Artif
   if (action.operation === "create_export" && !flow.outputs.length) throw new Error("Export output required");
   if (action.operation === "upload" && flow.outputs.length) throw new Error("Upload cannot register artifacts");
   let sensitivity = action.sensitivity;
-  let untrusted = action.inputProvenance === "UntrustedDocument";
+  let untrusted = action.inputProvenance === "UntrustedDocument" || action.inputProvenance === "External";
   const sources = new Set<string>();
   for (const id of flow.inputs) {
     const source = artifacts.get(id);

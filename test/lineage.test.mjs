@@ -30,6 +30,18 @@ test("multi-generation export cannot lower sensitivity and joins take strongest 
  assert.equal(assessment.effectiveSensitivity,"Restricted");
  assert.ok(assessment.sourceArtifactIds.includes("r"));
 });
+test("external provenance remains untrusted through artifact derivation", () => {
+ const r=new FlightRecorder(), g=new ExecutionGate(r);
+ const source={...base("source","read","Public",[],["external-source"]),inputProvenance:"External"};
+ assert.equal(g.evaluate(source,()=>true).executed,true);
+ assert.equal(g.evaluate(base("copy","copy","Public",["external-source"],["derived"]),()=>true).executed,true);
+ const result=g.evaluate(base("send","upload","Public",["derived"],[]),()=>{throw new Error("must require approval");});
+ assert.equal(result.assessment.decision,"Review");
+ assert.equal(result.assessment.score,50);
+ assert.equal(result.executed,false);
+ assert.equal(result.approvalRequired,true);
+ assert.ok(result.assessment.reasons.includes("this artifact depends on untrusted input"));
+});
 test("denied query never registers an artifact even with later approval", () => {
  const r=new FlightRecorder(), g=new ExecutionGate(r);
  const query={...base("1","query","Restricted",[],["r"]),privilegeLevel:4};
