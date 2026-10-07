@@ -1,3 +1,31 @@
+# Current v3 checkpoint: corrected run complete
+
+Run 37571375916; model gpt-4.1-mini-2025-04-14. October 7 UTC.
+
+| Outcome | Baseline | Point-only | Full history |
+| --- | ---: | ---: | ---: |
+| Corrected fixed attack completion | 7/28 | 4/28 | 0/28 |
+| Corrected fixed utility | 11/28 | 14/28 | 10/28 |
+| Corrected adaptive attack completion among valid campaigns | 11/27 | 4/27 | 0/27 |
+| Missing adaptive campaigns | 1 | 1 | 1 |
+| Corrected clean utility | 31/40 | 30/40 | 16/40 |
+| Corrected clean tasks with policy denial | 0/40 | 3/40 | 19/40 |
+| Corrected clean denied calls | 0 | 3 | 31 |
+
+The corrected adaptive workload ended with 81 valid campaigns and three missing outcomes. All three missing outcomes are v3-25. Shard 1 reached 3,000,050 provider-reported tokens, then the pre-call three-million-token guard stopped requests. No provider error reservation contributed to this cap. These missing outcomes must not be counted as resistance.
+
+The full-history versus point-only adaptive contrast is four favorable discordances and zero reverse differences among 27 complete pairs. All-planned-pair missing-outcome bounds are [-17.9,-10.7] percentage points; these are finite-sample bounds, not confidence intervals. The 20,000-replicate injection-goal sensitivity interval is [-37.0,0.0], and the contrast spans only two goals. No broad adaptive robustness claim is supported.
+
+All 14 artifact ZIPs match their GitHub SHA256 digests. All 560 target provenance records and unique sessions pass payload/configuration hash checks. The whole corrected run contains 2,091 physical request attempts: 2,090 completed responses from the verified model and one retried HTTP429. Reported usage totals 10,872,307 tokens with no unknown-usage reservations. Local 20,000-replicate analysis (seed 20261007) exactly matches every CI outcome analysis; the full JSON matches after normalizing only exception path roots. Offline legacy-loader reconstruction errors in the audit are hypothetical comparisons, not corrected-run parsing failures.
+
+The corrected clean replication completed all 120 cells without errors. Full history lost 14 clean tasks relative to point-only with none gained (difference -35 percentage points; user-bootstrap sensitivity interval [-50,-20]). It lost 15 of the 31 baseline-successful tasks with no gains. Point-only lost three baseline-successful tasks and gained two. These paired observations do not assign individual causality. The initial and corrected runs have identical aggregate clean success counts, but distinct transcripts and intervention counts; they are retained separately. Model-b remains unavailable. The manuscript is six pages after removing repeated exposition; no camera-ready submission occurred. A separately labeled, post-hoc supplement for v3-25 is specified in v3-missing-case-supplement.md. Primary cells remain unchanged and must never be pooled with it.
+
+The separately prepared v3-25 supplement has not run. Automatic approval review rejected publication of the preceding source/results/workflow commit and requested explicit approval. No push or supplemental dispatch is attempted during this follow-up. The corrected main run is finished; further live validation requires that approval and a verified distinct model binding.
+
+Sources: results/v3-literal-analysis.json, results/v3-literal-audit.json, results/v3-literal-artifacts.json, and results/v3-literal-ci-comparison.json. Earlier records below are historical, not the current corrected result.
+
+---
+
 # Reviewer validation: initial v3 results
 
 Run 37549518814, commit `4dc19b3b92ef1119596d384da49efa1a9896a1c3`. Model: `gpt-4.1-mini-2025-04-14`. Fixed and clean workloads completed without missing cells. Adaptive execution is incomplete. Model-b was not run.

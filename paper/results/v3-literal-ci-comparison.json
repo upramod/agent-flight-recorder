@@ -1,0 +1,7 @@
+{
+  "allOutcomeAnalysesExactlyMatchCI": true,
+  "wholeDocumentMatchesAfterExceptionPathRootNormalization": true,
+  "verifiedArtifacts": 14,
+  "replicates": 20000,
+  "seed": 20261007
+}

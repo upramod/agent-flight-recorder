@@ -1,0 +1,157 @@
+name: AgentDojo v3 budget-exhausted case supplement
+on:
+  push:
+    branches: [experiment/isdfs-107-v3]
+    paths: [.github/workflows/agentdojo-v3-missing-case.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+env:
+  AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+  AZURE_OPENAI_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
+  AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+  AZURE_OPENAI_API_VERSION: ${{ vars.AZURE_OPENAI_API_VERSION || '2025-01-01-preview' }}
+  AZURE_OPENAI_SECONDARY_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_SECONDARY_DEPLOYMENT || vars.AZURE_OPENAI_SECONDARY_DEPLOYMENT }}
+  AZURE_OPENAI_SECONDARY_ENDPOINT: ${{ secrets.AZURE_OPENAI_SECONDARY_ENDPOINT }}
+  AZURE_OPENAI_SECONDARY_API_KEY: ${{ secrets.AZURE_OPENAI_SECONDARY_API_KEY }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  OPENAI_SECONDARY_MODEL: ${{ vars.OPENAI_SECONDARY_MODEL || 'gpt-4o-2024-08-06' }}
+  PYTHONDONTWRITEBYTECODE: '1'
+  STUDY_RATE_LIMIT_RECOVERY: '1'
+  STUDY_SAFE_ENVIRONMENT: '1'
+jobs:
+  await-prior-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Avoid overlapping model traffic with primary literal-payload replication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -u - <<'INNER'
+          import json, os, time, urllib.request
+          url = 'https://api.github.com/repos/upramod/agent-flight-recorder/actions/runs/37571375916'
+          for _ in range(175):
+              request = urllib.request.Request(url, headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json'})
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  result = json.load(response)
+              if result['status'] == 'completed':
+                  print('Prior run finished; separate case supplement may begin.')
+                  break
+              time.sleep(60)
+          else:
+              raise SystemExit('Prior run still active; no duplicate model calls launched.')
+          INNER
+  freeze:
+    needs: await-prior-run
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      model-slots: ${{ steps.models.outputs.slots }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: npm ci && npm test
+      - run: python -m pip install -r integrations/agentdojo/requirements-validation.txt
+      - name: Test both legacy and literal loader configurations
+        run: |
+          STUDY_SAFE_ENVIRONMENT=0 python -m unittest discover -s integrations/agentdojo -p 'test_*.py'
+          STUDY_SAFE_ENVIRONMENT=1 python -m unittest discover -s integrations/agentdojo -p 'test_*.py'
+      - name: Verify manifest reproduction
+        run: |
+          python integrations/agentdojo/generate_v3_manifest.py /tmp/manifest.json
+          cmp /tmp/manifest.json integrations/agentdojo/reviewer-validation-manifest-v3.json
+      - name: Bind available models before evaluation
+        id: models
+        run: |
+          python integrations/agentdojo/model_preflight.py --output frozen/preflight.json
+          python - <<'INNER'
+          import json, os
+          rows = json.load(open('frozen/preflight.json'))['models']
+          seen, slots = set(), []
+          primary = next(row for row in rows if row['slot'] == 'model-a')
+          if primary.get('responseModel') != 'gpt-4.1-mini-2025-04-14':
+              raise SystemExit('Supplement requires the original verified model snapshot')
+          for row in rows:
+              if row['status'] == 'ready' and row['responseModel'] not in seen:
+                  seen.add(row['responseModel'])
+                  slots.append(row['slot'])
+          if 'model-a' not in slots:
+              raise SystemExit('Primary model unavailable')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write('slots=' + json.dumps(slots) + '\n')
+          INNER
+          cp integrations/agentdojo/reviewer-validation-manifest-v3.json frozen/manifest.json
+          python -m pip freeze > frozen/python-dependencies.txt
+          git rev-parse HEAD > frozen/git-sha.txt
+      - uses: actions/upload-artifact@v7
+        with:
+          name: v3-frozen-${{ github.run_id }}
+          path: frozen/
+          retention-days: 90
+  evaluate:
+    needs: freeze
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        model-slot: ${{ fromJSON(needs.freeze.outputs.model-slots) }}
+        workload: [adaptive]
+        shard: [25]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: npm ci && npm run build
+      - run: python -m pip install -r integrations/agentdojo/requirements-validation.txt
+      - uses: actions/download-artifact@v5
+        with:
+          name: v3-frozen-${{ github.run_id }}
+          path: frozen/
+      - name: Run frozen evaluation shard
+        env:
+          STUDY_TOKEN_LEDGER: ${{ github.workspace }}/results/usage.jsonl
+        run: |
+          python -m pip freeze > frozen/shard-dependencies.txt
+          python integrations/agentdojo/run_validation_v3.py --manifest frozen/manifest.json --preflight frozen/preflight.json --output results/trials --model-slot '${{ matrix.model-slot }}' --workload '${{ matrix.workload }}' --shard '${{ matrix.shard }}' --shards 28
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: v3-${{ matrix.model-slot }}-${{ matrix.workload }}-${{ matrix.shard }}-${{ github.run_id }}
+          path: |
+            results/
+            frozen/
+          retention-days: 90
+  analyze:
+    if: always() && needs.freeze.result == 'success'
+    needs: [freeze, evaluate]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v5
+        with:
+          pattern: v3-*-${{ github.run_id }}
+          path: downloaded/
+      - name: Analyze all planned cells, including missing cells
+        run: python integrations/agentdojo/analyze_validation_v3.py integrations/agentdojo/reviewer-validation-manifest-v3.json downloaded/ analysis/v3-analysis.json --replicates 20000 --seed 20261007
+      - uses: actions/upload-artifact@v7
+        with:
+          name: v3-analysis-${{ github.run_id }}
+          path: analysis/
+          retention-days: 90

@@ -4,11 +4,11 @@ Updated October 7, 2026 UTC (October 6 Pacific). This is a working revision, not
 
 ## New live experiments
 
-The [v3 results](../V3_RESULTS.md) supersede earlier statements below that no clean or point-only comparison exists. All 84 fixed cells and 120 clean cells completed on verified gpt-4.1-mini-2025-04-14. Fixed attack counts were 5/28 baseline, 4/28 point-only, 0/28 full history. Clean utility was 31/40, 30/40, 16/40. The history gain spans only two attack goals and carries a large clean-task cost.
+Corrected run 37571375916 completed all 84 fixed cells and 81/84 adaptive campaigns. Fixed attacks: 7/28, 4/28, 0/28 (baseline, point-only, full history). Adaptive attacks among valid campaigns: 11/27, 4/27, 0/27, with one missing case per arm caused by a shared token cap. Missing outcomes are not resistance. Full history's incremental contrast still spans two injection goals. See ../V3_RESULTS.md for uncertainty and provenance.
 
-Initial adaptive execution is incomplete (7/84 completed); HTTP429 triggered budget stops. The retained recovery run ended with 48/84 valid campaigns and 36 errors. Its legacy-loader outcomes cannot establish literal-payload robustness. A first corrected run failed before experiments; repaired run 37571375916 passed CI and is executing. See the current results note for full provenance. No second model is available. The manuscript is seven pages and is not camera-ready.
+The corrected clean replication completed all 120 cells: baseline 31/40, point-only 30/40, full history 16/40. Full history loses 14 point-only successes with no gains and denies 31 calls across 19 tasks. All 14 artifact digests and 560 provenance records verify; local analysis reproduces CI. A separately labeled supplement for the budget-exhausted case is prepared but unrun. The previous publication attempt was rejected by automatic approval review pending explicit approval, so publication and supplemental dispatch remain pending. No distinct second model is available. The revised PDF fits six pages and remains a working draft. Remote presentation is the author's chosen format; registration and camera-ready submission remain pending.
 
-## Historical deep-review checkpoint
+## Historical deep-review checkpoint (the gaps below describe that earlier checkpoint)
 
 ## Completed work and corrections
 

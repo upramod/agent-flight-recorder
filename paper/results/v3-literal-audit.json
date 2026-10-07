@@ -1,0 +1,2827 @@
+{
+  "provenanceRecordsVerified": 560,
+  "uniqueSessions": 560,
+  "legacyVersusLiteral": {
+    "different": 320,
+    "identical": 176,
+    "ParserError": 62,
+    "ScannerError": 2
+  },
+  "episodeStatusOrError": {
+    "completed": 81,
+    "RuntimeError": 3
+  },
+  "transportEvents": {
+    "requested": 2091,
+    "completed": 2090,
+    "rate_limited": 1
+  },
+  "completedResponseModels": {
+    "gpt-4.1-mini-2025-04-14": 2090
+  },
+  "providerReportedTokens": 10872307,
+  "conservativeErrorReservationTokens": 0,
+  "interpretation": "Error reservations are budget charges, not provider-reported token use. Legacy-versus-literal comparisons are offline environment reconstruction, not new task outcomes.",
+  "trials": [
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-00/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-04/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-04/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-04/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-04/full-history/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-04/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-04/full-history/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-04/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-04/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-04/point-only/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-04/point-only/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-04/point-only/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-04/point-only/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/baseline/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/point-only/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-08/point-only/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-12/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/baseline/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/baseline/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/baseline/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/full-history/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/point-only/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/point-only/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/point-only/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-16/point-only/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-20/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-20/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-20/full-history/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-20/full-history/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-20/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-20/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-20/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-24/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-24/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-24/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-24/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-24/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-24/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37571375916/results/trials/model-a/adaptive/v3-24/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/point-only/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/point-only/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-01/point-only/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-05/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-09/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/full-history/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/full-history/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/full-history/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/full-history/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-13/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/baseline/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/baseline/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/baseline/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/baseline/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/full-history/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/full-history/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/full-history/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/full-history/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-17/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-21/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-21/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-21/full-history/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-21/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-21/full-history/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-21/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-21/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-21/point-only/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-21/point-only/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-21/point-only/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-21/point-only/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-25/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-25/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-25/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-25/full-history/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-25/full-history/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-25/full-history/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37571375916/results/trials/model-a/adaptive/v3-25/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-02/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-02/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-02/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-02/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-02/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-02/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-02/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-02/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-02/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-02/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-02/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/baseline/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/baseline/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/baseline/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/baseline/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/full-history/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/full-history/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/full-history/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/full-history/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/point-only/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/point-only/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/point-only/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-06/point-only/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-10/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/baseline/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/baseline/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/baseline/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/full-history/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/full-history/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/full-history/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-14/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/full-history/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/full-history/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-18/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/full-history/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/point-only/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/point-only/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/point-only/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-22/point-only/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-26/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-26/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-26/full-history/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-26/full-history/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-26/full-history/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-26/full-history/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-26/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-26/point-only/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-26/point-only/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-26/point-only/attempt-04",
+      "legacyVersusLiteral": "ScannerError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37571375916/results/trials/model-a/adaptive/v3-26/point-only/attempt-05",
+      "legacyVersusLiteral": "ScannerError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/baseline/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/baseline/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/full-history/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/full-history/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/point-only/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/point-only/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/point-only/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-03/point-only/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-07/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-11/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-11/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-11/full-history/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-11/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-11/full-history/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-11/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-11/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-15/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-15/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-15/full-history/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-15/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-15/full-history/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-15/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-15/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-15/point-only/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-15/point-only/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-15/point-only/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-15/point-only/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/baseline/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/baseline/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/baseline/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/full-history/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/full-history/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/full-history/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/full-history/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/point-only/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/point-only/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-19/point-only/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-23/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-23/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-23/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-23/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-23/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-23/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-23/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-27/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-27/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-27/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-27/full-history/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-27/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-27/full-history/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-27/full-history/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-27/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-27/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-27/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-27/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37571375916/results/trials/model-a/adaptive/v3-27/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-00/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-00/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-00/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-04/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-04/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-04/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-08/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-08/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-08/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-12/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-12/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-12/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-16/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-16/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-16/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-20/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-20/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-20/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-24/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-24/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-24/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-28/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-28/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-28/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-32/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-32/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-32/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-36/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-36/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-0-37571375916/results/trials/model-a/clean/clean-36/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-01/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-01/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-01/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-05/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-05/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-05/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-09/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-09/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-09/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-13/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-13/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-13/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-17/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-17/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-17/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-21/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-21/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-21/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-25/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-25/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-25/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-29/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-29/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-29/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-33/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-33/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-33/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-37/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-37/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-1-37571375916/results/trials/model-a/clean/clean-37/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-02/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-02/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-02/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-06/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-06/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-06/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-10/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-10/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-10/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-14/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-14/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-14/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-18/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-18/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-18/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-22/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-22/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-22/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-26/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-26/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-26/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-30/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-30/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-30/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-34/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-34/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-34/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-38/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-38/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-2-37571375916/results/trials/model-a/clean/clean-38/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-03/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-03/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-03/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-07/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-07/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-07/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-11/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-11/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-11/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-15/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-15/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-15/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-19/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-19/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-19/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-23/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-23/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-23/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-27/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-27/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-27/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-31/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-31/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-31/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-35/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-35/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-35/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-39/baseline",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-39/full-history",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-clean-3-37571375916/results/trials/model-a/clean/clean-39/point-only",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-00/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-00/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-00/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-04/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-04/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-04/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-08/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-08/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-08/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-12/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-12/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-12/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-16/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-16/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-16/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-20/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-20/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-20/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-24/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-24/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-0-37571375916/results/trials/model-a/fixed/v3-24/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-01/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-01/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-01/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-05/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-05/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-05/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-09/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-09/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-09/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-13/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-13/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-13/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-17/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-17/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-17/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-21/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-21/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-21/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-25/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-25/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-1-37571375916/results/trials/model-a/fixed/v3-25/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-02/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-02/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-02/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-06/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-06/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-06/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-10/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-10/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-10/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-14/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-14/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-14/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-18/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-18/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-18/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-22/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-22/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-22/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-26/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-26/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-2-37571375916/results/trials/model-a/fixed/v3-26/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-03/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-03/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-03/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-07/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-07/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-07/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-11/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-11/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-11/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-15/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-15/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-15/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-19/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-19/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-19/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-23/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-23/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-23/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-27/baseline",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-27/full-history",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-fixed-3-37571375916/results/trials/model-a/fixed/v3-27/point-only",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    }
+  ]
+}
