@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import time
 import uuid
@@ -204,6 +205,9 @@ def run_target(config: dict, arm: str, user_task_id: str, injection_task_id: str
             "maxModelCalls": MAX_MODEL_CALLS, "toolLoopMaxIterations": 15,
             "suiteMaxPipelinePasses": 3, "sdkTransportRetries": 0,
             "agentdojoExtraRequestRetries": 0, "requestTimeoutSeconds": 60,
+            "rateLimitRecovery": {"enabled": os.getenv("STUDY_RATE_LIMIT_RECOVERY") == "1",
+                                  "maximumPhysicalAttempts": 6, "retryOnlyStatus": 429,
+                                  "retryWaitSeconds": 60, "requestPacingSeconds": 1},
             "catalogSha256": hashlib.sha256(Path(__file__).with_name("workspace-policy.json").read_bytes()).hexdigest(),
         }
         canonical_config = json.dumps(immutable_config, sort_keys=True, separators=(",", ":"), allow_nan=False)

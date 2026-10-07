@@ -128,6 +128,7 @@ def run(options):
               'development': options.development, 'maximumAttempts': options.max_attempts,
               'catalogSha256': sha256(HERE/'workspace-policy.json'),
               'engineSha256': sha256(ROOT/'src/engine.ts'),
+              'rateLimitRecovery': os.getenv('STUDY_RATE_LIMIT_RECOVERY') == '1',
               'resourceLimits': {'shardReportedTokens': 3000000, 'requestPromptCharacters': 500000,
                   'targetCalls': 48, 'targetCompletionTokens': 2048, 'targetTemperature': 0,
                   'attackerCompletionTokens': 5000, 'attackerTemperature': 0.7, 'transportRetries': 0}}

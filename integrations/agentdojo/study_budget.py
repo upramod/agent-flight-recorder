@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os
+import time
 from pathlib import Path
 
 TOKEN_CAP = 3_000_000
@@ -14,7 +15,33 @@ def attach_budget(client):
         return client
     ledger = Path(ledger_name)
     ledger.parent.mkdir(parents=True, exist_ok=True)
-    original = client.chat.completions.create
+    transport = client.chat.completions.create
+    recovery = os.getenv('STUDY_RATE_LIMIT_RECOVERY') == '1'
+
+    def original(**kwargs):
+        if not recovery:
+            return transport(**kwargs)
+        transport_log = ledger.with_name(ledger.name + '.transport.jsonl')
+        for attempt in range(1, 7):
+            time.sleep(1)
+            event = {'logicalLedgerRequest': len(ledger.read_text().splitlines()),
+                     'physicalAttempt': attempt, 'status': 'requested'}
+            with transport_log.open('a') as stream:
+                stream.write(json.dumps(event) + '\n')
+            try:
+                response = transport(**kwargs)
+                event.update(status='completed', responseModel=response.model)
+                return response
+            except Exception as error:
+                limited = getattr(error, 'status_code', None) == 429
+                event.update(status='rate_limited' if limited else 'error', errorType=type(error).__name__)
+                if not limited or attempt == 6:
+                    raise
+            finally:
+                with transport_log.open('a') as stream:
+                    stream.write(json.dumps(event) + '\n')
+            time.sleep(60)
+
 
     def create(**kwargs):
         records = [json.loads(line) for line in ledger.read_text().splitlines()] if ledger.exists() else []
@@ -45,7 +72,8 @@ def attach_budget(client):
             return response
         except Exception as error:
             # Unknown usage conservatively consumes the remaining shard budget.
-            row.update(status='error', errorType=type(error).__name__, totalTokens=max(0, TOKEN_CAP-used))
+            row.update(status='error', errorType=type(error).__name__,
+                       totalTokens=0 if recovery and getattr(error, 'status_code', None) == 429 else max(0, TOKEN_CAP-used))
             raise
         finally:
             records.append(row)

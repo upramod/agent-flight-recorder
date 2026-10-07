@@ -18,7 +18,7 @@ class StudyBudgetTests(unittest.TestCase):
         self.directory = TemporaryDirectory()
         self.addCleanup(self.directory.cleanup)
         self.ledger = Path(self.directory.name) / "tokens.jsonl"
-        environment = patch.dict(os.environ, {"STUDY_TOKEN_LEDGER": str(self.ledger)})
+        environment = patch.dict(os.environ, {"STUDY_TOKEN_LEDGER": str(self.ledger), "STUDY_RATE_LIMIT_RECOVERY": "0"})
         environment.start()
         self.addCleanup(environment.stop)
         token_cap = patch.object(study_budget, "TOKEN_CAP", 100)
@@ -42,6 +42,31 @@ class StudyBudgetTests(unittest.TestCase):
 
     def records(self):
         return [json.loads(line) for line in self.ledger.read_text().splitlines()]
+
+    def test_recovery_retries_only_429_and_logs_each_physical_call(self):
+        error = RuntimeError('rate limited')
+        error.status_code = 429
+        with patch.dict(os.environ, {'STUDY_RATE_LIMIT_RECOVERY': '1'}), patch.object(study_budget.time, 'sleep') as sleep:
+            client, original, response = self.client()
+            original.side_effect = [error, response]
+            self.assertIs(client.chat.completions.create(**self.arguments()), response)
+        self.assertEqual(original.call_count, 2)
+        self.assertEqual(self.records()[0]['totalTokens'], 7)
+        events = [json.loads(x) for x in self.ledger.with_name(self.ledger.name + '.transport.jsonl').read_text().splitlines()]
+        self.assertEqual([x['status'] for x in events], ['requested', 'rate_limited', 'requested', 'completed'])
+        self.assertIn(unittest.mock.call(60), sleep.call_args_list)
+
+    def test_recovery_exhausted_429_does_not_poison_later_budget(self):
+        error = RuntimeError('rate limited')
+        error.status_code = 429
+        with patch.dict(os.environ, {'STUDY_RATE_LIMIT_RECOVERY': '1'}), patch.object(study_budget.time, 'sleep'):
+            client, original, response = self.client(error=error)
+            with self.assertRaises(RuntimeError):
+                client.chat.completions.create(**self.arguments())
+            self.assertEqual(original.call_count, 6)
+            self.assertEqual(self.records()[0]['totalTokens'], 0)
+            original.side_effect = None
+            self.assertIs(client.chat.completions.create(**self.arguments()), response)
 
     def test_successful_sequential_calls_share_reported_usage(self):
         first, _, response = self.client(tokens=7)
