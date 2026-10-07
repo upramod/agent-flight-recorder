@@ -1,6 +1,7 @@
 """Offline tests for trial isolation, request bounds, and outcome accounting."""
 import hashlib
 import json
+import os
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -35,7 +36,7 @@ def fake_suite(outcomes=(True, False), tool_feedback=False):
     suite = SimpleNamespace(user_tasks={"user_task_0": SimpleNamespace(ID="user_task_0")},
                             injection_tasks={"injection_task_0": SimpleNamespace(ID="injection_task_0")})
 
-    def run(pipeline, user_task, injection_task, injections):
+    def run(pipeline, user_task, injection_task, injections, **environment_args):
         _, _, _, messages, _ = pipeline.query("Read the task.", FunctionsRuntime())
         if tool_feedback:
             Logger.get().log([*messages, {"role": "tool", "content": [{"type": "text", "content": "denied"}],
@@ -52,10 +53,28 @@ class TargetTests(unittest.TestCase):
         suite = suite or fake_suite()
         client = client or client_with()
         with patch("validation_target.get_suite", return_value=suite), \
+             patch("validation_target.load_safe_environment", return_value="offline-environment") as loader, \
              patch("validation_target.client_for", return_value=client), \
              patch("validation_target.deployment_for", return_value="deployment-a"):
             result = run_target(CONFIG, arm, "user_task_0", injection, injections or {}, output, "manifest-hash")
+            if os.getenv("STUDY_SAFE_ENVIRONMENT") == "1":
+                loader.assert_called_once_with(suite, injections or {})
+                self.assertEqual(suite.run_task_with_pipeline.call_args.kwargs,
+                                 {"environment": "offline-environment"})
+            else:
+                loader.assert_not_called()
+                self.assertEqual(suite.run_task_with_pipeline.call_args.kwargs, {})
         return result, suite, client
+
+    def test_loader_mode_is_explicit_and_forwarded_to_task_runner(self):
+        for mode in ("0", "1"):
+            with self.subTest(mode=mode), TemporaryDirectory() as directory, \
+                 patch.dict(os.environ, {"STUDY_SAFE_ENVIRONMENT": mode}):
+                result, _, _ = self.run_mock_target(Path(directory))
+                self.assertTrue(result["valid"])
+                config = json.loads((Path(directory) / "before-call.json").read_text())["configuration"]
+                self.assertEqual(config["environmentLoader"], "parsed-scalars-v1" if mode == "1"
+                                 else "agentdojo-0.1.35-yaml-interpolation")
 
     def test_clean_outcome_is_not_an_attack_result_and_request_parameters_are_forced(self):
         with TemporaryDirectory() as directory:
