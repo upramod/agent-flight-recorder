@@ -46,3 +46,11 @@ The live traces show these threshold crossings. They do not establish lineage pr
 ## Earlier v2 paired uncertainty, reported post-hoc
 
 The v2 protocol requested a paired interval without fixing its construction. The new [archive-based resampling analysis](results/v2-posthoc-paired-intervals.json) verifies all120 original pairs, preserves paired outcomes, and uses20000 replicates with seed20261007. Pair resampling gives recorder-minus-baseline attack-risk bounds[-23.3,-10.0] percentage points and utility[-30.0,-13.3]. Separate goal-cluster bounds are[-30.2,-4.2] and[-29.9,-13.8]; user-cluster bounds are[-24.2,-9.7] and[-33.6,-9.7]. These are explicitly post-hoc sensitivities, not retroactively preregistered population confidence claims. The original20/120 versus0/120 and61/120 versus35/120 counts remain unchanged.
+
+## Payload fidelity amendment
+
+Offline reconstruction exposed YAML interpolation in pinned AgentDojo 0.1.35. In recovery shard 0, 60/77 attempted environments differed from literal substitution, 13 matched, and four raised ParserError before any model call. All 84 original fixed environments differed, while all 120 clean environments matched. This does not erase the historical observations, but limits them to legacy-loader payload semantics. See `results/v3-loader-fidelity-audit.json` and `v3-literal-payload-amendment.md`.
+
+Correction commit `6718f167d98442bae6e6443181d90dd338e5dcee` launches independent full three-workload replication [37566514895](https://github.com/upramod/agent-flight-recorder/actions/runs/37566514895), queued behind the ongoing recovery run. Policies, model settings, identities, scoring, and budgets are unchanged. Do not merge or cherry-pick cells between runs. No corrected results are available at this checkpoint.
+
+Additional bounded second-model discovery run 37566031516 returned HTTP404 DeploymentNotFound for both gpt-4.1 and gpt-4o-mini deployment-name probes. Together with the earlier two probes and missing secondary configuration, no distinct usable model has been verified. This is an access dependency, not a completed second-model experiment.

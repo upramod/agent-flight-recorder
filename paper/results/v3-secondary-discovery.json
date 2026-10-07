@@ -1,0 +1,32 @@
+{
+  "sourceModelListingRun": 37549220926,
+  "models": [
+    {
+      "slot": "model-b",
+      "provider": "azure",
+      "deployment": "gpt-4.1",
+      "endpointEnv": "AZURE_OPENAI_ENDPOINT",
+      "keyEnv": "AZURE_OPENAI_API_KEY",
+      "status": "unavailable",
+      "error": {
+        "type": "NotFoundError",
+        "statusCode": 404,
+        "code": "DeploymentNotFound"
+      }
+    },
+    {
+      "slot": "model-b",
+      "provider": "azure",
+      "deployment": "gpt-4o-mini",
+      "endpointEnv": "AZURE_OPENAI_ENDPOINT",
+      "keyEnv": "AZURE_OPENAI_API_KEY",
+      "status": "unavailable",
+      "error": {
+        "type": "NotFoundError",
+        "statusCode": 404,
+        "code": "DeploymentNotFound"
+      }
+    }
+  ],
+  "purpose": "Two bounded connectivity probes; no benchmark outcomes or deployment creation."
+}

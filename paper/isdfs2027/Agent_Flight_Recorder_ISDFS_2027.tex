@@ -234,7 +234,7 @@ A separately frozen v3 study compared baseline, point-only enforcement, and full
 
 \begin{table}[t]
 \centering
-\caption{Exploratory v3 outcomes. Attack completion and utility under fixed attack use 28 pairs; clean utility uses 40 tasks.}
+\caption{Exploratory v3 outcomes using the legacy YAML-interpolation loader. Attack completion and utility under fixed attack use 28 pairs; clean utility uses 40 tasks.}
 \label{tab:v3}
 \begin{tabular}{lrrr}
 \toprule
@@ -249,7 +249,7 @@ Full history & 0/28 & 11/28 & 16/40\\
 
 Full history reduced observed attack completion by 14.3 percentage points relative to point-only, with four favorable discordances and none reversed. Those four cases span only two injection goals; the 20,000-replicate goal-cluster percentile sensitivity interval is $[-35.7,0.0]$ points. This is limited evidence of incremental history protection, not broad superiority. Clean utility fell by 35 points relative to point-only (paired user-bootstrap interval $[-50,-20]$). Full history denied at least one call on 19/40 clean tasks and lost 15 of 31 baseline-successful tasks, with no reverse gains. These are paired observations, not individual causal assignments.
 
-The initial policy-aware adaptive run completed only 7/84 campaigns. Four HTTP429 failures triggered conservative budget stops; parser errors also left campaigns incomplete. We retain all errors and draw no adaptive robustness conclusion. A separately documented full adaptive replication uses serial execution and logged rate-limit recovery. No second model has been verified.
+The initial policy-aware adaptive run completed only 7/84 campaigns. Four HTTP429 failures triggered conservative budget stops; parser errors also left campaigns incomplete. We retain all errors and draw no adaptive robustness conclusion. A separately documented full adaptive replication uses serial execution and logged rate-limit recovery. An offline fidelity audit subsequently found that the benchmark interpolates attack text into YAML before parsing: 60/77 first-shard adaptive environments differed from literal scalar substitution, and four failed to parse before any target call. All 84 initial fixed environments also differed; all 120 clean environments matched. Table~\ref{tab:v3} therefore describes legacy-loader behavior, not verbatim-payload execution. A separate corrected replication parses the trusted template before inserting attack text into string fields and repeats all three workloads without pooling historical cells. Its outcomes are not yet available. No second model has been verified.
 
 \section{Threats to Validity}
 \textbf{Internal validity.} Language-model trajectories are stochastic. V2 arm order was fixed; v3 used balanced arm orders. Pairing controls task identity, not sampling variability. Shared task primitives and task heterogeneity limit generalization of nominal pair-level intervals and tests; no cluster-aware confirmatory inference was prespecified.
