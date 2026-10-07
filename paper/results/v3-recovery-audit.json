@@ -1,0 +1,1423 @@
+{
+  "provenanceRecordsVerified": 279,
+  "uniqueSessions": 279,
+  "legacyVersusLiteral": {
+    "different": 205,
+    "identical": 52,
+    "ParserError": 22
+  },
+  "episodeStatusOrError": {
+    "completed": 48,
+    "ParserError": 22,
+    "RuntimeError": 13,
+    "InternalServerError": 1
+  },
+  "transportEvents": {
+    "requested": 937,
+    "completed": 936,
+    "error": 1
+  },
+  "completedResponseModels": {
+    "gpt-4.1-mini-2025-04-14": 936
+  },
+  "providerReportedTokens": 5433812,
+  "conservativeErrorReservationTokens": 2419528,
+  "interpretation": "Error reservations are budget charges, not provider-reported token use. Legacy-versus-literal comparisons are offline environment reconstruction, not new task outcomes.",
+  "trials": [
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-00/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/point-only/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/point-only/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/point-only/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-04/point-only/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/full-history/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/point-only/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/point-only/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/point-only/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-08/point-only/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-12/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-16/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-16/baseline/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-16/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-16/full-history/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-16/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-16/full-history/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-16/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-16/point-only/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-20/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-20/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-20/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-20/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-20/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-20/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-20/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-24/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-24/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-24/full-history/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-0-37564751441/results/trials/model-a/adaptive/v3-24/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/baseline/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/baseline/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/baseline/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/baseline/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/point-only/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/point-only/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-01/point-only/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-05/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-05/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-05/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-05/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-05/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-05/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-05/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-05/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-05/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-05/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-05/point-only/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-09/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-09/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-09/full-history/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-09/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-09/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-09/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-09/point-only/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-13/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-13/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-13/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-17/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-17/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-17/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-21/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-21/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-21/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-25/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-25/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-1-37564751441/results/trials/model-a/adaptive/v3-25/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/full-history/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-02/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/baseline/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/baseline/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/baseline/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/baseline/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/full-history/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/full-history/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/point-only/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/point-only/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/point-only/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-06/point-only/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-10/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-10/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-10/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-10/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-10/baseline/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-10/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-10/full-history/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-10/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-10/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-10/point-only/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/baseline/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/baseline/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/baseline/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/baseline/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/full-history/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-14/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-18/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-18/baseline/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-18/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-18/full-history/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-18/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-18/full-history/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-18/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-18/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-18/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-18/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-18/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-18/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-22/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-26/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-26/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-26/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-26/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-26/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-26/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-26/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-26/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-26/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-26/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-2-37564751441/results/trials/model-a/adaptive/v3-26/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-03/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-03/baseline/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-03/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-03/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-03/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-03/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-03/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-03/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-03/point-only/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-03/point-only/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/point-only/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-07/point-only/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-11/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-11/baseline/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-11/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-11/full-history/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-11/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-15/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-15/baseline/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-15/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-15/full-history/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-15/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-15/full-history/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-15/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-15/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-15/point-only/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-15/point-only/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-19/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-19/baseline/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-19/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-19/full-history/attempt-02",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-19/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-19/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-19/point-only/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-19/point-only/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-23/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-23/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-23/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-23/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-23/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-23/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-23/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/baseline/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/baseline/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/baseline/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/baseline/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/full-history/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/full-history/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/full-history/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/full-history/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "legacy-loader-before-field-added"
+    },
+    {
+      "trial": "v3-model-a-adaptive-3-37564751441/results/trials/model-a/adaptive/v3-27/point-only/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "legacy-loader-before-field-added"
+    }
+  ]
+}

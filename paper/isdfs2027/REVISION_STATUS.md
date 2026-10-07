@@ -6,7 +6,7 @@ Updated October 7, 2026 UTC (October 6 Pacific). This is a working revision, not
 
 The [v3 results](../V3_RESULTS.md) supersede earlier statements below that no clean or point-only comparison exists. All 84 fixed cells and 120 clean cells completed on verified gpt-4.1-mini-2025-04-14. Fixed attack counts were 5/28 baseline, 4/28 point-only, 0/28 full history. Clean utility was 31/40, 30/40, 16/40. The history gain spans only two attack goals and carries a large clean-task cost.
 
-Initial adaptive execution is incomplete (7/84 completed); HTTP429 triggered budget stops. A retained replication is running under the linked amendment. No second model is available. The manuscript is seven pages and is not camera-ready.
+Initial adaptive execution is incomplete (7/84 completed); HTTP429 triggered budget stops. The retained recovery run ended with 48/84 valid campaigns and 36 errors. Its legacy-loader outcomes cannot establish literal-payload robustness. A first corrected run failed before experiments; repaired run 37571375916 passed CI and is executing. See the current results note for full provenance. No second model is available. The manuscript is seven pages and is not camera-ready.
 
 ## Historical deep-review checkpoint
 

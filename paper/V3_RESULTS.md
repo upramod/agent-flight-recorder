@@ -51,6 +51,21 @@ The v2 protocol requested a paired interval without fixing its construction. The
 
 Offline reconstruction exposed YAML interpolation in pinned AgentDojo 0.1.35. In recovery shard 0, 60/77 attempted environments differed from literal substitution, 13 matched, and four raised ParserError before any model call. All 84 original fixed environments differed, while all 120 clean environments matched. This does not erase the historical observations, but limits them to legacy-loader payload semantics. See `results/v3-loader-fidelity-audit.json` and `v3-literal-payload-amendment.md`.
 
-Correction commit `6718f167d98442bae6e6443181d90dd338e5dcee` launches independent full three-workload replication [37566514895](https://github.com/upramod/agent-flight-recorder/actions/runs/37566514895), queued behind the ongoing recovery run. Policies, model settings, identities, scoring, and budgets are unchanged. Do not merge or cherry-pick cells between runs. No corrected results are available at this checkpoint.
+Correction commit `6718f167d98442bae6e6443181d90dd338e5dcee` launches independent full three-workload replication [37566514895](https://github.com/upramod/agent-flight-recorder/actions/runs/37566514895), which failed in unit tests before any experiment calls. Policies, model settings, identities, scoring, and budgets are unchanged. Do not merge or cherry-pick cells between runs. No corrected results are available at this checkpoint.
 
 Additional bounded second-model discovery run 37566031516 returned HTTP404 DeploymentNotFound for both gpt-4.1 and gpt-4o-mini deployment-name probes. Together with the earlier two probes and missing secondary configuration, no distinct usable model has been verified. This is an access dependency, not a completed second-model experiment.
+
+
+## Completed legacy-loader recovery audit (October 7 UTC)
+
+Recovery run 37564751441 completed at the workflow level, but only 48/84 adaptive campaigns produced valid endpoints. Baseline, point-only, and full history each completed 16/28 campaigns, with attack successes 6/16, 4/16, and 0/16 among valid campaigns. Each arm has 12 errors. These are descriptive selected-subset counts, not full-design resistance estimates.
+
+Errors comprise 22 ParserErrors, one HTTP503, and 13 RuntimeErrors after the 503 consumed the remaining shard budget under the frozen conservative accounting rule. The usage ledger distinguishes provider-reported tokens from reserved unknown usage. Serial recovery logged no HTTP429 responses. Do not infer zero attacks in failed campaigns.
+
+Only 12 full-history/point-only pairs are complete: two point-only successes are absent under full history, with no reverse differences. The complete-pair difference is -16.7 percentage points; the 20,000-replicate goal-cluster sensitivity interval is [-50.0,0.0]. Missing-outcome bounds over all 28 planned pairs are [-57.1,+28.6], which admit either direction. These legacy-loader results do not answer the literal-payload question.
+
+All six archive SHA256 digests match GitHub metadata. Reanalysis with 20,000 replicates and seed 20261007 exactly reproduces the CI analyses and status counts. Files: `results/v3-recovery-analysis.json`, `results/v3-recovery-artifacts.json`, `results/v3-recovery-audit.json`.
+
+Corrected run 37566514895 failed nine unit tests because the target fixture lacked the literal loader interface. It made no experiment calls. Commit `9bbcf7f3555e65cb804a509b537917be72c8e528` repairs the fixture and runs all 99 Python tests in both loader modes. No experimental implementation or policy changed. Replacement [run 37571375916](https://github.com/upramod/agent-flight-recorder/actions/runs/37571375916) has passed CI and begun the complete fixed/adaptive/clean replication. Do not restart it or combine cells with prior runs.
+
+Full recovery fidelity audit: all 279 payload and configuration hashes verify, with 279 unique target sessions. Offline reconstruction finds 205 legacy/literal differences, 52 matches, and 22 ParserErrors. There were 937 physical requests: 936 completions from the same verified model snapshot, one HTTP503, and no HTTP429. Provider-reported usage was 5,433,812 tokens; the additional 2,419,528-token charge was a conservative reservation for unknown usage, not measured model consumption.

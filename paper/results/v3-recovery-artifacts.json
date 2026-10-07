@@ -1,0 +1,122 @@
+[
+  {
+    "id": 11459199752,
+    "name": "v3-analysis-37564751441",
+    "size_in_bytes": 13454,
+    "url": "https://api.github.com/repos/upramod/agent-flight-recorder/actions/artifacts/11459199752",
+    "archive_download_url": "https://api.github.com/repos/upramod/agent-flight-recorder/actions/artifacts/11459199752/zip",
+    "expired": false,
+    "created_at": "2026-10-07T03:50:19Z",
+    "expires_at": "2027-01-05T03:00:59Z",
+    "updated_at": "2026-10-07T03:50:19Z",
+    "digest": "sha256:bf60692427eee28b7614455f68c4c27fa447fe3ebe78ef113cb346be5566b467",
+    "workflow_run": {
+      "id": 37564751441,
+      "repository_id": 1370260263,
+      "head_repository_id": 1370260263,
+      "head_branch": "experiment/isdfs-107-v3",
+      "head_sha": "5c6b40d77d4a5ab1256ae3b65177d34a0cc121ff"
+    },
+    "verifiedSha256": "bf60692427eee28b7614455f68c4c27fa447fe3ebe78ef113cb346be5566b467"
+  },
+  {
+    "id": 11459124730,
+    "name": "v3-model-a-adaptive-3-37564751441",
+    "size_in_bytes": 1321552,
+    "url": "https://api.github.com/repos/upramod/agent-flight-recorder/actions/artifacts/11459124730",
+    "archive_download_url": "https://api.github.com/repos/upramod/agent-flight-recorder/actions/artifacts/11459124730/zip",
+    "expired": false,
+    "created_at": "2026-10-07T03:50:04Z",
+    "expires_at": "2027-01-05T03:00:59Z",
+    "updated_at": "2026-10-07T03:50:04Z",
+    "digest": "sha256:6546721762722fb180e4934b83e164538bde66dd878f80857367126c41a0bc22",
+    "workflow_run": {
+      "id": 37564751441,
+      "repository_id": 1370260263,
+      "head_repository_id": 1370260263,
+      "head_branch": "experiment/isdfs-107-v3",
+      "head_sha": "5c6b40d77d4a5ab1256ae3b65177d34a0cc121ff"
+    },
+    "verifiedSha256": "6546721762722fb180e4934b83e164538bde66dd878f80857367126c41a0bc22"
+  },
+  {
+    "id": 11459123226,
+    "name": "v3-model-a-adaptive-2-37564751441",
+    "size_in_bytes": 1648928,
+    "url": "https://api.github.com/repos/upramod/agent-flight-recorder/actions/artifacts/11459123226",
+    "archive_download_url": "https://api.github.com/repos/upramod/agent-flight-recorder/actions/artifacts/11459123226/zip",
+    "expired": false,
+    "created_at": "2026-10-07T03:39:17Z",
+    "expires_at": "2027-01-05T03:00:59Z",
+    "updated_at": "2026-10-07T03:39:17Z",
+    "digest": "sha256:fa64e5a85fe77477a7dbf510b56018176e83ce2dae4e1773b389fc209de67a8d",
+    "workflow_run": {
+      "id": 37564751441,
+      "repository_id": 1370260263,
+      "head_repository_id": 1370260263,
+      "head_branch": "experiment/isdfs-107-v3",
+      "head_sha": "5c6b40d77d4a5ab1256ae3b65177d34a0cc121ff"
+    },
+    "verifiedSha256": "fa64e5a85fe77477a7dbf510b56018176e83ce2dae4e1773b389fc209de67a8d"
+  },
+  {
+    "id": 11458985482,
+    "name": "v3-model-a-adaptive-0-37564751441",
+    "size_in_bytes": 2238859,
+    "url": "https://api.github.com/repos/upramod/agent-flight-recorder/actions/artifacts/11458985482",
+    "archive_download_url": "https://api.github.com/repos/upramod/agent-flight-recorder/actions/artifacts/11458985482/zip",
+    "expired": false,
+    "created_at": "2026-10-07T03:16:53Z",
+    "expires_at": "2027-01-05T03:00:59Z",
+    "updated_at": "2026-10-07T03:16:53Z",
+    "digest": "sha256:782529b1ecf0f6ce4b9b3997cbb8d38e8faa8997317f702a7ee90f5439abdadb",
+    "workflow_run": {
+      "id": 37564751441,
+      "repository_id": 1370260263,
+      "head_repository_id": 1370260263,
+      "head_branch": "experiment/isdfs-107-v3",
+      "head_sha": "5c6b40d77d4a5ab1256ae3b65177d34a0cc121ff"
+    },
+    "verifiedSha256": "782529b1ecf0f6ce4b9b3997cbb8d38e8faa8997317f702a7ee90f5439abdadb"
+  },
+  {
+    "id": 11458167133,
+    "name": "v3-frozen-37564751441",
+    "size_in_bytes": 7263,
+    "url": "https://api.github.com/repos/upramod/agent-flight-recorder/actions/artifacts/11458167133",
+    "archive_download_url": "https://api.github.com/repos/upramod/agent-flight-recorder/actions/artifacts/11458167133/zip",
+    "expired": false,
+    "created_at": "2026-10-07T03:01:47Z",
+    "expires_at": "2027-01-05T03:00:59Z",
+    "updated_at": "2026-10-07T03:01:47Z",
+    "digest": "sha256:0a42186bcec78c75ef225d638f0cbce26deca84ee7bec4df35962f16a98f24f4",
+    "workflow_run": {
+      "id": 37564751441,
+      "repository_id": 1370260263,
+      "head_repository_id": 1370260263,
+      "head_branch": "experiment/isdfs-107-v3",
+      "head_sha": "5c6b40d77d4a5ab1256ae3b65177d34a0cc121ff"
+    },
+    "verifiedSha256": "0a42186bcec78c75ef225d638f0cbce26deca84ee7bec4df35962f16a98f24f4"
+  },
+  {
+    "id": 11457719897,
+    "name": "v3-model-a-adaptive-1-37564751441",
+    "size_in_bytes": 692345,
+    "url": "https://api.github.com/repos/upramod/agent-flight-recorder/actions/artifacts/11457719897",
+    "archive_download_url": "https://api.github.com/repos/upramod/agent-flight-recorder/actions/artifacts/11457719897/zip",
+    "expired": false,
+    "created_at": "2026-10-07T03:24:20Z",
+    "expires_at": "2027-01-05T03:00:59Z",
+    "updated_at": "2026-10-07T03:24:20Z",
+    "digest": "sha256:b8f9addd2b47159ec7836f08fb4d368c148a077d615d3c5192bfc55c4a07a605",
+    "workflow_run": {
+      "id": 37564751441,
+      "repository_id": 1370260263,
+      "head_repository_id": 1370260263,
+      "head_branch": "experiment/isdfs-107-v3",
+      "head_sha": "5c6b40d77d4a5ab1256ae3b65177d34a0cc121ff"
+    },
+    "verifiedSha256": "b8f9addd2b47159ec7836f08fb4d368c148a077d615d3c5192bfc55c4a07a605"
+  }
+]
