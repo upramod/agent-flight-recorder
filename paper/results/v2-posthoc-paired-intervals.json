@@ -1,0 +1,126 @@
+{
+  "sourceRun": 35180860582,
+  "sourceArchiveSha256": "3a4e8c97a8237b8f2fa5eae08f9fc2e4188c72173ff594a58680b7b907faac81",
+  "analysisDateUtc": "2026-10-07",
+  "methodSelection": "Post-hoc. V2 requested an appropriate paired-effect interval but did not specify a construction. This does not retroactively preregister the method.",
+  "method": "20000 percentile paired resamples, seed20261007, type7 quantiles; preserve paired arms. Pair resampling is nominal under independent-pair sampling. Goal and user cluster resampling are separate sensitivity analyses, not joint dependence correction. Unequal cluster sizes retain pair-weighted ratios.",
+  "inferenceLimit": "Finite deterministic task selection; reused components; small14-goal cluster set. No population coverage or cross-model generalization claim.",
+  "endpoints": {
+    "security": {
+      "baselineSuccesses": 20,
+      "recorderSuccesses": 0,
+      "pairedRiskDifference": -0.16666666666666666,
+      "pairedTable": {
+        "00": 100,
+        "01": 20,
+        "10": 0,
+        "11": 0
+      },
+      "resampling": {
+        "pair": {
+          "clusterCount": 120,
+          "nonzeroContrastClusters": 20,
+          "percentile95": [
+            -0.23333333333333334,
+            -0.1
+          ],
+          "leaveOneClusterOutRange": [
+            -0.16806722689075632,
+            -0.15966386554621848
+          ],
+          "degenerate": false,
+          "rngSeedSha256": "633677133cf40e1b2784a7d6b6912290d3053321fff2d8afbad43ac50fa83ab5",
+          "interpretation": "Exploratory task-component sensitivity; no validated small-sample coverage claim."
+        },
+        "injectionTask": {
+          "clusterCount": 14,
+          "nonzeroContrastClusters": 5,
+          "percentile95": [
+            -0.30158730158730157,
+            -0.0423728813559322
+          ],
+          "leaveOneClusterOutRange": [
+            -0.1834862385321101,
+            -0.12264150943396226
+          ],
+          "degenerate": false,
+          "rngSeedSha256": "683ab661c5847cdeb385119f9c5838dc69c1c749ca1230eb069b5aa1edf0f505",
+          "interpretation": "Exploratory task-component sensitivity; no validated small-sample coverage claim."
+        },
+        "userTask": {
+          "clusterCount": 38,
+          "nonzeroContrastClusters": 14,
+          "percentile95": [
+            -0.24193548387096775,
+            -0.09701492537313433
+          ],
+          "leaveOneClusterOutRange": [
+            -0.17543859649122806,
+            -0.15254237288135594
+          ],
+          "degenerate": false,
+          "rngSeedSha256": "26f2675e66cbe7dba3a312c76b592424f0deaead4c13cf22433b6aeff57d113f",
+          "interpretation": "Exploratory task-component sensitivity; no validated small-sample coverage claim."
+        }
+      }
+    },
+    "utility": {
+      "baselineSuccesses": 61,
+      "recorderSuccesses": 35,
+      "pairedRiskDifference": -0.21666666666666667,
+      "pairedTable": {
+        "00": 56,
+        "01": 29,
+        "10": 3,
+        "11": 32
+      },
+      "resampling": {
+        "pair": {
+          "clusterCount": 120,
+          "nonzeroContrastClusters": 32,
+          "percentile95": [
+            -0.3,
+            -0.13333333333333333
+          ],
+          "leaveOneClusterOutRange": [
+            -0.226890756302521,
+            -0.21008403361344538
+          ],
+          "degenerate": false,
+          "rngSeedSha256": "65bbe78f417540ef08f5f6776c1402ba55cac3fd0f31ff7479340d7c724034ed",
+          "interpretation": "Exploratory task-component sensitivity; no validated small-sample coverage claim."
+        },
+        "injectionTask": {
+          "clusterCount": 14,
+          "nonzeroContrastClusters": 11,
+          "percentile95": [
+            -0.29897148087484343,
+            -0.13793103448275862
+          ],
+          "leaveOneClusterOutRange": [
+            -0.2358490566037736,
+            -0.1926605504587156
+          ],
+          "degenerate": false,
+          "rngSeedSha256": "1ca2c288c51453b6379b0cacc4701d9901a80c6d64602ddcec3ebff8357ae67a",
+          "interpretation": "Exploratory task-component sensitivity; no validated small-sample coverage claim."
+        },
+        "userTask": {
+          "clusterCount": 38,
+          "nonzeroContrastClusters": 15,
+          "percentile95": [
+            -0.33613445378151263,
+            -0.09733868889079873
+          ],
+          "leaveOneClusterOutRange": [
+            -0.23478260869565218,
+            -0.1875
+          ],
+          "degenerate": false,
+          "rngSeedSha256": "aa7ff681b78816b43a909e7e91426173ef11c1c82e366aa99f2b1501f0abd737",
+          "interpretation": "Exploratory task-component sensitivity; no validated small-sample coverage claim."
+        }
+      }
+    }
+  }
+}
