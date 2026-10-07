@@ -1,0 +1,7 @@
+{
+  "outcomeAnalysesExactlyMatch": true,
+  "fullJsonMatchesAfterExceptionPathRootNormalization": true,
+  "replicates": 20000,
+  "seed": 20261007,
+  "scope": "Only case v3-25, model-a adaptive, three arms; other full-manifest cells deliberately unrun"
+}

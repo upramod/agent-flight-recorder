@@ -1,0 +1,101 @@
+{
+  "provenanceRecordsVerified": 15,
+  "uniqueSessions": 15,
+  "legacyVersusLiteral": {
+    "different": 8,
+    "identical": 4,
+    "ParserError": 3
+  },
+  "episodeStatusOrError": {
+    "InternalServerError": 1,
+    "completed": 2
+  },
+  "transportEvents": {
+    "requested": 93,
+    "completed": 92,
+    "error": 1
+  },
+  "completedResponseModels": {
+    "gpt-4.1-mini-2025-04-14": 92
+  },
+  "providerReportedTokens": 881760,
+  "conservativeErrorReservationTokens": 2118240,
+  "interpretation": "Error reservations are budget charges, not provider-reported token use. Legacy-versus-literal comparisons are offline environment reconstruction, not new task outcomes.",
+  "trials": [
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/baseline/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/baseline/attempt-02",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/baseline/attempt-03",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/baseline/attempt-04",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/baseline/attempt-05",
+      "legacyVersusLiteral": "identical",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/full-history/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/full-history/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/full-history/attempt-03",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/full-history/attempt-04",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/full-history/attempt-05",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/point-only/attempt-01",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/point-only/attempt-02",
+      "legacyVersusLiteral": "different",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/point-only/attempt-03",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/point-only/attempt-04",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    },
+    {
+      "trial": "v3-model-a-adaptive-25-37627319781/results/trials/model-a/adaptive/v3-25/point-only/attempt-05",
+      "legacyVersusLiteral": "ParserError",
+      "recordedLoader": "parsed-scalars-v1"
+    }
+  ]
+}
