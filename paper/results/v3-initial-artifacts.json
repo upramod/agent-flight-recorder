@@ -1,0 +1,90 @@
+{
+  "runId": 37549518814,
+  "gitSha": "4dc19b3b92ef1119596d384da49efa1a9896a1c3",
+  "artifacts": [
+    {
+      "id": 11452955000,
+      "name": "v3-model-a-clean-0-37549518814",
+      "digest": "sha256:71fb3356ad444585aeb2a687f755ea944ab1eeda0e9de2170e3e2acf42329bad",
+      "size_in_bytes": 347930
+    },
+    {
+      "id": 11452816156,
+      "name": "v3-model-a-adaptive-0-37549518814",
+      "digest": "sha256:90e94a3f61d3ef43be1dd5e97dc456dbd97e557a8a98d0508b98a2bcb6fb927f",
+      "size_in_bytes": 634868
+    },
+    {
+      "id": 11452726406,
+      "name": "v3-analysis-37549518814",
+      "digest": "sha256:06a140fe6bf489ef6f5ce988ae264c8b080db2f161b74bd30cab564259d590c8",
+      "size_in_bytes": 13851
+    },
+    {
+      "id": 11452610815,
+      "name": "v3-model-a-clean-1-37549518814",
+      "digest": "sha256:f8a07e1f3f8e8c2f9c802a12c0162154fc359bd6707bad3c9c760cf02a173b65",
+      "size_in_bytes": 237201
+    },
+    {
+      "id": 11452493686,
+      "name": "v3-model-a-adaptive-3-37549518814",
+      "digest": "sha256:e8eadf9694fba858189a3c68eb76c651f45aaaf8ea70cf3a8c423c0c17ff14a0",
+      "size_in_bytes": 370004
+    },
+    {
+      "id": 11452383032,
+      "name": "v3-model-a-fixed-3-37549518814",
+      "digest": "sha256:160648610910b0954169db4cdc41387280ccc94bb214e4a7b3c5d4271b4d1919",
+      "size_in_bytes": 229407
+    },
+    {
+      "id": 11452363893,
+      "name": "v3-model-a-adaptive-2-37549518814",
+      "digest": "sha256:b29d18a9826adf4f6786d98d8d037f71222ced094148ff2367844b4547f74576",
+      "size_in_bytes": 204734
+    },
+    {
+      "id": 11452351871,
+      "name": "v3-model-a-fixed-0-37549518814",
+      "digest": "sha256:488a6685daf09181fd153e2162e40b7fb102c65617fe133a4ac8d7404e2f1f82",
+      "size_in_bytes": 338360
+    },
+    {
+      "id": 11452337621,
+      "name": "v3-model-a-adaptive-1-37549518814",
+      "digest": "sha256:8efa1a1fb268d73951931026f8f419e59672cfaf6baea6f54132e42af32bcb7f",
+      "size_in_bytes": 294108
+    },
+    {
+      "id": 11451809942,
+      "name": "v3-model-a-clean-3-37549518814",
+      "digest": "sha256:efb4d08139c519146799c5ecb3c449f992f3b43d59b8e207d96e8442ed25ba25",
+      "size_in_bytes": 404201
+    },
+    {
+      "id": 11451794874,
+      "name": "v3-model-a-clean-2-37549518814",
+      "digest": "sha256:b74ff11a1804d4add577e397215eaf24a35b31aa2944ffff3fc283d0452de8f5",
+      "size_in_bytes": 277431
+    },
+    {
+      "id": 11451584791,
+      "name": "v3-model-a-fixed-1-37549518814",
+      "digest": "sha256:cd5b3157075cc958fc957bbf6741b3e6b7365f53a048967e5a5b519b75185be9",
+      "size_in_bytes": 273676
+    },
+    {
+      "id": 11451574811,
+      "name": "v3-model-a-fixed-2-37549518814",
+      "digest": "sha256:f75f0aa49afb3ccc9b3e3272b87cad223ca927ec1447384ed35730a20acc1835",
+      "size_in_bytes": 206366
+    },
+    {
+      "id": 11451319967,
+      "name": "v3-frozen-37549518814",
+      "digest": "sha256:cf2d6ccf7004a6839142a88b5aa80a489a73435fa3839d1621378a7ce5f3c4c0",
+      "size_in_bytes": 7263
+    }
+  ]
+}

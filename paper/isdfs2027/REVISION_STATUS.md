@@ -1,6 +1,14 @@
 # ISDFS 2027 Paper 107: revision status
 
-Reviewed October 6, 2026. This is a working revision, not a completed camera-ready submission. Detailed findings and the proposed next experiment are in [DEEP_REVIEW.md](DEEP_REVIEW.md).
+Updated October 7, 2026 UTC (October 6 Pacific). This is a working revision, not a completed camera-ready submission. Detailed findings and the proposed next experiment are in [DEEP_REVIEW.md](DEEP_REVIEW.md).
+
+## New live experiments
+
+The [v3 results](../V3_RESULTS.md) supersede earlier statements below that no clean or point-only comparison exists. All 84 fixed cells and 120 clean cells completed on verified gpt-4.1-mini-2025-04-14. Fixed attack counts were 5/28 baseline, 4/28 point-only, 0/28 full history. Clean utility was 31/40, 30/40, 16/40. The history gain spans only two attack goals and carries a large clean-task cost.
+
+Initial adaptive execution is incomplete (7/84 completed); HTTP429 triggered budget stops. A retained replication is running under the linked amendment. No second model is available. The manuscript is seven pages and is not camera-ready.
+
+## Historical deep-review checkpoint
 
 ## Completed work and corrections
 
@@ -29,7 +37,7 @@ Reviewed October 6, 2026. This is a working revision, not a completed camera-rea
 | Wider and adaptive attacks | Not completed | One frozen attack family; policy-aware feedback-budgeted evaluation required |
 | Trajectory contribution | Explicitly bounded | Needs a live same-metadata point-only comparator |
 
-No new model experiment was run. The source identifies remaining synchronous-gate, malformed-metadata, and incomplete-lineage assurance limits. The revision is not a complete empirical response to all requested validation.
+At the earlier deep-review checkpoint, no new model experiment had been run. The source identifies remaining synchronous-gate, malformed-metadata, and incomplete-lineage assurance limits. The revision is not a complete empirical response to all requested validation.
 
 ## Reproduction
 

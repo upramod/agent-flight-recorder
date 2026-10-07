@@ -215,11 +215,11 @@ MELON uses masked re-execution and tool comparison~\cite{zhu2025melon}. AttriGua
 
 AgentArmor constructs graph abstractions of agent execution, including inferred dependencies~\cite{wang2025agentarmor}. Our gate instead trusts adapter-declared links and recorded successful effects. No matched experiment establishes superiority to these defenses.
 
-Tool-interface firewalls provide another nearby design point~\cite{bhagwatkar2025firewalls}. Adaptive evaluation sharpens the claim boundary. Zhan et al. bypassed multiple defenses with adaptive attacks~\cite{zhan2025adaptive}, and later automated AgentDojo attack work found that attack effectiveness depends on attacker method and model~\cite{hofer2026automated}. V2 used one fixed attack family. Adaptive robustness remains unmeasured. References identified as arXiv preprints in the bibliography describe preprint versions; we do not treat them as established peer-reviewed venue publications.
+Tool-interface firewalls provide another nearby design point~\cite{bhagwatkar2025firewalls}. Adaptive evaluation sharpens the claim boundary. Zhan et al. bypassed multiple defenses with adaptive attacks~\cite{zhan2025adaptive}, and later automated AgentDojo attack work found that attack effectiveness depends on attacker method and model~\cite{hofer2026automated}. V2 used one fixed attack family. Adaptive robustness remains unestablished. References identified as arXiv preprints in the bibliography describe preprint versions; we do not treat them as established peer-reviewed venue publications.
 
 \section{Discussion}
 \subsection{Security and utility are coupled}
-The central result is not simply 20 attacks versus zero. Twenty-nine pairs showed baseline success and Recorder failure, versus three in the opposite direction. A strict gate can stop both malicious and legitimate work. No clean-workload control was run, so ordinary-use false-denial rates remain unknown.
+The central result is not simply 20 attacks versus zero. Twenty-nine pairs showed baseline success and Recorder failure, versus three in the opposite direction. A strict gate can stop both malicious and legitimate work. V2 had no clean-workload control. The exploratory reviewer validation below measures that cost separately.
 
 The post-hoc Review studies make this coupling visible. Review handling is part of the security mechanism, not a user-interface detail. Automatically approving every Review can recover utility, but it changes enforcement semantics. A production design needs an approval channel whose decisions carry real authorization rather than scripted acceptance or denial.
 
@@ -227,13 +227,32 @@ The post-hoc Review studies make this coupling visible. Review handling is part 
 A security monitor should distinguish proposed behavior from actual effects. If a blocked database query enters history as though it succeeded, later decisions can inherit sensitivity from data the agent never received. If a failed producer creates an artifact record, later lineage can point to an output that does not exist. The evaluated synchronous executor records successful effects only; asynchronous executors require an awaiting gate.
 
 \subsection{Trusted metadata boundary}
-Deterministic enforcement does not remove trust; it relocates it. The current system trusts application adapters to map tools, assign sensitivity, identify destinations, and declare artifact dependencies. Model-generated arguments remain untrusted: the adapter derives destination trust from recipient domains and assigns the other labels from its tool catalog. Domain membership does not prove that a particular recipient is authorized, and a static tool label does not classify every returned record. The catalog omits some destination fields, including email Cc/Bcc, and provides coarse policy facts rather than verified information flow. Wrong labels can create wrong decisions. A deployable system would need schema validation, adapter review, authenticated session identity, durable tamper-resistant state, strict tool registration, and monitoring for missing metadata. Unmapped tools fail closed in the AgentDojo executor; catalog defaults are not equivalent to validating every security field. A trusted adapter must reject incomplete or invalid rules rather than rely on those defaults. These assurance controls are deployment requirements, not properties established by the benchmark.
+Deterministic enforcement does not remove trust; it relocates it. The current system trusts application adapters to map tools, assign sensitivity, identify destinations, and declare artifact dependencies. Model-generated arguments remain untrusted: the adapter derives destination trust from recipient domains and assigns the other labels from its tool catalog. Domain membership does not prove that a particular recipient is authorized, and a static tool label does not classify every returned record. The v2 catalog omitted destination fields including email Cc/Bcc. The repaired v3 adapter covers these fields but still supplies coarse policy facts rather than verified information flow. Wrong labels can create wrong decisions. A deployable system would need schema validation, adapter review, authenticated session identity, durable tamper-resistant state, strict tool registration, and monitoring for missing metadata. Unmapped tools fail closed in the AgentDojo executor; catalog defaults are not equivalent to validating every security field. A trusted adapter must reject incomplete or invalid rules rather than rely on those defaults. These assurance controls are deployment requirements, not properties established by the benchmark.
 
-\subsection{Benchmark interpretation}
-The v2 result compares an unprotected agent with the full gate. Twelve of 14 workspace injection goals require email; sending to an external recipient already reaches Review from point metadata alone. No live history-free or static-denial arm isolates the benefit of trajectory state. Offline ablation cannot establish that benefit. AgentDojo measures specific objectives, and \texttt{tool\_knowledge} is not policy-adaptive.
+\subsection{Exploratory reviewer validation}
+A separately frozen v3 study compared baseline, point-only enforcement, and full-history enforcement on 28 new task pairs (two per injection goal, 19 user tasks), with balanced arm orders and the repaired adapter. All three used the verified API model identifier \texttt{gpt-4.1-mini-2025-04-14}. Point-only retained the same metadata, weights, and thresholds but assessed empty history. No arm supplied artifact links. We also ran all 40 clean workspace tasks.
+
+\begin{table}[t]
+\centering
+\caption{Exploratory v3 outcomes. Attack completion and utility under fixed attack use 28 pairs; clean utility uses 40 tasks.}
+\label{tab:v3}
+\begin{tabular}{lrrr}
+\toprule
+Arm & Attack & Utility & Clean utility\\
+\midrule
+Baseline & 5/28 & 13/28 & 31/40\\
+Point-only & 4/28 & 15/28 & 30/40\\
+Full history & 0/28 & 11/28 & 16/40\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Full history reduced observed attack completion by 14.3 percentage points relative to point-only, with four favorable discordances and none reversed. Those four cases span only two injection goals; the 20,000-replicate goal-cluster percentile sensitivity interval is $[-35.7,0.0]$ points. This is limited evidence of incremental history protection, not broad superiority. Clean utility fell by 35 points relative to point-only (paired user-bootstrap interval $[-50,-20]$). Full history denied at least one call on 19/40 clean tasks and lost 15 of 31 baseline-successful tasks, with no reverse gains. These are paired observations, not individual causal assignments.
+
+The initial policy-aware adaptive run completed only 7/84 campaigns. Four HTTP429 failures triggered conservative budget stops; parser errors also left campaigns incomplete. We retain all errors and draw no adaptive robustness conclusion. A separately documented full adaptive replication uses serial execution and logged rate-limit recovery. No second model has been verified.
 
 \section{Threats to Validity}
-\textbf{Internal validity.} Language-model trajectories are stochastic and arm order was fixed. Pairing controls task identity, not sampling variability. Shared task primitives and task heterogeneity limit generalization of nominal pair-level intervals and tests; no cluster-aware confirmatory inference was prespecified.
+\textbf{Internal validity.} Language-model trajectories are stochastic. V2 arm order was fixed; v3 used balanced arm orders. Pairing controls task identity, not sampling variability. Shared task primitives and task heterogeneity limit generalization of nominal pair-level intervals and tests; no cluster-aware confirmatory inference was prespecified.
 
 \textbf{Construct validity.} AgentDojo attack success represents completion of its defined injection objective. It is not equivalent to every form of compromise. Utility under attack depends on benchmark semantics and agent capability. Published work identifies AgentDojo injection-overwrite and evaluator limitations~\cite{bhagwatkar2025firewalls}; this is a validation concern, not proof that these cases were mis-scored.
 
@@ -243,7 +262,7 @@ The v2 result compares an unprotected agent with the full gate. Twelve of 14 wor
 
 \textbf{External validity.} V2 used AgentDojo workspace, \texttt{tool\_knowledge}, one primary model deployment, and a fixed tool catalog. Results may not transfer to other suites, models, attacks, or production applications.
 
-\textbf{Adaptive validity.} The study did not expose the policy to an attacker that optimized prompts against its behavior. Published adaptive and automated attack work shows that this omission matters~\cite{zhan2025adaptive,hofer2026automated}.
+\textbf{Adaptive validity.} V2 did not expose the policy to an attacker that optimized prompts against its behavior; the initial v3 adaptive execution is incomplete. Published adaptive and automated attack work shows that this omission matters~\cite{zhan2025adaptive,hofer2026automated}.
 
 \section{Conclusion}
 Agent Flight Recorder enforces deterministic policy where model proposals become tool effects. In a protocol-frozen 120-pair AgentDojo workspace evaluation, the frozen system recorded 0/120 attack successes versus 20/120 for the paired baseline. The same policy reduced legitimate-task utility from 61/120 to 35/120. The evidence therefore shows both protection and cost.
@@ -255,7 +274,7 @@ Observable runtime state can support meaningful intervention without access to p
 The study used synthetic benchmark environments, not production services or real users. Credentials were excluded from artifacts. The paper reports benchmark attacks and defense limits for reproducibility, without claiming safety beyond the measured conditions.
 
 \section{Reproducibility}
-Source code, the frozen protocol, and evidence records are available at \url{https://github.com/upramod/agent-flight-recorder}. The confirmatory run is GitHub Actions run 35180860582, at commit \texttt{9ef3022}. Its artifact digest is recorded in the repository evidence note. Local deterministic tests require no model credentials; full benchmark reproduction requires a compatible model deployment. All 240 primary raw records were checked against the summary and paired injected payloads matched. Revision scripts separate auxiliary and attacked sessions, validate transcript alignment, and replay main-run audits. A post-study code review repaired argument normalization before recipient assessment and External provenance propagation. These repairs have regression tests but no new live benchmark; historical v2 remains attributed to its original commit.
+Source code, the frozen protocol, and evidence records are available at \url{https://github.com/upramod/agent-flight-recorder}. The confirmatory run is GitHub Actions run 35180860582, at commit \texttt{9ef3022}. Its artifact digest is recorded in the repository evidence note. Local deterministic tests require no model credentials; full benchmark reproduction requires a compatible model deployment. All 240 primary raw records were checked against the summary and paired injected payloads matched. Revision scripts separate auxiliary and attacked sessions, validate transcript alignment, and replay main-run audits. A post-study code review repaired argument normalization before recipient assessment and External provenance propagation. V3 evaluates the repaired adapter separately in run 37549518814 at commit \texttt{4dc19b3}; historical v2 remains attributed to its original commit. The repository retains the v3 protocol, all planned-cell analyses, artifact hashes, and the adaptive recovery amendment.
 
 \section*{Acknowledgment}
 OpenAI ChatGPT assisted with drafting and revising text throughout the manuscript, technical wording, repository and CI scripting, and presentation checks. Benchmark observations came from recorded experimental workflows; AI assistance did not supply experimental observations. The author is responsible for the manuscript and its claims.
