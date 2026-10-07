@@ -22,6 +22,7 @@ from agentdojo.task_suite.load_suites import get_suite
 
 from flight_recorder_executor import FlightRecorderToolsExecutor, PolicyBridge, TrustedToolCatalog
 from model_preflight import client_for, deployment_for
+from safe_environment import load_safe_environment
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -205,6 +206,7 @@ def run_target(config: dict, arm: str, user_task_id: str, injection_task_id: str
             "maxModelCalls": MAX_MODEL_CALLS, "toolLoopMaxIterations": 15,
             "suiteMaxPipelinePasses": 3, "sdkTransportRetries": 0,
             "agentdojoExtraRequestRetries": 0, "requestTimeoutSeconds": 60,
+            "environmentLoader": "parsed-scalars-v1" if os.getenv("STUDY_SAFE_ENVIRONMENT") == "1" else "agentdojo-0.1.35-yaml-interpolation",
             "rateLimitRecovery": {"enabled": os.getenv("STUDY_RATE_LIMIT_RECOVERY") == "1",
                                   "maximumPhysicalAttempts": 6, "retryOnlyStatus": 429,
                                   "retryWaitSeconds": 60, "requestPacingSeconds": 1},
@@ -247,8 +249,11 @@ def run_target(config: dict, arm: str, user_task_id: str, injection_task_id: str
                              injections=injections, attack_type=attack_type,
                              benchmark_version="v1.2.2", manifest_sha=manifest_sha,
                              arm=arm, response_model=config["responseModel"], session_id=session_id) as trace:
+                environment_args = {}
+                if os.getenv("STUDY_SAFE_ENVIRONMENT") == "1":
+                    environment_args["environment"] = load_safe_environment(suite, injections)
                 utility, attack_success = suite.run_task_with_pipeline(
-                    pipeline, user_task, injection_task, injections
+                    pipeline, user_task, injection_task, injections, **environment_args
                 )
                 if type(utility) is not bool or (injection_task is not None and type(attack_success) is not bool):
                     raise TargetExecutionError("invalid_outcome_type")
